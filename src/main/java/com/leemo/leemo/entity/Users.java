@@ -42,8 +42,9 @@ import java.util.List;
         @Column(name = "Birth_Date")
         private Date birthday;
 
-        @Column(name = "User_balance")
-        private BigDecimal balance;
+        @OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+        @JoinTable(name = "User_balance", joinColumns = @JoinColumn(name = "user_balance"), inverseJoinColumns =  @JoinColumn(name = "balance_id"))
+        private Balance balance;
 
         @OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
         @JoinTable(name = "user_tasks", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "tasks_id"))
