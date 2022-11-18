@@ -1,4 +1,4 @@
-package com.leemo.leemo.repo;
+package com.leemo.leemo.dao;
 
 import com.leemo.leemo.entity.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
