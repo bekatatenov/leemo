@@ -12,25 +12,21 @@ import java.util.List;
 
 
 @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Entity(name = "Balance")
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "balance")
+public class Balance {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public class Balance {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
+    @Column
+    private BigDecimal balance;
 
-        @Column(name = "user_balance")
-        private BigDecimal balance;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
-        @Enumerated(EnumType.STRING)
-        @Column(name = "balance_status")
-        private Status status;
-
-    @OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
-    @JoinTable(name = "balance_payments", joinColumns = @JoinColumn(name = "balance_id"), inverseJoinColumns = @JoinColumn(name = "payment_id"))
-    private List<Payment> payments;
 
 }

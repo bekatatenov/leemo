@@ -13,17 +13,20 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "Payment")
+@Entity
+@Table(name = "payment")
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "payment_sum")
-    private BigDecimal payment;
+    @Column
+    private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "payment-status")
     private PaymentStatus status;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Balance balance;
 
 }

@@ -9,20 +9,20 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Entity(name = "Payment")
-    public class Withdrawal {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "withdrawal")
+public class Withdrawal {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-        @Column(name = "withdrawal_sum")
-        private BigDecimal payment;
+    @Column(name = "amount")
+    private BigDecimal amount;
 
-        @Enumerated(EnumType.STRING)
-        @Column(name = "withdrawal-status")
-        private PaymentStatus status;
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus status;
 }

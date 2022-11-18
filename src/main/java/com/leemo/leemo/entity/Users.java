@@ -1,5 +1,6 @@
 package com.leemo.leemo.entity;
 
+import com.leemo.leemo.enums.Roles;
 import com.leemo.leemo.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,49 +13,43 @@ import java.util.Date;
 import java.util.List;
 
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Entity(name = "USERS")
-    public class Users {
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "USERS")
+public class Users {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-        @Column(name = "user_name")
-        private String name;
+    @Column(name = "name")
+    private String name;
 
-        @Column(name = "user_last_name")
-        private String lastName;
+    @Column(name = "last_name")
+    private String lastName;
 
-        @Column(name = "user_email")
-        private String email;
+    @Column(name = "email")
+    private String email;
 
-        @Column(name = "user_password")
-        private String password;
+    @Column(name = "password")
+    private String password;
 
-        @ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
-        @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-        private List<Role> roles;
+    @Column(name = "birth_date")
+    private Date birthDate;
 
-        @Column(name = "Birth_Date")
-        private Date birthday;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Balance balance;
 
-        @OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
-        @JoinTable(name = "User_balance", joinColumns = @JoinColumn(name = "user_balance"), inverseJoinColumns =  @JoinColumn(name = "balance_id"))
-        private Balance balance;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
-        @OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
-        @JoinTable(name = "user_tasks", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "tasks_id"))
-        private List<Tasks> tasks;
+    @Column(name = "created_date")
+    private Date createdDate;
 
-        @Enumerated(EnumType.STRING)
-        @Column(name = "user_status")
-        private Status status;
-
-        @Column(name = "created_date")
-        private Date date;
-    }
+    @Enumerated(EnumType.STRING)
+    private Roles role;
+}
 
