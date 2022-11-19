@@ -1,5 +1,6 @@
 package com.leemo.leemo.entity;
 
+import com.leemo.leemo.enums.ArgueEnums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,4 +22,6 @@ public class Argue {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Tasks task;
 
+    @Enumerated(EnumType.STRING)
+    private ArgueEnums argueEnums;
 }
