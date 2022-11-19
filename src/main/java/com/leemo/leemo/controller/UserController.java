@@ -31,4 +31,23 @@ public class UserController {
         this.userService.save(user);
         return "login";
     }
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String login() {
+        return "login";
+    }
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public ModelAndView loginPage(@RequestParam(value = "error", required = false) String error,
+                                  @RequestParam(value = "logout",	required = false) String logout) {
+
+        ModelAndView model = new ModelAndView();
+        if (error != null) {
+            model.addObject("error", "Почта или параоль неверны");
+            model.setViewName("/login");
+        }
+        if (logout != null) {
+            model.addObject("logout", "Logged out successfully.");
+            model.setViewName("/login");
+        }
+        return model;
+    }
 }
