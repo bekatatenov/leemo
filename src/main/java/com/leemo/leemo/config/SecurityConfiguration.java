@@ -13,7 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
 import javax.sql.DataSource;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -24,14 +26,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private String usersQuery;
     @Value("${spring.queries.roles-query}")
     private String rolesQuery;
+
     @Bean
-    public PasswordEncoder passwordEncoder()
-    {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Autowired
     CustomizeAuthenticationSuccessHandler customizeAuthenticationSuccessHandler;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
             throws Exception {
@@ -42,6 +45,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .dataSource(dataSource)
                 .passwordEncoder(passwordEncoder());
     }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -66,7 +70,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/resources/**","/templates/**" ,"/static/**", "registration");
+                .antMatchers("/resources/**", "/templates/**", "/static/**", "registration");
     }
 
 }
