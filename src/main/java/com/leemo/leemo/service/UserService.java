@@ -25,7 +25,6 @@ public class UserService implements UserDetailsService {
 
     public void save(Users users){
         users.setCreatedDate(new Date());
-
         users.setStatus(Status.ACTIVE);
         users.setActive(true);
 

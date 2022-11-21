@@ -51,7 +51,7 @@ public class UserController {
         return model;
     }
     @RequestMapping (value = "/mainpage" , method = RequestMethod.GET)
-    public String hello(){
-        return "hello";
+    public String mainpage(){
+        return "mainpage";
     }
 }
