@@ -26,6 +26,7 @@ public class UserService implements UserDetailsService {
         this.userRepository.deleteById(id);
     }
     @Override
+    //Не работает
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Users user = userRepository.findFirstByEmail(username);
         if(user == null) {
