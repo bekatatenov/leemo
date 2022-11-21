@@ -32,4 +32,5 @@ public class Argue {
 
     @Column
     private Date resolvedDate;
+
 }
