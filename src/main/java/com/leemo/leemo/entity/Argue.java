@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,4 +25,7 @@ public class Argue {
 
     @Enumerated(EnumType.STRING)
     private ArgueEnums argueEnums;
+
+    @Column
+    private Date createdDate;
 }
