@@ -27,6 +27,4 @@ public class Balance {
 
     @Enumerated(EnumType.STRING)
     private Status status;
-
-
 }
