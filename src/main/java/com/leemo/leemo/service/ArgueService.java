@@ -10,6 +10,8 @@ import com.leemo.leemo.repo.TasksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class ArgueService {
     @Autowired
@@ -23,6 +25,7 @@ public class ArgueService {
         Argue argue = new Argue();
         if(findTask(id)!= null)
             argue.setArgueEnums(ArgueEnums.IN_PROGRESS);
+            argue.setCreatedDate(new Date());
             findTask(id).setStatus(TaskStatus.IN_ARGUE);
     }
    public Argue findArgue(Long id){
@@ -31,6 +34,7 @@ public class ArgueService {
    public void resolveArgue(Long id, Roles role){
         if (findArgue(id)!= null){
             findArgue(id).setDecisionInFavor(role);
+            findArgue(id).setResolvedDate(new Date());
         }
    }
 }

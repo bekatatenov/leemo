@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -29,4 +30,6 @@ public class Payment {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Balance balance;
 
+    @Column
+    private Date createdDate;
 }

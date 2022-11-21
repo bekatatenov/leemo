@@ -53,5 +53,6 @@ public class Users {
 
     @Enumerated(EnumType.STRING)
     private Roles role;
+
 }
 

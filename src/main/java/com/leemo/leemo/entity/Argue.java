@@ -2,12 +2,10 @@ package com.leemo.leemo.entity;
 
 import com.leemo.leemo.enums.ArgueEnums;
 import com.leemo.leemo.enums.Roles;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,4 +26,10 @@ public class Argue {
 
     @Enumerated(EnumType.STRING)
     private Roles decisionInFavor;
+
+    @Column
+    private Date createdDate;
+
+    @Column
+    private Date resolvedDate;
 }
