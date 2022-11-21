@@ -2,7 +2,8 @@ package com.leemo.leemo.service;
 
 
 import com.leemo.leemo.entity.Users;
-import com.leemo.leemo.dao.UserRepository;
+import com.leemo.leemo.enums.Status;
+import com.leemo.leemo.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -20,6 +22,8 @@ public class UserService implements UserDetailsService {
     UserRepository userRepository;
 
     public void save(Users users){
+        users.setCreatedDate(new Date());
+        users.setStatus(Status.ACTIVE);
        this.userRepository.save(users);
     }
     public void deleteUser(Long id){
