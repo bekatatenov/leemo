@@ -1,6 +1,7 @@
 package com.leemo.leemo.service;
 
 
+import com.leemo.leemo.entity.Balance;
 import com.leemo.leemo.entity.Users;
 import com.leemo.leemo.enums.Status;
 import com.leemo.leemo.repo.UserRepository;
@@ -24,6 +25,7 @@ public class UserService implements UserDetailsService {
     public void save(Users users){
         users.setCreatedDate(new Date());
        users.setStatus(Status.ACTIVE);
+       users.setBalance(new Balance());
         this.userRepository.save(users);
 
 
