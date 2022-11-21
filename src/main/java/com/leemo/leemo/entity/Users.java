@@ -54,6 +54,9 @@ public class Users {
     @Enumerated(EnumType.STRING)
     private Roles role;
 
+    @Column
+    private Boolean active;
+
 
 }
 

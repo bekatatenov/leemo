@@ -41,7 +41,7 @@ public class UserController {
 
         ModelAndView model = new ModelAndView();
         if (error != null) {
-            model.addObject("error", "Почта или параоль неверны");
+            model.addObject("error", "Почта или пароль неверны");
             model.setViewName("/login");
         }
         if (logout != null) {
@@ -49,5 +49,9 @@ public class UserController {
             model.setViewName("/login");
         }
         return model;
+    }
+    @RequestMapping (value = "/mainpage" , method = RequestMethod.GET)
+    public String hello(){
+        return "hello";
     }
 }

@@ -17,16 +17,16 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+
 public class UserService implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
 
     public void save(Users users){
         users.setCreatedDate(new Date());
-       users.setStatus(Status.ACTIVE);
+        users.setStatus(Status.ACTIVE);
+        users.setActive(true);
         this.userRepository.save(users);
-
-
     }
     public void deleteUser(Long id){
         this.userRepository.deleteById(id);
