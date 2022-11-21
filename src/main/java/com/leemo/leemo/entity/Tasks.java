@@ -38,9 +38,14 @@ public class Tasks {
     @Column(name = "stack_tech")
     private String stackTech;
 
+
+        @Column(name = "developer_requirements")
+        private String developerRequirements;
+
+        @Column
+        private Date createdDate;
+
     @Column(name = "developer_requirements")
     private String developerRequirements;
 
-    @Column
-    private Date createdDate;
 }
