@@ -28,8 +28,5 @@ public class Balance {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Column
-    private Long userId;
-
 
 }
