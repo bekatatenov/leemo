@@ -54,7 +54,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //всем доступ
                 .antMatchers("/", "/login", "/register", "/registration").permitAll()
                 // только авторизованным
-                .antMatchers("/hello").authenticated()
+                .antMatchers("/mainpage").authenticated()
                 .and().csrf().disable()
                 .formLogin().successHandler(customizeAuthenticationSuccessHandler)
                 .loginPage("/login").failureUrl("/login?error=true")
