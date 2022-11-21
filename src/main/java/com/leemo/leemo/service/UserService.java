@@ -3,7 +3,9 @@ package com.leemo.leemo.service;
 
 import com.leemo.leemo.entity.Balance;
 import com.leemo.leemo.entity.Users;
+import com.leemo.leemo.enums.Roles;
 import com.leemo.leemo.enums.Status;
+import com.leemo.leemo.repo.BalanceRepository;
 import com.leemo.leemo.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,17 +24,27 @@ import java.util.List;
 public class UserService implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    BalanceRepository balanceRepository;
 
     public void save(Users users){
         users.setCreatedDate(new Date());
-
         users.setStatus(Status.ACTIVE);
         users.setActive(true);
-
+        if (users.getRole()!= Roles.ADMIN|| users.getRole()!= Roles.USER) {
+            Balance balance = new Balance();
+            balance.setStatus(Status.ACTIVE);
+            users.setBalance(balance);
+        }
         this.userRepository.save(users);
     }
-    public void deleteUser(Long id){
-        this.userRepository.deleteById(id);
+    public Users findUser(Long id){
+       return this.userRepository.findById(id).orElse(null);
+    }
+    public void deactivateUser(Long id, Status status){
+        if (findUser(id)!=null){
+            findUser(id).setStatus(status);
+        }
     }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
