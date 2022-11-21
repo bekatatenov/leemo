@@ -8,4 +8,5 @@ public enum TaskStatus {
     DONE,
     IN_ARGUE,
     CANCELED,
+    RESOLVED,
 }
