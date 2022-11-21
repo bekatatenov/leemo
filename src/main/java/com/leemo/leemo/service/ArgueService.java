@@ -31,10 +31,12 @@ public class ArgueService {
    public Argue findArgue(Long id){
         return this.argueRepository.findById(id).orElse(null);
    }
-   public void resolveArgue(Long id, Roles role){
-        if (findArgue(id)!= null){
-            findArgue(id).setDecisionInFavor(role);
-            findArgue(id).setResolvedDate(new Date());
+
+   public void resolveArgue(Long argueId, Long taskId, Roles role){
+        if (findArgue(argueId)!= null){
+            findArgue(argueId).setDecisionInFavor(role);
+            findArgue(argueId).setResolvedDate(new Date());
+            if (findTask(taskId)!=null) findTask(taskId).setStatus(TaskStatus.RESOLVED);
         }
    }
 }

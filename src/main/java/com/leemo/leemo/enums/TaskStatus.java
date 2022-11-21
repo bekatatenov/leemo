@@ -1,7 +1,6 @@
 package com.leemo.leemo.enums;
 
 public enum TaskStatus {
-    NEW,
     ON_REVIEW,
     PUBLISHED,
     IN_PROGRESS,
@@ -9,4 +8,5 @@ public enum TaskStatus {
     IN_ARGUE,
     CANCELED,
     RESOLVED,
+    RETURNED,
 }

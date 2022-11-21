@@ -16,8 +16,8 @@ public class ArgueController {
         return "Task now in argue";
     }
     @PostMapping(value = "/resolve")
-    public String resolveArgue(@RequestParam(name = "id")Long id, @RequestParam(name = "role")Roles roles){
-        this.argueService.resolveArgue(id,roles);
+    public String resolveArgue(@RequestParam(name = "argueId")Long argueId, @RequestParam(name = "role")Roles roles, @RequestParam(name = "taskId") Long taskId){
+        this.argueService.resolveArgue(argueId,taskId,roles);
         return "dispute resolved in favor of" + roles;
     }
 

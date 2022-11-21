@@ -26,16 +26,16 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @Column
     private String name;
 
-    @Column(name = "last_name")
+    @Column
     private String lastName;
 
-    @Column(name = "email")
+    @Column
     private String email;
 
-    @Column(name = "password")
+    @Column
     private String password;
 
     @Column(name = "birth_date")
@@ -53,6 +53,7 @@ public class Users {
 
     @Enumerated(EnumType.STRING)
     private Roles role;
+
 
 }
 

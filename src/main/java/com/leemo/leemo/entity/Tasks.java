@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,30 +23,30 @@ public class Tasks {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "header")
+    @Column
+    private Long customerId;
+    @Column
     private String header;
 
-    @Column(name = "title")
+    @Column
     private String title;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
+    @Column
     private TaskStatus status;
 
-    @Column(name = "requirements")
+    @Column
     private String requirements;
 
-    @Column(name = "stack_tech")
+    @Column
     private String stackTech;
 
-
-        @Column(name = "developer_requirements")
-        private String developerRequirements;
-
-        @Column
-        private Date createdDate;
-
-    @Column(name = "developer_requirements")
+    @Column
     private String developerRequirements;
 
+    @Column
+    private Date createdDate;
+
+    @Column
+    private Long executorId;
 }
