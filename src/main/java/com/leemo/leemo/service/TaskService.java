@@ -8,6 +8,8 @@ import com.leemo.leemo.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class TaskService {
     @Autowired
@@ -16,6 +18,7 @@ public class TaskService {
     UserRepository repository;
     public void createTask(Tasks task){
         task.setStatus(TaskStatus.ON_REVIEW);
+        task.setCreatedDate(new Date());
         tasksRepository.save(task);
     }
 
