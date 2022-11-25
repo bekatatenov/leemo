@@ -1,10 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns="http://www.w3.org/1999/html">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
 </head>
 <body>
+<h3>Создание Задание</h3>
+<form th:action="@{/created-task}" method="post" enctype="text/plain" th:object="${tasks}">
+    <div><h1>Заголовок</h1>
+        <label>
+        <input th:field="${header}" type="text" >
+    </label>
+    </div>
+    <div><h2>Тема:</h2>
+        <label>  <input th:field="${title}" type="text"/>
+    </label></div>
+    <div><input type="submit" value="Сохранить"/></div>
+</form>
 
 </body>
 </html>

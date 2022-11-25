@@ -5,21 +5,29 @@ import com.leemo.leemo.enums.TaskStatus;
 import com.leemo.leemo.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class TaskController {
 
     @Autowired
     TaskService tasksService;
-
-    @PostMapping(value = "/create-task")
-    public String createTask(@RequestBody Tasks task) {
+    @PostMapping(value = "/created-task")
+    public String createdTask(@ModelAttribute Tasks task, BindingResult bindingResult) {
         this.tasksService.createTask(task);
-        return "Task now in waiting for validation";
+        return "redirect:/mainpage";
     }
+
+    @GetMapping(value = "/create-task")
+    public ModelAndView createTask(){
+        ModelAndView modelAndView = new ModelAndView("create-task");
+        modelAndView.addObject("tasks",new Tasks());
+        return modelAndView;
+    }
+
+
 
     @PostMapping(value = "/chek-task")
     public String checkTask(@RequestParam(value = "id") Long id, @RequestParam(value = "status") TaskStatus status) {

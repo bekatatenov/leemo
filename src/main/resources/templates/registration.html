@@ -42,7 +42,9 @@
                                     <h6 class="mb-0">Last Name</h6>
                                 </div>
                                 <div class="col-md-9 pe-5">
-                                    <input type="text" id="last_name" name="last_name" class="form-control form-control-lg"/>
+                                    <input type="text" id="last_name" name="last_name"
+                                           class="form-control form-control-lg"/>
+
                                 </div>
                             </div>
                             <hr class="mx-n3">
@@ -63,7 +65,10 @@
                                     <h6 class="mb-0">Password</h6>
                                 </div>
                                 <div class="col-md-9 pe-5">
-                                    <input type="password" class="form-control form-control-lg" id="password" name="password"/>
+
+                                    <input type="password" class="form-control form-control-lg" id="password"
+                                           name="password"/>
+
                                 </div>
                             </div>
                             <hr class="mx-n3">
@@ -72,22 +77,27 @@
                                     <h6 class="mb-0">BirthDay</h6>
                                 </div>
                                 <div class="col-md-9 pe-5">
-                                    <input type="date" id="birthDate" name="birthDate" class="form-control form-control-lg"/>
+
+                                    <input type="date" id="birthDate" name="birthDate"
+                                           class="form-control form-control-lg"/>
                                 </div>
                             </div>
-                            <hr class="mx-n3">
                             <body class="text-center">
                             <div><label><h6>Roles:</h6>
                                 <select th:value="${role}" type="text" name="role">
-                                <option th:value="null">Выберите Роль</option>
-                                <option th:value="CUSTOMER" >CUSTOMER</option>
-                                <option th:value="EXECUTOR">EXECUTOR</option>
-                            </select> </label></div>
+                                    <option th:value="null">Выберите Роль</option>
+                                    <option th:value="CUSTOMER">CUSTOMER</option>
+                                    <option th:value="EXECUTOR">EXECUTOR</option>
+                                </select> </label></div>
+
                             <hr class="mx-n3">
 
                             <div class="px-5 py-4">
                                 <input class="btn btn-primary btn-lg" type="submit" value="Sign up"/>
                             </div>
+
+                            <hr class="mx-n3">
+                            </body>
                         </div>
                     </div>
                 </form>

@@ -3,7 +3,7 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="utf-8">
-    <title>Hello World!</title>
+    <title>Leemo</title>
 </head>
 <body>
 <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
@@ -15,16 +15,5 @@
     <input type="submit" value="Создать задание"/>
 </form>
 
-<form th:action="@{/create-requisite}" method="get">
-    <input type="submit" value="Create requisite"/>
-</form>
-
-<form th:action="@{/get-payments}" method="get">
-    <input type="submit" value="Show All Payments"/>
-</form>
-
-<form th:action="@{/get-clients}" method="get">
-    <input type="submit" value="Show All Clients"/>
-</form>
 </body>
 </html>
