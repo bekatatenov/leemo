@@ -35,6 +35,7 @@ public class UserController {
     public String login() {
         return "login";
     }
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView loginPage(@RequestParam(value = "error", required = false) String error,
                                   @RequestParam(value = "logout",	required = false) String logout) {
@@ -54,4 +55,6 @@ public class UserController {
     public String mainpage(){
         return "mainpage";
     }
+
+
 }
