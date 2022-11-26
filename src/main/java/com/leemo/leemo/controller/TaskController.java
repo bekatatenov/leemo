@@ -5,6 +5,7 @@ import com.leemo.leemo.enums.TaskStatus;
 import com.leemo.leemo.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,17 +15,18 @@ public class TaskController {
 
     @Autowired
     TaskService tasksService;
+
     @PostMapping(value = "/created-task")
-    public String createdTask(@ModelAttribute Tasks task, BindingResult bindingResult) {
+    public String createdTask(@ModelAttribute(name = "tasks") Tasks task, BindingResult bindingResult) {
         this.tasksService.createTask(task);
         return "redirect:/mainpage";
     }
 
     @GetMapping(value = "/create-task")
-    public ModelAndView createTask(){
-        ModelAndView modelAndView = new ModelAndView("create-task");
-        modelAndView.addObject("tasks",new Tasks());
-        return modelAndView;
+    public String createTask(Model model, @ModelAttribute Tasks tasks, BindingResult bindingResult){
+        if (tasks == null) tasks = new Tasks();
+        model.addAttribute("tasks", tasks);
+        return "create-task";
     }
 
 
