@@ -16,8 +16,10 @@ public class TaskService {
     TasksRepository tasksRepository;
     @Autowired
     UserRepository repository;
-    public void createTask(Tasks task){
+    public void createTask(Tasks task, String username){
+        Users firstByEmail = repository.findFirstByEmail(username);
         task.setStatus(TaskStatus.ON_REVIEW);
+        task.setCustomerId(firstByEmail.getId());
         task.setCreatedDate(new Date());
         tasksRepository.save(task);
     }
