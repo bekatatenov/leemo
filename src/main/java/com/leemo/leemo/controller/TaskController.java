@@ -1,9 +1,14 @@
 package com.leemo.leemo.controller;
 
 import com.leemo.leemo.entity.Tasks;
+import com.leemo.leemo.entity.Users;
 import com.leemo.leemo.enums.TaskStatus;
 import com.leemo.leemo.service.TaskService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,7 +23,9 @@ public class TaskController {
 
     @PostMapping(value = "/created-task")
     public String createdTask(@ModelAttribute(name = "tasks") Tasks task, BindingResult bindingResult) {
-        this.tasksService.createTask(task);
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
+        this.tasksService.createTask(task, username);
         return "redirect:/mainpage";
     }
 

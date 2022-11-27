@@ -52,7 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.
                 authorizeRequests()
                 //всем доступ
-                .antMatchers("/", "/login", "/register", "/registration").permitAll()
+                .antMatchers("/", "/login", "/register", "/registration", "/forgotPassword","/passwordRecoveryEmail","/newPasswordUser").permitAll()
                 // только авторизованным
                 .antMatchers("/mainpage").authenticated()
                 .antMatchers("/create-task","/created-task").hasAuthority("CUSTOMER")
