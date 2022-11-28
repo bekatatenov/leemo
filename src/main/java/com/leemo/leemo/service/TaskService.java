@@ -8,7 +8,10 @@ import com.leemo.leemo.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+
+import java.util.Base64;
+import java.util.Optional;
+
 
 @Service
 public class TaskService {
@@ -26,7 +29,6 @@ public class TaskService {
 
     public Tasks findTask(Long id){
     return this.tasksRepository.findById(id).orElse(null);
-
     }
 
     public void checkTask(Long id, TaskStatus taskStatus){
