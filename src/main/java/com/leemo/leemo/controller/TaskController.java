@@ -5,9 +5,12 @@ import com.leemo.leemo.enums.TaskStatus;
 import com.leemo.leemo.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Optional;
 
 @Controller
 public class TaskController {
@@ -49,6 +52,7 @@ public class TaskController {
         this.tasksService.doneTask(executorId, taskId);
         return "task finished by user:" + executorId;
     }
+
 }
 
 

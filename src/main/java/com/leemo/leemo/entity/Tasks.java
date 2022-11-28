@@ -49,4 +49,7 @@ public class Tasks {
 
     @Column
     private Long executorId;
+
+    @Column
+    private Long fileId;
 }
