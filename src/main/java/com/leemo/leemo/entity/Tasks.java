@@ -26,7 +26,7 @@ public class Tasks {
     @Column
     private Long customerId;
     @Column
-    private String header;
+    private String headerTitle;
 
     @Column
     private String title;

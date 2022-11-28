@@ -8,8 +8,10 @@ import com.leemo.leemo.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.util.Base64;
 import java.util.Optional;
+
 
 @Service
 public class TaskService {
@@ -17,8 +19,11 @@ public class TaskService {
     TasksRepository tasksRepository;
     @Autowired
     UserRepository repository;
-    public void createTask(Tasks task){
+    public void createTask(Tasks task, String username){
+        Users firstByEmail = repository.findFirstByEmail(username);
         task.setStatus(TaskStatus.ON_REVIEW);
+        task.setCustomerId(firstByEmail.getId());
+        task.setCreatedDate(new Date());
         tasksRepository.save(task);
     }
 

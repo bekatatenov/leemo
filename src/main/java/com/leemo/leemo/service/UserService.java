@@ -57,4 +57,11 @@ public class UserService implements UserDetailsService {
         authorities.add(new SimpleGrantedAuthority(user.getRole().name()));
         return new User(user.getEmail(), user.getPassword(), authorities);
     }
+
+    public Users findByMail (String mail){
+        return userRepository.findByEmail(mail);
+    }
+    public void Update(Users users){
+        this.userRepository.save(users);
+    }
 }

@@ -1,10 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns="http://www.w3.org/1999/html">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
 </head>
 <body>
-
+<div>
+<h3>Создание Задание</h3>
+<form th:action="@{/created-task}" method="post" th:object="${tasks}">
+    <div><h1>Заголовок</h1>
+        <label>
+        <input th:field="*{headerTitle}" type="text" name="headerTitle">
+    </label>
+    </div>
+    <div><h2>Тема:</h2>
+        <label>  <input th:field="*{title}" type="text" name="title"/>
+    </label></div>
+    <div><h2>Краткое описание:</h2>
+        <label>  <input th:field="*{requirements}" type="text" name="requirements"/>
+        </label></div>
+    <div><h2>Стек Технологии:</h2>
+        <label>  <input th:field="*{stackTech}" type="text" name="stackTech"/>
+        </label></div>
+    <div><h2>Требования к исполнителю:</h2>
+        <label>  <input th:field="*{developerRequirements}" type="text" name="developerRequirements"/>
+        </label></div>
+<!--    <div>-->
+<!--        <label>  <input th:field="*{title}" type="button" name="title"/> Прикрепить Файл:-->
+<!--        </label></div>-->
+    <div><input type="submit" value="Сохранить"/></div>
+</form>
+</div>
 </body>
 </html>

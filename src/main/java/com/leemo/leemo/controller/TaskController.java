@@ -1,14 +1,19 @@
 package com.leemo.leemo.controller;
 
 import com.leemo.leemo.entity.Tasks;
+import com.leemo.leemo.entity.Users;
 import com.leemo.leemo.enums.TaskStatus;
 import com.leemo.leemo.service.TaskService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Optional;
 
@@ -18,11 +23,22 @@ public class TaskController {
     @Autowired
     TaskService tasksService;
 
-    @PostMapping(value = "/create-task")
-    public String createTask(@RequestBody Tasks task) {
-        this.tasksService.createTask(task);
-        return "Task now in waiting for validation";
+    @PostMapping(value = "/created-task")
+    public String createdTask(@ModelAttribute(name = "tasks") Tasks task, BindingResult bindingResult) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
+        this.tasksService.createTask(task, username);
+        return "redirect:/mainpage";
     }
+
+    @GetMapping(value = "/create-task")
+    public String createTask(Model model, @ModelAttribute Tasks tasks, BindingResult bindingResult){
+        if (tasks == null) tasks = new Tasks();
+        model.addAttribute("tasks", tasks);
+        return "create-task";
+    }
+
+
 
     @PostMapping(value = "/chek-task")
     public String checkTask(@RequestParam(value = "id") Long id, @RequestParam(value = "status") TaskStatus status) {
