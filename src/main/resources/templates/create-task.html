@@ -7,30 +7,34 @@
 </head>
 <body>
 <div>
-<h3>Создание Задание</h3>
-<form th:action="@{/created-task}" method="post" th:object="${tasks}">
-    <div><h1>Заголовок</h1>
-        <label>
-        <input th:field="*{headerTitle}" type="text" name="headerTitle">
-    </label>
-    </div>
-    <div><h2>Тема:</h2>
-        <label>  <input th:field="*{title}" type="text" name="title"/>
-    </label></div>
-    <div><h2>Краткое описание:</h2>
-        <label>  <input th:field="*{requirements}" type="text" name="requirements"/>
-        </label></div>
-    <div><h2>Стек Технологии:</h2>
-        <label>  <input th:field="*{stackTech}" type="text" name="stackTech"/>
-        </label></div>
-    <div><h2>Требования к исполнителю:</h2>
-        <label>  <input th:field="*{developerRequirements}" type="text" name="developerRequirements"/>
-        </label></div>
-<!--    <div>-->
-<!--        <label>  <input th:field="*{title}" type="button" name="title"/> Прикрепить Файл:-->
-<!--        </label></div>-->
+    <h3>Создание Задание</h3>
+    <form th:action="@{/uploadTask}" enctype="multipart/form-data" method="post" th:object="${tasks}">
+        <div><h1>Заголовок</h1>
+            <label>
+                <input th:field="*{headerTitle}" type="text" name="headerTitle">
+            </label>
+        </div>
+        <div><h2>Тема:</h2>
+            <label> <input th:field="*{title}" type="text" name="title"/>
+            </label></div>
+        <div><h2>Краткое описание:</h2>
+            <label> <input th:field="*{requirements}" type="text" name="requirements"/>
+            </label></div>
+        <div><h2>Стек Технологии:</h2>
+            <label> <input th:field="*{stackTech}" type="text" name="stackTech"/>
+            </label></div>
+        <div><h2>Требования к исполнителю:</h2>
+            <label> <input th:field="*{developerRequirements}" type="text" name="developerRequirements"/>
+            </label></div>
+        <div>
+            <h2>TZ</h2>
+            <label>
+                <input <input th:field="*{file}" multiple="multiple" type="file" name="file" value="tz"></p>
+            </label>
+        </div>
     <div><input type="submit" value="Сохранить"/></div>
-</form>
+    </form>
+
 </div>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.leemo.leemo.controller;
 
+import com.leemo.leemo.dtos.TaskTzDto;
 import com.leemo.leemo.entity.Tasks;
 import com.leemo.leemo.entity.UploadedFile;
 import com.leemo.leemo.enums.TaskStatus;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 
 @Controller
@@ -27,7 +27,7 @@ public class TaskController {
 
 
     @PostMapping(value = "/created-task")
-    public String createdTask(@ModelAttribute(name = "tasks") Tasks task, MultipartFile file, BindingResult bindingResult) {
+    public String createdTask(@ModelAttribute(name = "tasks") Tasks task, BindingResult bindingResult) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails) principal).getUsername();
         this.tasksService.createTask(task, username);
@@ -35,8 +35,8 @@ public class TaskController {
     }
 
     @GetMapping(value = "/create-task")
-    public String createTask(Model model, @ModelAttribute Tasks tasks, BindingResult bindingResult) {
-        if (tasks == null) tasks = new Tasks();
+    public String createTask(Model model, @ModelAttribute TaskTzDto tasks, BindingResult bindingResult) {
+        if (tasks == null) tasks = new TaskTzDto();
         model.addAttribute("tasks", tasks);
         return "create-task";
     }
@@ -81,9 +81,28 @@ public class TaskController {
 
     }
 
-    @PostMapping("/upload/db")
-    public void uploadDb(@RequestParam("file")MultipartFile multipartFile){
-        tasksService.uploadToDb(multipartFile);
+//    @PostMapping("/upload/db")
+//    public void uploadDb(@RequestParam("file")MultipartFile multipartFile){
+//        tasksService.uploadToDb(multipartFile);
+//    }
+
+    @PostMapping("/uploadTask")
+    public String createdTaskWithTZ(@ModelAttribute(name = "tasks") TaskTzDto task, BindingResult bindingResult) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
+        Tasks newTask = new Tasks(task.getId(),
+                task.getCustomerId(),
+                task.getHeaderTitle(),
+                task.getTitle(),
+                task.getStatus(),
+                task.getRequirements(),
+                task.getStackTech(),
+                task.getDeveloperRequirements(),
+                task.getCreatedDate(),
+                task.getExecutorId());
+        this.tasksService.createTask(newTask, username);
+        tasksService.uploadToDb(task.getFile(), newTask);
+        return "redirect:/mainpage";
     }
 }
 

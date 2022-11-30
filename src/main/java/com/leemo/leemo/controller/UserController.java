@@ -1,6 +1,6 @@
 package com.leemo.leemo.controller;
 
-import com.leemo.leemo.entity.NewPassUser;
+import com.leemo.leemo.dtos.NewPassUserDto;
 import com.leemo.leemo.entity.Token;
 import com.leemo.leemo.entity.Users;
 import com.leemo.leemo.service.EmailSendlerService;
@@ -73,14 +73,14 @@ public class UserController {
         Users saved = userService.findByMail(mail);
         Token token = tokenService.saveToken(saved, tokenService.makeToken());
         emailSendlerService.sendEmail(saved.getEmail(),"Восстановление пароля", "Введите данный токен, чтобы сбросить ваш пароль: " + String.valueOf(token.getToken()));
-        NewPassUser newPassUser = new NewPassUser();
+        NewPassUserDto newPassUser = new NewPassUserDto();
         newPassUser.setEmail(saved.getEmail());
         modelAndView.addObject("reset", newPassUser);
         return modelAndView;
     }
 
     @PostMapping(value = "/newPasswordUser")
-    public String newPassword(@ModelAttribute(name = "reset") NewPassUser newPasswordUser) throws Exception {
+    public String newPassword(@ModelAttribute(name = "reset") NewPassUserDto newPasswordUser) throws Exception {
         Users users = userService.findByMail(newPasswordUser.getEmail());
         Token byUserAndToken = tokenService.findByUserAndToken(users, newPasswordUser.getToken());
         if (newPasswordUser.getPassword().equals(newPasswordUser.getRepeatPassword())) {

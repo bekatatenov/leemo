@@ -71,12 +71,14 @@ public class TaskService {
     public UploadedFile downloadFile(String fileId) {
         return fileUploadRepository.findFirstByFileId(fileId);
     }
-    public void uploadToDb(MultipartFile file) {
+
+    public void uploadToDb(MultipartFile file, Tasks tasks) {
         UploadedFile uploadedFile = new UploadedFile();
         try {
             uploadedFile.setFileData(file.getBytes());
             uploadedFile.setFileType(file.getContentType());
             uploadedFile.setFileName(file.getOriginalFilename());
+            uploadedFile.setTask(tasks);
             fileUploadRepository.save(uploadedFile);
         } catch (IOException e){
             e.printStackTrace();
