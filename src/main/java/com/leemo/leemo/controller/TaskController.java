@@ -30,7 +30,7 @@ public class TaskController {
     public String createdTask(@ModelAttribute(name = "tasks") Tasks task, MultipartFile file, BindingResult bindingResult) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails) principal).getUsername();
-        this.tasksService.createTask(task, username, file);
+        this.tasksService.createTask(task, username);
         return "redirect:/mainpage";
     }
 
@@ -79,6 +79,11 @@ public class TaskController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename " + uploadedFileToRet.getFileName())
                 .body(new ByteArrayResource(uploadedFileToRet.getFileData()));
 
+    }
+
+    @PostMapping("/upload/db")
+    public void uploadDb(@RequestParam("file")MultipartFile multipartFile){
+        tasksService.uploadToDb(multipartFile);
     }
 }
 

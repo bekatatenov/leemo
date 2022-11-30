@@ -26,20 +26,12 @@ public class TaskService {
     @Autowired
     FileUploadRepository fileUploadRepository;
 
-    public void createTask(Tasks task, String username, MultipartFile file){
+    public void createTask(Tasks task, String username){
         Users firstByEmail = repository.findFirstByEmail(username);
         task.setStatus(TaskStatus.ON_REVIEW);
         task.setCustomerId(firstByEmail.getId());
         task.setCreatedDate(new Date());
-        UploadedFile uploadedFile = new UploadedFile();
-        try {
-            uploadedFile.setFileData(file.getBytes());
-            uploadedFile.setFileType(file.getContentType());
-            uploadedFile.setFileName(file.getOriginalFilename());
-            fileUploadRepository.save(uploadedFile);
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+
         tasksRepository.save(task);
     }
 
@@ -78,6 +70,17 @@ public class TaskService {
     }
     public UploadedFile downloadFile(String fileId) {
         return fileUploadRepository.findFirstByFileId(fileId);
+    }
+    public void uploadToDb(MultipartFile file) {
+        UploadedFile uploadedFile = new UploadedFile();
+        try {
+            uploadedFile.setFileData(file.getBytes());
+            uploadedFile.setFileType(file.getContentType());
+            uploadedFile.setFileName(file.getOriginalFilename());
+            fileUploadRepository.save(uploadedFile);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
 }
