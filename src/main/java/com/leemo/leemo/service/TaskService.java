@@ -1,17 +1,20 @@
 package com.leemo.leemo.service;
 
 import com.leemo.leemo.entity.Tasks;
+import com.leemo.leemo.entity.UploadedFile;
 import com.leemo.leemo.entity.Users;
 import com.leemo.leemo.enums.TaskStatus;
+import com.leemo.leemo.repo.FileUploadRepository;
 import com.leemo.leemo.repo.TasksRepository;
 import com.leemo.leemo.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 
-import java.util.Base64;
+import java.io.IOException;
 import java.util.Date;
-import java.util.Optional;
+
 
 
 @Service
@@ -20,17 +23,30 @@ public class TaskService {
     TasksRepository tasksRepository;
     @Autowired
     UserRepository repository;
-    public void createTask(Tasks task, String username){
+    @Autowired
+    FileUploadRepository fileUploadRepository;
+
+    public void createTask(Tasks task, String username, MultipartFile file){
         Users firstByEmail = repository.findFirstByEmail(username);
         task.setStatus(TaskStatus.ON_REVIEW);
         task.setCustomerId(firstByEmail.getId());
         task.setCreatedDate(new Date());
+        UploadedFile uploadedFile = new UploadedFile();
+        try {
+            uploadedFile.setFileData(file.getBytes());
+            uploadedFile.setFileType(file.getContentType());
+            uploadedFile.setFileName(file.getOriginalFilename());
+            fileUploadRepository.save(uploadedFile);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
         tasksRepository.save(task);
     }
 
     public Tasks findTask(Long id){
     return this.tasksRepository.findById(id).orElse(null);
     }
+
 
     public void checkTask(Long id, TaskStatus taskStatus){
         if (findTask(id) != null){
@@ -60,4 +76,8 @@ public class TaskService {
             }
         }
     }
+    public UploadedFile downloadFile(String fileId) {
+        return fileUploadRepository.findFirstByFileId(fileId);
+    }
+
 }
