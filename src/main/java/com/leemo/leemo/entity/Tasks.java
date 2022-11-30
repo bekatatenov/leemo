@@ -50,6 +50,5 @@ public class Tasks {
     @Column
     private Long executorId;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private UploadedFile uploadedFile;
+
 }

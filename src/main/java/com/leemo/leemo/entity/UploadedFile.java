@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -22,6 +21,7 @@ public class UploadedFile {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String fileId;
 
+
     @Column
     private String fileName;
 
@@ -33,5 +33,8 @@ public class UploadedFile {
     @Column
     @Basic(fetch = FetchType.LAZY)
     private byte[] fileData;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Tasks task;
 
 }
