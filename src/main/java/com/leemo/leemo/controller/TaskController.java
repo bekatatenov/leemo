@@ -1,5 +1,6 @@
 package com.leemo.leemo.controller;
 
+import com.leemo.leemo.dtos.TaskDto;
 import com.leemo.leemo.dtos.TaskTzDto;
 import com.leemo.leemo.entity.Tasks;
 import com.leemo.leemo.entity.UploadedFile;
@@ -81,6 +82,15 @@ public class TaskController {
 
     }
 
+    @GetMapping("/showTask/{id}")
+    public String showTask(@PathVariable Long id, Model model) {
+
+        Tasks task = tasksService.findTask(id);
+        UploadedFile uploadedFile = tasksService.getFileByTaskId(task.getId());
+        model.addAttribute("TaskDto", new TaskDto(task, uploadedFile));
+        return "showTask0";
+    }
+
 //    @PostMapping("/upload/db")
 //    public void uploadDb(@RequestParam("file")MultipartFile multipartFile){
 //        tasksService.uploadToDb(multipartFile);
@@ -105,7 +115,3 @@ public class TaskController {
         return "redirect:/mainpage";
     }
 }
-
-
-
-///12312312

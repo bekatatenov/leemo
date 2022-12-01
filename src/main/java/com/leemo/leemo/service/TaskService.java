@@ -31,7 +31,6 @@ public class TaskService {
         task.setStatus(TaskStatus.ON_REVIEW);
         task.setCustomerId(firstByEmail.getId());
         task.setCreatedDate(new Date());
-
         tasksRepository.save(task);
     }
 
@@ -85,4 +84,8 @@ public class TaskService {
         }
     }
 
+    public UploadedFile getFileByTaskId(Long taskId) {
+        return fileUploadRepository.findByTaskId(taskId)
+                .orElse(new UploadedFile());
+    }
 }
