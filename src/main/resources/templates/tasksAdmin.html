@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="utf-8">
+    <title>Check Task</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>Номер</th>
+        <th>Тема</th>
+        <th>Дата Создания</th>
+        <th>Статус</th>
+        <th>СтекТехнологии</th>
+    </tr>
+    <tr th:each="tasks:${allNewTasks}">
+        <td th:text="${tasks.getId()}"></td>
+        <td th:text="${tasks.getTitle()}"></td>
+        <td th:text="${tasks.getCreatedDate()}"></td>
+        <form th:action="@{/saveTaskesAdmins}" method="post">
+            <input th:value="${tasks.getId()}" type="number" hidden="hidden" name="id"/>
+            <td><select th:object="${taskStatus}" type="text" name="TaskStatus">
+                <option th:each="taskStatus:${Status}">
+                    <th:block th:text="${taskStatus}"></th:block>
+                </option>
+            </select>>
+            </td>
+            <td>
+                <input type="submit" value="Send"/>
+            </td>
+        </form>
+    </tr>
+</table>
+</body>
+</html>
+
