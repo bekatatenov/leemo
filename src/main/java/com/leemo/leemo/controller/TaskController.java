@@ -24,6 +24,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import java.util.List;
+import java.util.Optional;
+
 
 @Controller
 public class TaskController {
@@ -93,7 +96,7 @@ public class TaskController {
         Tasks task = tasksService.findTask(id);
         UploadedFile uploadedFile = tasksService.getFileByTaskId(task.getId());
         model.addAttribute("TaskDto", new TaskDto(task, uploadedFile));
-        return "showTask0";
+        return "showTask";
     }
 
 //    @PostMapping("/upload/db")
@@ -120,6 +123,7 @@ public class TaskController {
         return "redirect:/mainpage";
     }
 
+
     @RequestMapping(value = "/adminTasks", method = RequestMethod.GET)
     public ModelAndView adminTasks() {
         ModelAndView modelAndView = new ModelAndView("tasksAdmin");
@@ -135,5 +139,6 @@ public class TaskController {
     public String saveTasks(@RequestParam(name = "id") Long id, @RequestParam(name = "TaskStatus") String Status) {
         tasksService.updateTaskStatus(id, Status);
         return "redirect:/adminTasks";
+
     }
 }

@@ -24,6 +24,9 @@ public class Withdrawal {
     @Column(name = "amount")
     private BigDecimal amount;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Balance balance;
+
     @Enumerated(EnumType.STRING)
     private PaymentStatus status;
 

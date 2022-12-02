@@ -1,7 +1,7 @@
 package com.leemo.leemo.dtos;
 
 
-import com.leemo.leemo.entity.UploadedFile;
+
 import com.leemo.leemo.enums.TaskStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,5 +29,5 @@ public class TaskTzDto {
     Date createdDate;
     Long executorId;
     MultipartFile file;
-    UploadedFile uploadedFile;
+
 }
