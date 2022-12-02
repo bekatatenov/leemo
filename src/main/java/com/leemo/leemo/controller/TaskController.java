@@ -141,4 +141,15 @@ public class TaskController {
         return "redirect:/adminTasks";
 
     }
+
+    @RequestMapping(value = "/userTasks", method = RequestMethod.GET)
+    public ModelAndView userTasks() {
+        ModelAndView modelAndView = new ModelAndView("publishedTasks");
+        List<Tasks> publishedTasks = tasksService.getAllTasksExecutor();
+        modelAndView.addObject("publishedTasks", publishedTasks);
+        List<TaskStatus> status = new ArrayList<TaskStatus>(Arrays.asList(TaskStatus.values()));
+        modelAndView.addObject("Status", status);
+        return modelAndView;
+
+    }
 }

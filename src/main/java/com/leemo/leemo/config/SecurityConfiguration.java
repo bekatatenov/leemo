@@ -55,6 +55,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/login", "/register", "/registration", "/forgotPassword","/passwordRecoveryEmail","/newPasswordUser","/get-all-tasks").permitAll()
                 // только авторизованным
                 .antMatchers("/mainpage").authenticated()
+                .antMatchers("/userTasks").hasAuthority("EXECUTOR")
                 .antMatchers("/create-task","/created-task").hasAuthority("CUSTOMER")
                 .antMatchers( "/saveTaskesAdmins, /adminTasks").hasAuthority("ADMIN")
                 .and().csrf().disable()
