@@ -125,5 +125,9 @@ public class TaskService {
         tasksRepository.save(tasks);
 
     }
+
+    public List<Tasks> getAllTasksExecutor(){
+        return tasksRepository.findAllByStatus(TaskStatus.PUBLISHED);
+    }
 }
 

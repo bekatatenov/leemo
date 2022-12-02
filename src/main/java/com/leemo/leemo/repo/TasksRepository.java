@@ -1,6 +1,7 @@
 package com.leemo.leemo.repo;
 
 
+import com.leemo.leemo.entity.Tasks;
 import com.leemo.leemo.enums.Status;
 
 import com.leemo.leemo.enums.TaskStatus;
@@ -20,7 +21,5 @@ import java.util.List;
 public interface TasksRepository extends JpaRepository<Tasks,Long> {
 
     List<Tasks> findAllByStatus(TaskStatus taskStatus);
-
     Tasks findAllById (Long id);
-
 }
