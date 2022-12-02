@@ -19,6 +19,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 
 @Controller
 public class TaskController {
@@ -88,7 +91,7 @@ public class TaskController {
         Tasks task = tasksService.findTask(id);
         UploadedFile uploadedFile = tasksService.getFileByTaskId(task.getId());
         model.addAttribute("TaskDto", new TaskDto(task, uploadedFile));
-        return "showTask0";
+        return "showTask";
     }
 
 //    @PostMapping("/upload/db")
@@ -113,5 +116,10 @@ public class TaskController {
         this.tasksService.createTask(newTask, username);
         tasksService.uploadToDb(task.getFile(), newTask);
         return "redirect:/mainpage";
+    }
+
+    @GetMapping(value = "/get-all-tasks")
+    public List<Tasks> getAllTasks(){
+        return this.tasksService.getAllTasks();
     }
 }

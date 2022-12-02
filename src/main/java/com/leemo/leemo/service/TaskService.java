@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Date;
-
+import java.util.List;
 
 
 @Service
@@ -87,5 +87,8 @@ public class TaskService {
     public UploadedFile getFileByTaskId(Long taskId) {
         return fileUploadRepository.findByTaskId(taskId)
                 .orElse(new UploadedFile());
+    }
+    public List<Tasks> getAllTasks(){
+        return tasksRepository.findTasksByStatus(TaskStatus.ON_REVIEW.name());
     }
 }
