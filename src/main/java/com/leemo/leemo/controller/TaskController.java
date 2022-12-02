@@ -18,6 +18,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import java.util.List;
 import java.util.Optional;
@@ -118,8 +123,22 @@ public class TaskController {
         return "redirect:/mainpage";
     }
 
-    @GetMapping(value = "/get-all-tasks")
-    public List<Tasks> getAllTasks(){
-        return this.tasksService.getAllTasks();
+
+    @RequestMapping(value = "/adminTasks", method = RequestMethod.GET)
+    public ModelAndView adminTasks() {
+        ModelAndView modelAndView = new ModelAndView("tasksAdmin");
+        List<Tasks> allNewTasks = tasksService.getAllTaskAdmin();
+        modelAndView.addObject("allNewTasks", allNewTasks);
+        List<TaskStatus> status = new ArrayList<TaskStatus>(Arrays.asList(TaskStatus.values()));
+        modelAndView.addObject("Status", status);
+        return modelAndView;
+    }
+
+
+    @PostMapping(value = "/saveTaskesAdmins")
+    public String saveTasks(@RequestParam(name = "id") Long id, @RequestParam(name = "TaskStatus") String Status) {
+        tasksService.updateTaskStatus(id, Status);
+        return "redirect:/adminTasks";
+
     }
 }
