@@ -3,7 +3,6 @@ package com.leemo.leemo.service;
 import com.leemo.leemo.entity.Tasks;
 import com.leemo.leemo.entity.UploadedFile;
 import com.leemo.leemo.entity.Users;
-import com.leemo.leemo.enums.Status;
 import com.leemo.leemo.enums.TaskStatus;
 import com.leemo.leemo.repo.FileUploadRepository;
 import com.leemo.leemo.repo.TasksRepository;
@@ -13,10 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 
-import javax.websocket.OnClose;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -44,14 +40,17 @@ public class TaskService {
 
 
     public void checkTask(Long id, TaskStatus taskStatus) {
-        if (findTask(id) != null) {
-            findTask(id).setStatus(taskStatus);
+        Tasks task = findTask(id);
+        if (task != null) {
+            task.setStatus(taskStatus);
+            tasksRepository.save(task);
         }
     }
 
     public void cancelTask(Long id) {
-        if (findTask(id) != null) {
-            findTask(id).setStatus(TaskStatus.CANCELED);
+        Tasks task = findTask(id);
+        if (task != null) {
+            task.setStatus(TaskStatus.CANCELED);
         }
     }
 
@@ -60,18 +59,22 @@ public class TaskService {
     }
 
     public void chooseExecutor(Long userId, Long taskId) {
-        if (findUser(userId) != null) {
-            if (findTask(taskId) != null) {
-                findTask(taskId).setExecutorId(userId);
-                findTask(taskId).setStatus(TaskStatus.IN_PROGRESS);
+        Tasks task = findTask(taskId);
+            if (task != null) {
+                task.setExecutorId(userId);
+                task.setStatus(TaskStatus.IN_PROGRESS);
+                tasksRepository.save(task);
             }
         }
-    }
+
 
     public void doneTask(Long userId, Long taskId) {
-        if (findUser(userId) != null) {
-            if (findTask(taskId) != null) {
-                findTask(taskId).setStatus(TaskStatus.DONE);
+            Users user = findUser(userId);
+        if (user != null) {
+            Tasks task = findTask(taskId);
+            if (task != null) {
+                task.setStatus(TaskStatus.DONE);
+                tasksRepository.save(task);
             }
         }
     }
