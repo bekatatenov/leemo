@@ -1,42 +1,88 @@
-<!DOCTYPE html>
+<!doctype html>
+
 <html xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
-      xmlns="http://www.w3.org/1999/html">
+      xmlns="http://www.w3.org/1999/html"
+      lang="ru">
+
 <head>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+            crossorigin="anonymous"></script>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+          content="Пример на bootstrap 5: Оформление заказа - форма заказа с компонентами формы и функциями проверки · Версия v5.2.2">
+    <title>Создание Задания</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/docs/5.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="form-validation.css" rel="stylesheet">
 </head>
-<body>
-<div>
-    <h3>Создание Задание</h3>
-    <form th:action="@{/uploadTask}" enctype="multipart/form-data" method="post" th:object="${tasks}">
-        <div><h1>Заголовок</h1>
-            <label>
-                <input th:field="*{headerTitle}" type="text" name="headerTitle">
-            </label>
+<body class="bg-light">
+
+<div class="container">
+    <main>
+        <div class="py-5 text-center">
+            <img class="d-block mx-auto mb-4" src="https://t4.ftcdn.net/jpg/04/37/58/33/240_F_437583308_HglTcJD8fsRAkwjZD8DJHkcHwmXaZ0ag.jpg" alt="" width="72"
+                 height="57">
+            <h2>Создание задания</h2>
         </div>
-        <div><h2>Тема:</h2>
-            <label> <input th:field="*{title}" type="text" name="title"/>
-            </label></div>
-        <div><h2>Краткое описание:</h2>
-            <label> <input th:field="*{requirements}" type="text" name="requirements"/>
-            </label></div>
-        <div><h2>Стек Технологии:</h2>
-            <label> <input th:field="*{stackTech}" type="text" name="stackTech"/>
-            </label></div>
-        <div><h2>Требования к исполнителю:</h2>
-            <label> <input th:field="*{developerRequirements}" type="text" name="developerRequirements"/>
-            </label></div>
-        <div>
-            <h2>TZ</h2>
+        <form th:action="@{/uploadTask}" enctype="multipart/form-data" method="post" th:object="${tasks}">
+<!--            -->
+                        <div class="col-12">
+                            <label class="form-label">Заголовок</label>
+                            <input  th:field="*{headerTitle}"  name="headerTitle" type="text" class="form-control"  placeholder="Тема" required>
+                        </div>
+
+            <div class="col-12">
+                <label class="form-label">Тема</label>
+                <input  th:field="*{Title}"  name="Title" type="text" class="form-control"  placeholder="Тема" required>
+            </div>
+<!--            -->
+            <div >
+                <label class="form-label">Краткое описание</label>
+                <input th:field="*{requirements}"  name="requirements" type="text" class="form-control"  placeholder="Краткое Описание" required>
+            </div>
+<!---->
+            <div>
+                <label class="form-label">Стек Технологии</label>
+                <input  th:field="*{stackTech}"  name="stackTech" type="text" class="form-control"  placeholder="Стек Технологии" required>
+            </div>
+<!--            -->
+            <div>
+                <label class="form-label">Требования к исполнителю</label>
+                <input  th:field="*{developerRequirements}"  name="developerRequirements" type="text" class="form-control"  placeholder="Требования к исполнителю" required>
+            </div>
+            <h3>Загрузить Техничиское Задание</h3>
             <label>
-
-                <p> <input th:field="*{file}" multiple="multiple" type="file" name="file" value="tz"></p>
-
+                <p><input th:field="*{file}" multiple="multiple" type="file" name="file" value="tz"></p>
             </label>
-        </div>
-    <div><input type="submit" value="Сохранить"/></div>
-    </form>
 
+            <div><input type="submit" value="Сохранить"/></div>
+                    <hr class="my-4">
+                </form>
+    </main>
+
+<script src="/docs/5.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+
+
+<script src="form-validation.js"></script>
 </div>
 </body>
 </html>
+
+
+
+
+    </form>
+
