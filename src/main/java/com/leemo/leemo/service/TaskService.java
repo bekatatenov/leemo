@@ -98,6 +98,7 @@ public class TaskService {
                 .orElse(new UploadedFile());
     }
 
+
     public List<Tasks> getAllTaskAdmin() {
         return tasksRepository.findAllByStatus(TaskStatus.ON_REVIEW);
     }
@@ -122,6 +123,11 @@ public class TaskService {
             tasks.setStatus(TaskStatus.RETURNED);
         }
         tasksRepository.save(tasks);
+
+    }
+
+    public List<Tasks> getAllTasksExecutor(){
+        return tasksRepository.findAllByStatus(TaskStatus.PUBLISHED);
     }
 }
 

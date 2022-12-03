@@ -23,7 +23,7 @@ public class Balance {
     private Long id;
 
     @Column
-    private BigDecimal balance;
+    private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)
     private Status status;
