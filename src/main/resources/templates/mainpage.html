@@ -15,7 +15,7 @@
     <input type="submit" value="Создать задание"/>
 </form>
 
-<form th:action="@{/adminTasks}" method="get">
+<form sec:authorize="hasAuthority('ADMIN')" th:action="@{/adminTasks}" method="get">
     <input type="submit" value="Проверить Задания">
 </form>
 <form th:action="@{/userTasks}" method="get">

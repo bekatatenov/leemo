@@ -17,6 +17,7 @@
         <td th:text="${tasks.getId()}"></td>
         <td th:text="${tasks.getTitle()}"></td>
         <td th:text="${tasks.getCreatedDate()}"></td>
+        <td th:text="${tasks.getStackTech}"></td>
         <form th:action="@{/saveTaskesAdmins}" method="post">
             <input th:value="${tasks.getId()}" type="number" hidden="hidden" name="id"/>
             <td><select th:object="${taskStatus}" type="text" name="TaskStatus">
