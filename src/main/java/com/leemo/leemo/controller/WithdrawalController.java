@@ -15,8 +15,8 @@ public class WithdrawalController {
     @Autowired
     WithdrawalService withdrawalService;
     @PostMapping(name = "/giveMeMoney")
-    public String saveWithdrawal(@RequestParam(name = "balanceId")Long balanceId,@RequestParam(name = "amount") BigDecimal amount){
-        withdrawalService.saveWithdrawal(balanceId,amount);
-        return "withdrawal waiting";
+    public String createWithdrawal(@RequestParam(name = "balanceId")Long balanceId,@RequestParam(name = "withdrawal") Withdrawal withdrawal){
+        withdrawalService.WithdrawalFromBalance(withdrawal,balanceId);
+        return "";
     }
 }

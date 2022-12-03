@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -18,6 +19,7 @@ import java.util.Date;
 @Builder
 public class TaskTzDto {
 
+    BigDecimal price;
     Long id;
     Long customerId;
     String headerTitle;
