@@ -90,6 +90,16 @@ public class TaskController {
 
     }
 
+    @GetMapping("/downloadFile/{id}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String id) {
+        UploadedFile uploadedFileToRet = tasksService.getFileByTaskId(Long.valueOf(id));
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(uploadedFileToRet.getFileType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename " + uploadedFileToRet.getFileName())
+                .body(new ByteArrayResource(uploadedFileToRet.getFileData()));
+
+    }
+
     @GetMapping("/showTask/{id}")
     public String showTask(@PathVariable Long id, Model model) {
 
@@ -131,6 +141,8 @@ public class TaskController {
         modelAndView.addObject("allNewTasks", allNewTasks);
         List<TaskStatus> status = new ArrayList<TaskStatus>(Arrays.asList(TaskStatus.values()));
         modelAndView.addObject("Status", status);
+
+
         return modelAndView;
     }
 
@@ -150,6 +162,5 @@ public class TaskController {
         List<TaskStatus> status = new ArrayList<TaskStatus>(Arrays.asList(TaskStatus.values()));
         modelAndView.addObject("Status", status);
         return modelAndView;
-
     }
 }

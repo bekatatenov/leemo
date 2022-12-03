@@ -7,17 +7,26 @@
 <body>
 <table>
     <tr>
-        <th>Номер</th>
+        <th>ID</th>
+        <th>Заголовок</th>
         <th>Тема</th>
+        <th>Краткое Описание</th>
         <th>Дата Создания</th>
-        <th>Статус</th>
         <th>СтекТехнологии</th>
+        <th>Требования к исполнителю</th>
+        <th></th>
     </tr>
     <tr th:each="tasks:${allNewTasks}">
         <td th:text="${tasks.getId()}"></td>
+        <td th:text="${tasks.getHeaderTitle()}"></td>
         <td th:text="${tasks.getTitle()}"></td>
+        <td th:text="${tasks.getRequirements()}"></td>
         <td th:text="${tasks.getCreatedDate()}"></td>
-        <td th:text="${tasks.getStackTech}"></td>
+        <td th:text="${tasks.getStackTech()}"></td>
+        <td th:text="${tasks.getDeveloperRequirements}"></td>
+        <td><a type="button" th:href="@{/downloadFile/{id}(id=${tasks.id})}">Скачать</a></td>
+
+        </form>
         <form th:action="@{/saveTaskesAdmins}" method="post">
             <input th:value="${tasks.getId()}" type="number" hidden="hidden" name="id"/>
             <td><select th:object="${taskStatus}" type="text" name="TaskStatus">
