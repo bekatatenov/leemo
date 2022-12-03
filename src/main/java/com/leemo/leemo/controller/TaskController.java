@@ -117,7 +117,8 @@ public class TaskController {
                 task.getStackTech(),
                 task.getDeveloperRequirements(),
                 task.getCreatedDate(),
-                task.getExecutorId());
+                task.getExecutorId(),
+                task.getPrice());
         this.tasksService.createTask(newTask, username);
         tasksService.uploadToDb(task.getFile(), newTask);
         return "redirect:/mainpage";

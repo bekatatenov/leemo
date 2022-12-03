@@ -11,8 +11,8 @@ import java.math.BigDecimal;
 
 @Repository
 public interface BalanceRepository extends JpaRepository<Balance,Long> {
+    Balance findFirstById(Long id);
     @Modifying
     @Query(value = "Update balance set amount = amount + withdrawal :=? where id =:?", nativeQuery = true)
     Balance updateBalance(@Param(value = "withdrawal")BigDecimal withdrawal,@Param(value = "id")  Long id);
-
 }
