@@ -1,9 +1,11 @@
 package com.leemo.leemo.service;
 
+import com.leemo.leemo.entity.Balance;
 import com.leemo.leemo.entity.Tasks;
 import com.leemo.leemo.entity.UploadedFile;
 import com.leemo.leemo.entity.Users;
 import com.leemo.leemo.enums.TaskStatus;
+import com.leemo.leemo.repo.BalanceRepository;
 import com.leemo.leemo.repo.FileUploadRepository;
 import com.leemo.leemo.repo.TasksRepository;
 import com.leemo.leemo.repo.UserRepository;
@@ -25,12 +27,16 @@ public class TaskService {
     UserRepository repository;
     @Autowired
     FileUploadRepository fileUploadRepository;
+    @Autowired
+    BalanceRepository balanceRepository;
 
     public void createTask(Tasks task, String username) {
         Users firstByEmail = repository.findFirstByEmail(username);
         task.setStatus(TaskStatus.ON_REVIEW);
         task.setCustomerId(firstByEmail.getId());
         task.setCreatedDate(new Date());
+        Balance balance = firstByEmail.getBalance();
+        balanceRepository.updateBalance(task.getPrice(), balance.getId());
         tasksRepository.save(task);
     }
 
@@ -52,6 +58,7 @@ public class TaskService {
         if (task != null) {
             task.setStatus(TaskStatus.CANCELED);
         }
+        tasksRepository.save(task);
     }
 
     public Users findUser(Long id) {
@@ -131,6 +138,12 @@ public class TaskService {
 
     public List<Tasks> getAllTasksExecutor(){
         return tasksRepository.findAllByStatus(TaskStatus.PUBLISHED);
+    }
+    public void payForTask(Long taskId, Long userId){
+        Tasks task = findTask(taskId);
+        Users user = findUser(userId);
+        Balance balance = user.getBalance();
+      balanceRepository.updateBalance(task.getPrice(),balance.getId());
     }
 }
 

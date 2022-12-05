@@ -53,4 +53,7 @@ public class Tasks {
 
     @Column
     private BigDecimal price;
+
+    @Column
+    private Boolean guarantee;
 }

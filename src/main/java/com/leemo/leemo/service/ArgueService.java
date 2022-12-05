@@ -18,25 +18,34 @@ public class ArgueService {
    private ArgueRepository argueRepository;
     @Autowired
    private TasksRepository tasksRepository;
+
     public Tasks findTask(Long id){
         return this.tasksRepository.findById(id).orElse(null);
     }
     public void createArgue(Long id){
         Argue argue = new Argue();
-        if(findTask(id)!= null)
+        Tasks tasks = findTask(id);
+        if(tasks!= null)
             argue.setArgueEnums(ArgueEnums.IN_PROGRESS);
             argue.setCreatedDate(new Date());
-            findTask(id).setStatus(TaskStatus.IN_ARGUE);
+            tasks.setStatus(TaskStatus.IN_ARGUE);
+            tasksRepository.save(tasks);
+            argueRepository.save(argue);
     }
    public Argue findArgue(Long id){
         return this.argueRepository.findById(id).orElse(null);
    }
 
    public void resolveArgue(Long argueId, Long taskId, Roles role){
-        if (findArgue(argueId)!= null){
-            findArgue(argueId).setDecisionInFavor(role);
-            findArgue(argueId).setResolvedDate(new Date());
-            if (findTask(taskId)!=null) findTask(taskId).setStatus(TaskStatus.RESOLVED);
+       Argue argue = findArgue(argueId);
+        if (argue!= null){
+            argue.setDecisionInFavor(role);
+            argue.setResolvedDate(new Date());
+            Tasks tasks = findTask(taskId);
+            tasks.setStatus(TaskStatus.RESOLVED);
+            tasksRepository.save(tasks);
+            argueRepository.save(argue);
+
         }
    }
 }
