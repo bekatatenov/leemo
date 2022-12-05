@@ -31,5 +31,6 @@ public class TaskTzDto {
     Date createdDate;
     Long executorId;
     MultipartFile file;
+    Boolean guarantee;
 
 }
