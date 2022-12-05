@@ -37,7 +37,11 @@ public class TaskService {
         task.setCreatedDate(new Date());
         Balance balance = firstByEmail.getBalance();
         task.setGuarantee(guarantee);
-        balanceRepository.withdrawalFromBalance(task.getPrice(), balance.getId());
+
+
+        balanceRepository.updateBalance(task.getPrice().intValue() * -1, balance.getId());
+
+
         tasksRepository.save(task);
     }
 
@@ -140,6 +144,5 @@ public class TaskService {
     public List<Tasks> getAllTasksExecutor(){
         return tasksRepository.findAllByStatus(TaskStatus.PUBLISHED);
     }
-
 }
 

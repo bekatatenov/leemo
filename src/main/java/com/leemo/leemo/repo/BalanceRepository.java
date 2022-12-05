@@ -6,19 +6,17 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
 @Repository
 public interface BalanceRepository extends JpaRepository<Balance,Long> {
     Balance findFirstById(Long id);
+
+    @Transactional
     @Modifying
-    @Query(value = "Update balance set amount = amount - withdrawal :=? where id =:?", nativeQuery = true)
-    Balance withdrawalFromBalance(@Param(value = "withdrawal")BigDecimal withdrawal,@Param(value = "id")  Long id);
 
-    @Modifying
-    @Query(value = "Update balance set amount = amount + payment :=? where id =:?", nativeQuery = true)
-    Balance paymentFromBalance(@Param(value = "withdrawal")BigDecimal payment,@Param(value = "id")  Long id);
-
-
+    @Query(value = "Update balance set amount = amount + :withdrawal where id = :id", nativeQuery = true)
+    void updateBalance(@Param(value = "withdrawal") Integer withdrawal,@Param(value = "id")  Long id);
 }

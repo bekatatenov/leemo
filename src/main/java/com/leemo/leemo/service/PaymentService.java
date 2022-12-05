@@ -15,6 +15,8 @@ public class PaymentService {
 
     public void paymentToBalance(Payment payment,Long balanceId){
         paymentRepository.save(payment);
-        balanceRepository.paymentFromBalance(payment.getAmount(),balanceId);
+
+        balanceRepository.updateBalance(payment.getAmount().intValue(),balanceId);
+
     }
 }
