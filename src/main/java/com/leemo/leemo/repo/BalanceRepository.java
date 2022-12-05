@@ -13,6 +13,12 @@ import java.math.BigDecimal;
 public interface BalanceRepository extends JpaRepository<Balance,Long> {
     Balance findFirstById(Long id);
     @Modifying
-    @Query(value = "Update balance set amount = amount + withdrawal :=? where id =:?", nativeQuery = true)
-    Balance updateBalance(@Param(value = "withdrawal")BigDecimal withdrawal,@Param(value = "id")  Long id);
+    @Query(value = "Update balance set amount = amount - withdrawal :=? where id =:?", nativeQuery = true)
+    Balance withdrawalFromBalance(@Param(value = "withdrawal")BigDecimal withdrawal,@Param(value = "id")  Long id);
+
+    @Modifying
+    @Query(value = "Update balance set amount = amount + payment :=? where id =:?", nativeQuery = true)
+    Balance paymentFromBalance(@Param(value = "withdrawal")BigDecimal payment,@Param(value = "id")  Long id);
+
+
 }
