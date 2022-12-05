@@ -36,7 +36,9 @@ public class TaskService {
         task.setCustomerId(firstByEmail.getId());
         task.setCreatedDate(new Date());
         Balance balance = firstByEmail.getBalance();
+
         balanceRepository.updateBalance(task.getPrice().intValue() * -1, balance.getId());
+
         tasksRepository.save(task);
     }
 
@@ -144,6 +146,7 @@ public class TaskService {
         Users user = findUser(userId);
         Balance balance = user.getBalance();
       balanceRepository.updateBalance(task.getPrice().intValue(),balance.getId());
+
     }
 }
 
