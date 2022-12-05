@@ -23,6 +23,7 @@ public class WithdrawalService {
         withdrawalRepository.save(withdrawal);
         Balance balance = balanceRepository.findFirstById(balanceId);
         if (balance.getAmount().compareTo(withdrawal.getAmount()) >= 0) {
+
             balanceRepository.updateBalance(withdrawal.getAmount().intValue(), balanceId);
         }
         else { String error = "Not enough money on balance";

@@ -16,6 +16,7 @@ public interface BalanceRepository extends JpaRepository<Balance,Long> {
 
     @Transactional
     @Modifying
+
     @Query(value = "Update balance set amount = amount + :withdrawal where id = :id", nativeQuery = true)
     void updateBalance(@Param(value = "withdrawal") Integer withdrawal,@Param(value = "id")  Long id);
 }

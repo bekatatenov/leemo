@@ -30,14 +30,17 @@ public class TaskService {
     @Autowired
     BalanceRepository balanceRepository;
 
-    public void createTask(Tasks task, String username) {
+    public void createTask(Tasks task, String username, Boolean guarantee) {
         Users firstByEmail = repository.findFirstByEmail(username);
         task.setStatus(TaskStatus.ON_REVIEW);
         task.setCustomerId(firstByEmail.getId());
         task.setCreatedDate(new Date());
         Balance balance = firstByEmail.getBalance();
+        task.setGuarantee(guarantee);
+
 
         balanceRepository.updateBalance(task.getPrice().intValue() * -1, balance.getId());
+
 
         tasksRepository.save(task);
     }
@@ -140,13 +143,6 @@ public class TaskService {
 
     public List<Tasks> getAllTasksExecutor(){
         return tasksRepository.findAllByStatus(TaskStatus.PUBLISHED);
-    }
-    public void payForTask(Long taskId, Long userId){
-        Tasks task = findTask(taskId);
-        Users user = findUser(userId);
-        Balance balance = user.getBalance();
-      balanceRepository.updateBalance(task.getPrice().intValue(),balance.getId());
-
     }
 }
 

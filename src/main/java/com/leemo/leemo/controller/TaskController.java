@@ -118,6 +118,7 @@ public class TaskController {
     public String createdTaskWithTZ(@ModelAttribute(name = "tasks") TaskTzDto task, BindingResult bindingResult) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails) principal).getUsername();
+        Boolean
         Tasks newTask = new Tasks(task.getId(),
                 task.getCustomerId(),
                 task.getHeaderTitle(),
@@ -130,7 +131,7 @@ public class TaskController {
                 task.getExecutorId(),
                 task.getPrice(),
                 task.getGuarantee());
-        this.tasksService.createTask(newTask, username);
+        this.tasksService.createTask(newTask, username,);
         tasksService.uploadToDb(task.getFile(), newTask);
         return "redirect:/mainpage";
     }
