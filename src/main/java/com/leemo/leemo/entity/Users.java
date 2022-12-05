@@ -42,7 +42,7 @@ public class Users {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Balance balance;
 
     @Enumerated(EnumType.STRING)

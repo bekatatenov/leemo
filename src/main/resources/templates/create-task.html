@@ -13,7 +13,13 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
             crossorigin="anonymous"></script>
-    <meta charset="utf-8">
+    <meta charset="utf-8">    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+            crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description"
           content="Пример на bootstrap 5: Оформление заказа - форма заказа с компонентами формы и функциями проверки · Версия v5.2.2">
@@ -31,7 +37,7 @@
 <div class="container">
     <main>
         <div class="py-5 text-center">
-            <img class="d-block mx-auto mb-4" src="https://t4.ftcdn.net/jpg/04/37/58/33/240_F_437583308_HglTcJD8fsRAkwjZD8DJHkcHwmXaZ0ag.jpg" alt="" width="72"
+            <img class="d-block mx-auto mb-4" src="../images/Logo L.jpg" alt="" width="72"
                  height="57">
             <h2>Создание задания</h2>
         </div>
@@ -39,7 +45,7 @@
 <!--            -->
                         <div class="col-12">
                             <label class="form-label">Заголовок</label>
-                            <input  th:field="*{headerTitle}"  name="headerTitle" type="text" class="form-control"  placeholder="Тема" required>
+                            <input  th:field="*{headerTitle}"  name="headerTitle" type="text" class="form-control"  placeholder="Заголовок" required>
                         </div>
 
             <div class="col-12">
@@ -61,6 +67,13 @@
                 <label class="form-label">Требования к исполнителю</label>
                 <input  th:field="*{developerRequirements}"  name="developerRequirements" type="text" class="form-control"  placeholder="Требования к исполнителю" required>
             </div>
+<!--            -->
+
+            <div>
+                <label class="form-label">Оплата</label>
+                <input  th:field="*{price}"  name="price" type="text" class="form-control"  placeholder="Оплата за работу" required>
+            </div>
+
             <h3>Загрузить Техничиское Задание</h3>
             <label>
                 <p><input th:field="*{file}" multiple="multiple" type="file" name="file" value="tz"></p>

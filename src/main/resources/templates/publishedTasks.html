@@ -7,19 +7,22 @@
 <body>
 <table>
     <tr>
-        <th>Номер</th>
+        <th>Заголовок</th>
         <th>Тема</th>
+        <th>Краткое Описание</th>
         <th>Дата Создания</th>
         <th>Статус</th>
         <th>СтекТехнологии</th>
+        <th>Требования к исполнителю</th>
     </tr>
     <tr th:each="tasks:${publishedTasks}">
-        <td th:text="${tasks.getId()}"></td>
+        <td th:text="${tasks.getHeaderTitle()}"></td>
         <td th:text="${tasks.getTitle()}"></td>
+        <td th:text="${tasks.getRequirements()}"></td>
         <td th:text="${tasks.getCreatedDate()}"></td>
+        <td th:text = "${tasks.getStatus()}"></td>
         <td th:text = "${tasks.getStackTech()}"></td>
-
-
+        <td th:text="${tasks.getDeveloperRequirements()}"></td>
 
     </tr>
 </table>
