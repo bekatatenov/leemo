@@ -19,11 +19,10 @@ public class Rating {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Users user;
-
     @Column
     private Double rate;
+    @Column
+    private Long rates;
 
     @Column
     private Date createdDate;

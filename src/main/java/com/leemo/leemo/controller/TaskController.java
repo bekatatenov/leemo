@@ -128,7 +128,8 @@ public class TaskController {
                 task.getDeveloperRequirements(),
                 task.getCreatedDate(),
                 task.getExecutorId(),
-                task.getPrice());
+                task.getPrice(),
+                task.getGuarantee());
         this.tasksService.createTask(newTask, username);
         tasksService.uploadToDb(task.getFile(), newTask);
         return "redirect:/mainpage";
@@ -152,7 +153,6 @@ public class TaskController {
     public String saveTasks(@RequestParam(name = "id") Long id, @RequestParam(name = "TaskStatus") String Status) {
         tasksService.updateTaskStatus(id, Status);
         return "redirect:/adminTasks";
-
     }
 
     @RequestMapping(value = "/userTasks", method = RequestMethod.GET)
