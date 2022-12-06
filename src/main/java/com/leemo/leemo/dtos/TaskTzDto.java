@@ -2,6 +2,7 @@ package com.leemo.leemo.dtos;
 
 
 
+import com.leemo.leemo.entity.Users;
 import com.leemo.leemo.enums.TaskStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -32,5 +34,7 @@ public class TaskTzDto {
     Long executorId;
     MultipartFile file;
     Boolean guarantee;
+    List<Users> candidates;
+    Date deadLine;
 
 }

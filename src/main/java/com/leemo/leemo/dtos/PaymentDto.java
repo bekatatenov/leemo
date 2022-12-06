@@ -15,6 +15,7 @@ public class PaymentDto {
 BigDecimal amount;
 PaymentStatus status;
 Balance balance;
+String email;
 Date createdDate;
-
+String requisite;
 }

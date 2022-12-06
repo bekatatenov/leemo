@@ -56,4 +56,10 @@ public class Tasks {
 
     @Column
     private Boolean guarantee;
+
+    @OneToMany(mappedBy = "Tasks")
+    private List<Users> candidates;
+
+    @Column
+    private Date deadLine;
 }
