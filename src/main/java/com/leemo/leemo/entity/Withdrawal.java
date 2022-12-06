@@ -21,10 +21,14 @@ public class Withdrawal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
+    private String requisite;
+
     @Column(name = "amount")
     private BigDecimal amount;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Balance balance;
 
     @Enumerated(EnumType.STRING)

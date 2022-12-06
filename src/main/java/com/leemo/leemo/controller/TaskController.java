@@ -118,7 +118,6 @@ public class TaskController {
     public String createdTaskWithTZ(@ModelAttribute(name = "tasks") TaskTzDto task, BindingResult bindingResult) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails) principal).getUsername();
-        Boolean
         Tasks newTask = new Tasks(task.getId(),
                 task.getCustomerId(),
                 task.getHeaderTitle(),
@@ -130,8 +129,10 @@ public class TaskController {
                 task.getCreatedDate(),
                 task.getExecutorId(),
                 task.getPrice(),
-                task.getGuarantee());
-        this.tasksService.createTask(newTask, username,);
+                task.getGuarantee(),
+                task.getCandidates(),
+                task.getDeadLine());
+        this.tasksService.createTask(newTask, username);
         tasksService.uploadToDb(task.getFile(), newTask);
         return "redirect:/mainpage";
     }
@@ -165,4 +166,13 @@ public class TaskController {
         modelAndView.addObject("Status", status);
         return modelAndView;
     }
+
+
+    @RequestMapping(value = "/getTask", method = RequestMethod.GET)
+    public ModelAndView getTask(Long id){
+        ModelAndView modelAndView = new ModelAndView("getTask");
+        modelAndView.addObject( tasksService.getTask(id));
+        return modelAndView;
+    }
+
 }

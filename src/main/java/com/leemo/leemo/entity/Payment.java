@@ -23,12 +23,15 @@ public class Payment {
     private Long id;
 
     @Column
+    private String requisite;
+
+    @Column
     private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)
     private PaymentStatus status;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Balance balance;
 
     @Column

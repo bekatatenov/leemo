@@ -1,14 +1,8 @@
 package com.leemo.leemo.service;
 
-import com.leemo.leemo.entity.Balance;
-import com.leemo.leemo.entity.Tasks;
-import com.leemo.leemo.entity.UploadedFile;
-import com.leemo.leemo.entity.Users;
+import com.leemo.leemo.entity.*;
 import com.leemo.leemo.enums.TaskStatus;
-import com.leemo.leemo.repo.BalanceRepository;
-import com.leemo.leemo.repo.FileUploadRepository;
-import com.leemo.leemo.repo.TasksRepository;
-import com.leemo.leemo.repo.UserRepository;
+import com.leemo.leemo.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,19 +23,21 @@ public class TaskService {
     FileUploadRepository fileUploadRepository;
     @Autowired
     BalanceRepository balanceRepository;
+    @Autowired
+    SiteBalanceRepository siteBalanceRepository;
 
-    public void createTask(Tasks task, String username, Boolean guarantee) {
+    public void createTask(Tasks task, String username) {
         Users firstByEmail = repository.findFirstByEmail(username);
         task.setStatus(TaskStatus.ON_REVIEW);
         task.setCustomerId(firstByEmail.getId());
         task.setCreatedDate(new Date());
         Balance balance = firstByEmail.getBalance();
-        task.setGuarantee(guarantee);
-
-
+        SiteBalance siteBalance = new SiteBalance();
+        siteBalance.setCustomerId(firstByEmail.getId());
+        siteBalance.setTaskId(task.getId());
+        siteBalance.setAmount(task.getPrice());
         balanceRepository.updateBalance(task.getPrice().intValue() * -1, balance.getId());
-
-
+        siteBalanceRepository.save(siteBalance);
         tasksRepository.save(task);
     }
 
@@ -76,6 +72,7 @@ public class TaskService {
                 task.setExecutorId(userId);
                 task.setStatus(TaskStatus.IN_PROGRESS);
                 tasksRepository.save(task);
+                siteBalanceRepository.chooseExecutor(userId,taskId);
             }
         }
 
@@ -89,6 +86,18 @@ public class TaskService {
                 tasksRepository.save(task);
             }
         }
+    }
+    public Boolean checkTask(Long id){
+        boolean check = false;
+        if (findTask(id) != null){
+        }
+       return check = true;
+    }
+    public void payForDoneTask(Long taskId,Long executorId){
+        Tasks task = findTask(taskId);
+        if (task.getStatus().equals(TaskStatus.DONE))
+        siteBalanceRepository.updateExecutorBalance(task.getPrice().intValue(),taskId);
+        balanceRepository.updateBalance(task.getPrice().intValue(), executorId);
     }
 
     public UploadedFile downloadFile(String fileId) {
@@ -143,6 +152,10 @@ public class TaskService {
 
     public List<Tasks> getAllTasksExecutor(){
         return tasksRepository.findAllByStatus(TaskStatus.PUBLISHED);
+    }
+
+    public Tasks getTask(Long taskId){
+        return tasksRepository.findAllById(taskId);
     }
 }
 

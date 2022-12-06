@@ -50,9 +50,11 @@ public class UserService implements UserDetailsService {
     }
 
     public void deactivateUser(Long id, Status status) {
-        if (findUser(id) != null) {
-            findUser(id).setStatus(status);
+        Users user = findUser(id);
+        if (user != null) {
+            user.setStatus(status);
         }
+        userRepository.save(user);
     }
 
     @Override
@@ -79,5 +81,10 @@ public class UserService implements UserDetailsService {
         Users users = findUser(id);
         Rating rating = users.getRating();
         return rating.getRate() / rating.getRates();
+    }
+
+    public Boolean chekUser(String email){
+       Users user = this.userRepository.findByEmailAndStatus(email, Status.ACTIVE);
+        return user != null;
     }
 }

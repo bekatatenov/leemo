@@ -22,4 +22,5 @@ public interface TasksRepository extends JpaRepository<Tasks,Long> {
 
     List<Tasks> findAllByStatus(TaskStatus taskStatus);
     Tasks findAllById (Long id);
+
 }
