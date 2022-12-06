@@ -55,17 +55,17 @@ public class Tasks {
     private BigDecimal price;
 
     @Column
-    private Boolean guarantee;
+    private BigDecimal guarantee;
 
-    @OneToMany(mappedBy = "Tasks")
-    private List<Users> candidates;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Users users;
 
     @Column
     private Date deadLine;
 
-    @Column
-    private BigDecimal guaranteePrice;
+    public Tasks(Long id, Long customerId, String headerTitle, String title,
+                 TaskStatus status, String requirements, String stackTech,
+                 String developerRequirements, Date createdDate, BigDecimal price) {
 
-    public Tasks(Long id, Long customerId, String headerTitle, String title, TaskStatus status, String requirements, String stackTech, String developerRequirements, Date createdDate, BigDecimal price, Boolean guarantee) {
     }
 }

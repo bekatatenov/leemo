@@ -34,7 +34,7 @@ public class UploadedFile {
     @Basic(fetch = FetchType.LAZY)
     private byte[] fileData;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Tasks task;
 
 }

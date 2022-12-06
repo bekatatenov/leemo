@@ -43,11 +43,11 @@ public class WithdrawalController {
     }
 
 
-    @GetMapping(value = "/get-withdrawals-by-period")
-    public ModelAndView getPaymentsByPeriod(@RequestParam(name = "fromDate") Date fromDate,
-                                            @RequestParam(name = "toDate") Date toDate){
-        ModelAndView modelAndView = new ModelAndView("payments");
-        modelAndView.addObject("payments", this.withdrawalService.getAllByPeriod(fromDate,toDate));
-        return modelAndView;
-    }
+//    @GetMapping(value = "/get-withdrawals-by-period")
+//    public ModelAndView getPaymentsByPeriod(@RequestParam(name = "fromDate") Date fromDate,
+//                                            @RequestParam(name = "toDate") Date toDate){
+//        ModelAndView modelAndView = new ModelAndView("payments");
+//        modelAndView.addObject("payments", this.withdrawalService.getAllByPeriod(fromDate,toDate));
+//        return modelAndView;
+//    }
 }

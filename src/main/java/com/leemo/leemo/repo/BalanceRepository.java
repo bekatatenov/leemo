@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @Repository
 public interface BalanceRepository extends JpaRepository<Balance,Long> {
     Balance findFirstById(Long id);
-    Balance findByIdAnAndStatus(Long id, Status status);
+    Balance findByIdAndStatus(Long id, Status status);
 
     @Transactional
     @Modifying

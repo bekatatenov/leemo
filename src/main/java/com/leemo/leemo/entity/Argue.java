@@ -18,14 +18,14 @@ public class Argue {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Tasks task;
 
     @Enumerated(EnumType.STRING)
     private ArgueEnums argueEnums;
 
-    @Enumerated(EnumType.STRING)
-    private Roles decisionInFavor;
+    @Column
+    private Long userId;
 
     @Column
     private Date createdDate;

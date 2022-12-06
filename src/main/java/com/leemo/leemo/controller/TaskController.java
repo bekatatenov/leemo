@@ -35,13 +35,13 @@ public class TaskController {
     TaskService tasksService;
 
 
-    @PostMapping(value = "/created-task")
-    public String createdTask(@ModelAttribute(name = "tasks") Tasks task, BindingResult bindingResult) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = ((UserDetails) principal).getUsername();
-        this.tasksService.createTask(task, username);
-        return "redirect:/mainpage";
-    }
+//    @PostMapping(value = "/created-task")
+//    public String createdTask(@ModelAttribute(name = "tasks") Tasks task, BindingResult bindingResult) {
+//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        String username = ((UserDetails) principal).getUsername();
+//        this.tasksService.createTask(task, username);
+//        return "redirect:/mainpage";
+//    }
 
     @GetMapping(value = "/create-task")
     public String createTask(Model model, @ModelAttribute TaskTzDto tasks, BindingResult bindingResult) {
@@ -118,6 +118,7 @@ public class TaskController {
     public String createdTaskWithTZ(@ModelAttribute(name = "tasks") TaskTzDto task, BindingResult bindingResult) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails) principal).getUsername();
+        Boolean guaranty = task.getGuarantee();
         Tasks newTask = new Tasks(task.getId(),
                 task.getCustomerId(),
                 task.getHeaderTitle(),
@@ -127,9 +128,10 @@ public class TaskController {
                 task.getStackTech(),
                 task.getDeveloperRequirements(),
                 task.getCreatedDate(),
-                task.getPrice(),
-                task.getGuarantee());
-        this.tasksService.createTask(newTask, username);
+
+                task.getPrice());
+        this.tasksService.createTask(newTask, username,guaranty);
+
         tasksService.uploadToDb(task.getFile(), newTask);
         return "redirect:/mainpage";
     }

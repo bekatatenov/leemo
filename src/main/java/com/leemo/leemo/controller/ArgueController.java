@@ -11,14 +11,14 @@ public class ArgueController {
     @Autowired
    private ArgueService argueService;
     @PostMapping(value = "/create-argue")
-    public String save(@RequestParam (name = "id") Long id) {
-        this.argueService.createArgue(id);
+    public String save(@RequestParam (name = "id") Long taskId) {
+        this.argueService.createArgue(taskId);
         return "Task now in argue";
     }
     @PostMapping(value = "/resolve")
-    public String resolveArgue(@RequestParam(name = "argueId")Long argueId, @RequestParam(name = "role")Roles roles, @RequestParam(name = "taskId") Long taskId){
-        this.argueService.resolveArgue(argueId,taskId,roles);
-        return "dispute resolved in favor of" + roles;
+    public String resolveArgue(@RequestParam(name = "argueId")Long taskId,@RequestParam(name = "user") Boolean user  ){
+        this.argueService.resolveArgue(taskId,user);
+        return "dispute resolved in favor of";
     }
 
 }

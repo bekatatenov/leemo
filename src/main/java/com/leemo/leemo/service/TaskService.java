@@ -1,5 +1,6 @@
 package com.leemo.leemo.service;
 
+import com.leemo.leemo.dtos.TaskTzDto;
 import com.leemo.leemo.entity.*;
 import com.leemo.leemo.enums.TaskStatus;
 import com.leemo.leemo.repo.*;
@@ -9,24 +10,28 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
 public class TaskService {
     @Autowired
-    TasksRepository tasksRepository;
+    private TasksRepository tasksRepository;
     @Autowired
-    UserRepository repository;
+    private UserRepository repository;
     @Autowired
-    FileUploadRepository fileUploadRepository;
+    private FileUploadRepository fileUploadRepository;
     @Autowired
-    BalanceRepository balanceRepository;
+    private BalanceRepository balanceRepository;
     @Autowired
-    SiteBalanceRepository siteBalanceRepository;
+    private SiteBalanceRepository siteBalanceRepository;
 
-    public void createTask(Tasks task, String username) {
+
+    public void createTask(Tasks task, String username, Boolean guarantee) {
+
         Users firstByEmail = repository.findFirstByEmail(username);
         task.setStatus(TaskStatus.ON_REVIEW);
         task.setCustomerId(firstByEmail.getId());
@@ -36,10 +41,15 @@ public class TaskService {
         siteBalance.setCustomerId(firstByEmail.getId());
         siteBalance.setTaskId(task.getId());
         siteBalance.setAmount(task.getPrice());
-        if (task.getGuarantee()==true){
-            balanceRepository.updateBalance(task.getPrice().intValue() * -1, balance.getId());
-            siteBalanceRepository.save(siteBalance);
-            tasksRepository.save(task);
+
+        if (guarantee) {
+            BigDecimal warranty = new BigDecimal("10");
+            BigDecimal warranty100 = new BigDecimal("100");
+           task.setGuarantee((task.getPrice().divide(warranty100)).multiply(warranty)); //получаем 10% от заказа
+        }
+        else {
+            task.setGuarantee(new BigDecimal("0"));
+
         }
         balanceRepository.updateBalance(task.getPrice().intValue() * -1, balance.getId());
         siteBalanceRepository.save(siteBalance);
@@ -73,12 +83,13 @@ public class TaskService {
 
     public void chooseExecutor(Long userId, Long taskId) {
         Tasks task = findTask(taskId);
-            if (task != null) {
+            if (task != null && task.getStatus() == TaskStatus.PUBLISHED) {
                 task.setExecutorId(userId);
                 task.setStatus(TaskStatus.IN_PROGRESS);
                 tasksRepository.save(task);
-                siteBalanceRepository.chooseExecutor(userId,taskId);
+//                siteBalanceRepository.chooseExecutor(userId,taskId);
             }
+
         }
 
 
@@ -101,7 +112,7 @@ public class TaskService {
     public void payForDoneTask(Long taskId,Long executorId){
         Tasks task = findTask(taskId);
         if (task.getStatus().equals(TaskStatus.DONE))
-        siteBalanceRepository.updateExecutorBalance(task.getPrice().intValue(),taskId);
+        siteBalanceRepository.updateBalance(task.getPrice().intValue(),taskId);
         balanceRepository.updateBalance(task.getPrice().intValue(), executorId);
     }
 
@@ -159,8 +170,21 @@ public class TaskService {
         return tasksRepository.findAllByStatus(TaskStatus.PUBLISHED);
     }
 
-    public Tasks getTask(Long taskId){
-        return tasksRepository.findAllById(taskId);
+    public TaskTzDto getTask(Long taskId){
+        TaskTzDto dto = new TaskTzDto();
+    Tasks tasks = findTask(taskId);
+    dto.setFile((MultipartFile) fileUploadRepository.findFirstByTaskId(taskId));
+    dto.setPrice(tasks.getPrice());
+    dto.setCustomerId(tasks.getCustomerId());
+    dto.setHeaderTitle(tasks.getHeaderTitle());
+    dto.setTitle(tasks.getTitle());
+    dto.setRequirements(tasks.getRequirements());
+    dto.setStackTech(tasks.getStackTech());
+    dto.setDeveloperRequirements(tasks.getDeveloperRequirements());
+    dto.setCreatedDate(tasks.getCreatedDate());
+
+        return dto;
     }
+
 }
 

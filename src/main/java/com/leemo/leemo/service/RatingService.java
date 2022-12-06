@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class RatingService {
     @Autowired
-    RatingRepository ratingRepository;
+    private RatingRepository ratingRepository;
 
     public void updateRating(Double rate,Long id){
         Rating rating = getRating(id);
