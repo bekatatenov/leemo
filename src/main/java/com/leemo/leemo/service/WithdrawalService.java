@@ -18,9 +18,9 @@ import java.util.Optional;
 @Service
 public class WithdrawalService {
     @Autowired
-    WithdrawalRepository withdrawalRepository;
+    private WithdrawalRepository withdrawalRepository;
     @Autowired
-    BalanceRepository balanceRepository;
+    private BalanceRepository balanceRepository;
 
 
 
@@ -40,7 +40,7 @@ public class WithdrawalService {
             String error = "Not enough money on balance";
         }
     }
-    public List<Withdrawal> getAllByPeriod(Date fromDate, Date toDate){
-        return this.withdrawalRepository.getAllByPeriod(fromDate, toDate);
-    }
+//    public List<Withdrawal> getAllByPeriod(Date fromDate, Date toDate){
+//        return this.withdrawalRepository.getAllByPeriod(fromDate, toDate);
+//    }
 }

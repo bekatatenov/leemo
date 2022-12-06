@@ -1,12 +1,12 @@
 package com.leemo.leemo.service;
 
 import com.leemo.leemo.entity.Argue;
+import com.leemo.leemo.entity.SiteBalance;
 import com.leemo.leemo.entity.Tasks;
 import com.leemo.leemo.enums.ArgueEnums;
 import com.leemo.leemo.enums.Roles;
 import com.leemo.leemo.enums.TaskStatus;
-import com.leemo.leemo.repo.ArgueRepository;
-import com.leemo.leemo.repo.TasksRepository;
+import com.leemo.leemo.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +18,10 @@ public class ArgueService {
    private ArgueRepository argueRepository;
     @Autowired
    private TasksRepository tasksRepository;
+    @Autowired
+    private SiteBalanceRepository siteBalanceRepository;
+    @Autowired
+    private BalanceRepository balanceRepository;
 
     public Tasks findTask(Long id){
         return this.tasksRepository.findById(id).orElse(null);
@@ -25,10 +29,11 @@ public class ArgueService {
     public void createArgue(Long id){
         Argue argue = new Argue();
         Tasks tasks = findTask(id);
-        if(tasks!= null)
+        if(tasks != null)
             argue.setArgueEnums(ArgueEnums.IN_PROGRESS);
             argue.setCreatedDate(new Date());
-            tasks.setStatus(TaskStatus.IN_ARGUE);
+        assert tasks != null;
+        tasks.setStatus(TaskStatus.IN_ARGUE);
             tasksRepository.save(tasks);
             argueRepository.save(argue);
     }
@@ -36,16 +41,27 @@ public class ArgueService {
         return this.argueRepository.findById(id).orElse(null);
    }
 
-   public void resolveArgue(Long argueId, Long taskId, Roles role){
+   public void resolveArgue(Long argueId, Boolean customer){
        Argue argue = findArgue(argueId);
-        if (argue!= null){
-            argue.setDecisionInFavor(role);
-            argue.setResolvedDate(new Date());
-            Tasks tasks = findTask(taskId);
-            tasks.setStatus(TaskStatus.RESOLVED);
-            tasksRepository.save(tasks);
-            argueRepository.save(argue);
+       Tasks task = argue.getTask();
+        if (task.getStatus().equals(TaskStatus.IN_ARGUE)) {
+            if (customer) {
+                argue.setUserId(task.getCustomerId());
+                siteBalanceRepository.updateBalance(task.getPrice().intValue(), task.getCustomerId());
+                balanceRepository.updateBalance(task.getPrice().intValue(), task.getCustomerId());
+            }
+            else {
+                argue.setUserId(task.getExecutorId());
+                balanceRepository.updateBalance(task.getPrice().intValue(), task.getExecutorId());
+                siteBalanceRepository.updateBalance(task.getPrice().intValue(), task.getCustomerId());
 
+            }
+            argue.setResolvedDate(new Date());
+            task.setStatus(TaskStatus.RESOLVED);
+            tasksRepository.save(task);
+            argueRepository.save(argue);
         }
    }
+
+
 }

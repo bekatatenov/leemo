@@ -8,12 +8,13 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
     List<Payment> findAllByBalance_Id(Long balanceId);
 
-    @Query(value = " select * from payment where createdDate between : fromDate and :toDate", nativeQuery = true)
-    List<Payment> getAllByPeriod(@Param(value = "fromDate") Date fromDate,
-                                 @Param(value = "toDate") Date toDate);
+//    @Query(value = " select * from payment where createdDate between : fromDate and :toDate", nativeQuery = true)
+//    Optional<Payment> getAllByPeriod(@Param(value = "fromDate") Date fromDate,
+//                                     @Param(value = "toDate") Date toDate);
 }

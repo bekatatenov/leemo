@@ -11,6 +11,6 @@ import java.util.Optional;
 @Repository
 public interface FileUploadRepository extends JpaRepository<UploadedFile,Long> {
     UploadedFile findFirstByFileId(String fileId);
-
+    UploadedFile findFirstByTaskId(Long taskId);
     Optional<UploadedFile> findByTaskId(Long taskId);
 }

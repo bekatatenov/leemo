@@ -11,15 +11,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface SiteBalanceRepository extends JpaRepository<SiteBalance,Long> {
 
-    @Transactional
-    @Modifying
-    @Query(value = "Update SiteBalance set executorId = :executorId where taskId = :id", nativeQuery = true)
-    void chooseExecutor(@Param(value = "executorId") Long executorId, @Param(value = "taskId")  Long TaskId);
+
+//    @Transactional
+//    @Modifying
+//    @Query(value = "Update SiteBalance set executorId = :executorId where taskId = :id", nativeQuery = true)
+//    void chooseExecutor(@Param(value = "executorId") Long executorId, @Param(value = "taskId")  Long TaskId);
 
     @Transactional
     @Modifying
     @Query(value = "Update SiteBalance set amount = amount - :payment where taskId = :id", nativeQuery = true)
-    void updateExecutorBalance(@Param(value = "payment") Integer payment, @Param(value = "id")  Long id);
+    void updateBalance(@Param(value = "payment") Integer payment, @Param(value = "id")  Long id);
 
 
 }

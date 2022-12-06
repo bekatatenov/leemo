@@ -44,13 +44,13 @@ public class PaymentController {
     }
 
 
-    @GetMapping(value = "/get-payments-by-period")
-    public ModelAndView getPaymentsByPeriod(@RequestParam(name = "fromDate") Date fromDate,
-                                            @RequestParam(name = "toDate") Date toDate) {
-        ModelAndView modelAndView = new ModelAndView("payments");
-        modelAndView.addObject("payments", this.paymentService.findAllByPeriod(fromDate, toDate));
-        return modelAndView;
-    }
+//    @GetMapping(value = "/get-payments-by-period")
+//    public ModelAndView getPaymentsByPeriod(@RequestParam(name = "fromDate") Date fromDate,
+//                                            @RequestParam(name = "toDate") Date toDate) {
+//        ModelAndView modelAndView = new ModelAndView("payments");
+//        modelAndView.addObject("payments", this.paymentService.findAllByPeriod(fromDate, toDate));
+//        return modelAndView;
+//    }
 
     @PostMapping(value = "pay-for-work")
     public ResponseEntity<Boolean> payForWork(@RequestParam(name = "taskId") Long taskId, @RequestParam(name = "executorId")Long executorId){

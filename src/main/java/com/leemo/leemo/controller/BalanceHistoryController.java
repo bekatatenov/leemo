@@ -45,31 +45,3 @@ public class BalanceHistoryController {
     }
 }
 
-
-
-//    @GetMapping(value = "/getRequisite")
-//    public ResponseEntity<Boolean> checkRequisite(@RequestParam(name = "login") String login,
-//                                                  @RequestParam(name = "password") String password,
-//                                                  @RequestParam(name = "requisite") String requisite) {
-//        RequestHistory requestHistory = new RequestHistory();
-//        requestHistory.setRequestDate(new Date());
-//        requestHistory.setRequestData(login + " " + password + " " + requisite);
-//        requestHistory.setOperations(Operations.GET_REQUISITE);
-//        boolean validate = this.clientService.checkClient(login, password);
-//        if (validate) {
-//            boolean validRequisite = this.requisiteService.checkRequisite(requisite);
-//            if (validRequisite) {
-//                requestHistory.setResponseData("TRUE");
-//                this.requestHistoryService.save(requestHistory);
-//                return new ResponseEntity<>(true, HttpStatus.OK);
-//            } else {
-//                requestHistory.setResponseData("FALSE " + HttpStatus.NOT_FOUND);
-//                this.requestHistoryService.save(requestHistory);
-//                return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
-//            }
-//        } else {
-//            requestHistory.setResponseData("FALSE " + HttpStatus.FORBIDDEN);
-//            this.requestHistoryService.save(requestHistory);
-//            return new ResponseEntity<>(false, HttpStatus.FORBIDDEN);
-//        }
-//    }

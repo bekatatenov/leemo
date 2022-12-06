@@ -15,9 +15,9 @@ import java.util.Optional;
 @Service
 public class PaymentService {
     @Autowired
-    PaymentRepository paymentRepository;
+    private PaymentRepository paymentRepository;
     @Autowired
-    BalanceRepository balanceRepository;
+    private BalanceRepository balanceRepository;
 
     public void paymentToBalance(PaymentDto dto, Long balanceId){
         Payment payment = new Payment();
@@ -31,8 +31,8 @@ public class PaymentService {
         balanceRepository.updateBalance(payment.getAmount().intValue(),balanceId);
     }
 
-    public List<Payment> findAllByPeriod(Date fromDate, Date toDate){
-        return this.paymentRepository.getAllByPeriod(fromDate, toDate);
-    }
+//    public Optional<Payment> findAllByPeriod(Date fromDate, Date toDate){
+//        return this.paymentRepository.getAllByPeriod(fromDate, toDate);
+//    }
 
 }

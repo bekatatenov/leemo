@@ -25,11 +25,11 @@ import java.util.List;
 
 public class UserService implements UserDetailsService {
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    BalanceRepository balanceRepository;
+    private BalanceRepository balanceRepository;
     @Autowired
-    RatingRepository repository;
+    private RatingRepository repository;
 
     public void save(Users users) {
         users.setCreatedDate(new Date());

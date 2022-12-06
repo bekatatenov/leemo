@@ -11,15 +11,15 @@ import java.util.List;
 @Service
 public class BalanceService {
     @Autowired
-    BalanceRepository balanceRepository;
+    private BalanceRepository balanceRepository;
     @Autowired
-    PaymentRepository paymentRepository;
+    private PaymentRepository paymentRepository;
     @Autowired
-    WithdrawalRepository withdrawalRepository;
+    private WithdrawalRepository withdrawalRepository;
     @Autowired
-    SiteBalanceRepository siteBalanceRepository;
+    private SiteBalanceRepository siteBalanceRepository;
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     public Balance getBalance(Long id){
         return balanceRepository.findFirstById(id);
@@ -34,7 +34,7 @@ public class BalanceService {
         return paymentRepository.findAllByBalance_Id(id);
     }
     public Boolean chekBalance(Long id){
-        Balance balance= this.balanceRepository.findByIdAnAndStatus(id, Status.ACTIVE);
+        Balance balance= this.balanceRepository.findByIdAndStatus(id, Status.ACTIVE);
         return balance != null;
     }
 
