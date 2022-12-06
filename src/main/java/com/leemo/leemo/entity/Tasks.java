@@ -66,5 +66,6 @@ public class Tasks {
     public Tasks(Long id, Long customerId, String headerTitle, String title,
                  TaskStatus status, String requirements, String stackTech,
                  String developerRequirements, Date createdDate, BigDecimal price) {
+
     }
 }

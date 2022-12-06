@@ -41,6 +41,7 @@ public class TaskService {
         siteBalance.setCustomerId(firstByEmail.getId());
         siteBalance.setTaskId(task.getId());
         siteBalance.setAmount(task.getPrice());
+
         if (guarantee) {
             BigDecimal warranty = new BigDecimal("10");
             BigDecimal warranty100 = new BigDecimal("100");
@@ -48,6 +49,7 @@ public class TaskService {
         }
         else {
             task.setGuarantee(new BigDecimal("0"));
+
         }
         balanceRepository.updateBalance(task.getPrice().intValue() * -1, balance.getId());
         siteBalanceRepository.save(siteBalance);
