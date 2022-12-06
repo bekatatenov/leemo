@@ -62,4 +62,10 @@ public class Tasks {
 
     @Column
     private Date deadLine;
+
+    @Column
+    private BigDecimal guaranteePrice;
+
+    public Tasks(Long id, Long customerId, String headerTitle, String title, TaskStatus status, String requirements, String stackTech, String developerRequirements, Date createdDate, BigDecimal price, Boolean guarantee) {
+    }
 }

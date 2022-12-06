@@ -36,6 +36,11 @@ public class TaskService {
         siteBalance.setCustomerId(firstByEmail.getId());
         siteBalance.setTaskId(task.getId());
         siteBalance.setAmount(task.getPrice());
+        if (task.getGuarantee()==true){
+            balanceRepository.updateBalance(task.getPrice().intValue() * -1, balance.getId());
+            siteBalanceRepository.save(siteBalance);
+            tasksRepository.save(task);
+        }
         balanceRepository.updateBalance(task.getPrice().intValue() * -1, balance.getId());
         siteBalanceRepository.save(siteBalance);
         tasksRepository.save(task);
