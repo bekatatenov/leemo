@@ -3,44 +3,71 @@
 <head>
     <meta charset="utf-8">
     <title>Check Task</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+            crossorigin="anonymous"></script>
+    <style>
+        body {
+
+            background: gray ;
+            background-size: 1520px auto;
+            color: black; /* Цвет текста */
+
+        }
+    </style>
 </head>
 <body>
-<table>
-    <tr>
-        <th>ID</th>
+<form th:action="@{/mainpage-exit}" th:method="post">
+    <input type="submit" class="btn btn-danger" value="Exit" >
+</form>
+<table class="table">
+    <thead class="thead-dark">
+    <tr class="table-dark">
+        <th >ID</th>
         <th>Заголовок</th>
         <th>Тема</th>
         <th>Краткое Описание</th>
         <th>Дата Создания</th>
         <th>СтекТехнологии</th>
         <th>Требования к исполнителю</th>
-
+        <th>Файл</th>
+        <th>Изменить Статус</th>
+        <th>Сохранить</th>
     </tr>
-    <tr th:each="tasks:${allNewTasks}">
-        <td th:text="${tasks.getId()}"></td>
+    </thead>
+    <tbody>
+    <tr th:each="tasks:${allNewTasks}" class="table-light" >
+        <td th:text="${tasks.getId()}" ></td>
         <td th:text="${tasks.getHeaderTitle()}"></td>
         <td th:text="${tasks.getTitle()}"></td>
         <td th:text="${tasks.getRequirements()}"></td>
         <td th:text="${tasks.getCreatedDate()}"></td>
         <td th:text="${tasks.getStackTech()}"></td>
         <td th:text="${tasks.getDeveloperRequirements}"></td>
-        <td><a type="button" th:href="@{/downloadFile/{id}(id=${tasks.id})}">Скачать</a></td>
+        <td><a type="button"  class="btn btn-primary" th:href="@{/downloadFile/{id}(id=${tasks.id})}">Скачать</a></td>
 
-        </form>
         <form th:action="@{/saveTaskesAdmins}" method="post">
             <input th:value="${tasks.getId()}" type="number" hidden="hidden" name="id"/>
-            <td><select th:object="${taskStatus}" type="text" name="TaskStatus">
-                <option th:each="taskStatus:${Status}">
-                    <th:block th:text="${taskStatus}"></th:block>
+            <td><select th:object="${taskStatus}" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" name="TaskStatus" >
+                <option  th:each="taskStatus:${Status}">
+                    <th:block th:text="${taskStatus}" ></th:block>
                 </option>
-            </select>>
+            </select>
             </td>
             <td>
-                <input type="submit" value="Send"/>
+                <input type="submit" class="btn btn-primary" value="Send"/>
             </td>
         </form>
     </tr>
+    </tbody>
 </table>
 </body>
 </html>
+
+
+
 
