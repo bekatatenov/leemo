@@ -24,7 +24,7 @@
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a th:href="@{/create-task}" class="nav-link px-2 text-white">Создать задание</a></li>
-                <li><a th:href="@{/userTasks}" class="nav-link px-2 text-white">Доступные задания</a></li>
+                <li><a th:href="@{/publishedTasks}" class="nav-link px-2 text-white">Доступные задания</a></li>
                 <li><a sec:authorize="hasAuthority('ADMIN')" th:href="@{/adminTasks}" class="nav-link px-2 text-white">Одобрения заданий (Админка)</a></li>
             </ul>
             <div class="text-end">

@@ -179,6 +179,9 @@ public class TaskService {
     UploadedFile file = fileUploadRepository.findFirstByTaskId(taskId);
         return new GetTaskDto(tasks,file.getFileId());
     }
+    public void update(Tasks tasks){
+        tasksRepository.save(tasks);
+    }
 
 }
 

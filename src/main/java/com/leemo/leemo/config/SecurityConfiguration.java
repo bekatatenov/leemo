@@ -57,7 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/mainpage").authenticated()
 
                 .antMatchers("/create-task","/created-task").hasAnyAuthority("CUSTOMER","ADMIN")
-                .antMatchers( "/saveTaskesAdmins", "/adminTasks" ).hasAuthority("ADMIN")
+                .antMatchers( "/saveTaskesAdmins", "/adminTasks" , "/userTasks","/getTask{id}").hasAuthority("ADMIN")
                 .antMatchers("/getTask","/userTasks", "publishedTasks").hasAnyAuthority("EXECUTOR","ADMIN","CUSTOMER")
                 .and().csrf().disable()
                 .formLogin().successHandler(customizeAuthenticationSuccessHandler)
