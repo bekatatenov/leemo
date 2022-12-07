@@ -16,7 +16,14 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TaskDto {
+public class GetTaskDto {
     Tasks tasks;
-    UploadedFile file;
+    String fileID;
+    UploadedFile uploadedFile;
+
+    public GetTaskDto(Tasks task, UploadedFile uploadedFile) {
+    }
+
+    public GetTaskDto(Tasks tasks, String fileId) {
+    }
 }

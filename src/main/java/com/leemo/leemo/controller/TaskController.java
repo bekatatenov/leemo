@@ -1,6 +1,6 @@
 package com.leemo.leemo.controller;
 
-import com.leemo.leemo.dtos.TaskDto;
+import com.leemo.leemo.dtos.GetTaskDto;
 import com.leemo.leemo.dtos.TaskTzDto;
 import com.leemo.leemo.entity.Tasks;
 import com.leemo.leemo.entity.UploadedFile;
@@ -24,9 +24,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import java.util.List;
-import java.util.Optional;
-
 
 @Controller
 public class TaskController {
@@ -46,6 +43,7 @@ public class TaskController {
     @GetMapping(value = "/create-task")
     public String createTask(Model model, @ModelAttribute TaskTzDto tasks, BindingResult bindingResult) {
         if (tasks == null) tasks = new TaskTzDto();
+        tasks.setGuarantee(false);
         model.addAttribute("tasks", tasks);
         return "create-task";
     }
@@ -105,7 +103,7 @@ public class TaskController {
 
         Tasks task = tasksService.findTask(id);
         UploadedFile uploadedFile = tasksService.getFileByTaskId(task.getId());
-        model.addAttribute("TaskDto", new TaskDto(task, uploadedFile));
+        model.addAttribute("TaskDto", new GetTaskDto(task, uploadedFile));
         return "showTask";
     }
 
@@ -128,10 +126,9 @@ public class TaskController {
                 task.getStackTech(),
                 task.getDeveloperRequirements(),
                 task.getCreatedDate(),
-
+                task.getGuarantee(),
                 task.getPrice());
         this.tasksService.createTask(newTask, username,guaranty);
-
         tasksService.uploadToDb(task.getFile(), newTask);
         return "redirect:/mainpage";
     }
