@@ -1,5 +1,6 @@
 package com.leemo.leemo.service;
 
+import com.leemo.leemo.dtos.GetTaskDto;
 import com.leemo.leemo.dtos.TaskTzDto;
 import com.leemo.leemo.entity.*;
 import com.leemo.leemo.enums.TaskStatus;
@@ -11,9 +12,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.hateoas.config.EnableHypermediaSupport.HypermediaType.HAL;
 
 
 @Service
@@ -41,14 +45,14 @@ public class TaskService {
         siteBalance.setCustomerId(firstByEmail.getId());
         siteBalance.setTaskId(task.getId());
         siteBalance.setAmount(task.getPrice());
-
         if (guarantee) {
-            BigDecimal warranty = new BigDecimal("10");
-            BigDecimal warranty100 = new BigDecimal("100");
-           task.setGuarantee((task.getPrice().divide(warranty100)).multiply(warranty)); //получаем 10% от заказа
+            BigDecimal warranty1 = new BigDecimal("10");
+            BigDecimal warranty2 = new BigDecimal("100");
+            BigDecimal warranty = (task.getPrice().divide(warranty2).setScale(2,RoundingMode.HALF_UP));
+           task.setWarranty(warranty.multiply(warranty1).setScale(2,RoundingMode.HALF_UP)); //получаем 10% от заказа
         }
         else {
-            task.setGuarantee(new BigDecimal("0"));
+            task.setWarranty(new BigDecimal("0"));
 
         }
         balanceRepository.updateBalance(task.getPrice().intValue() * -1, balance.getId());
@@ -170,20 +174,10 @@ public class TaskService {
         return tasksRepository.findAllByStatus(TaskStatus.PUBLISHED);
     }
 
-    public TaskTzDto getTask(Long taskId){
-        TaskTzDto dto = new TaskTzDto();
+    public GetTaskDto getTask(Long taskId){
     Tasks tasks = findTask(taskId);
-    dto.setFile((MultipartFile) fileUploadRepository.findFirstByTaskId(taskId));
-    dto.setPrice(tasks.getPrice());
-    dto.setCustomerId(tasks.getCustomerId());
-    dto.setHeaderTitle(tasks.getHeaderTitle());
-    dto.setTitle(tasks.getTitle());
-    dto.setRequirements(tasks.getRequirements());
-    dto.setStackTech(tasks.getStackTech());
-    dto.setDeveloperRequirements(tasks.getDeveloperRequirements());
-    dto.setCreatedDate(tasks.getCreatedDate());
-
-        return dto;
+    UploadedFile file = fileUploadRepository.findFirstByTaskId(taskId);
+        return new GetTaskDto(tasks,file.getFileId());
     }
 
 }
