@@ -4,14 +4,17 @@ import com.leemo.leemo.dtos.GetTaskDto;
 import com.leemo.leemo.dtos.TaskTzDto;
 import com.leemo.leemo.entity.Tasks;
 import com.leemo.leemo.entity.UploadedFile;
+import com.leemo.leemo.entity.Users;
 import com.leemo.leemo.enums.TaskStatus;
 import com.leemo.leemo.service.TaskService;
+import com.leemo.leemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -30,6 +33,9 @@ public class TaskController {
 
     @Autowired
     TaskService tasksService;
+
+    @Autowired
+    UserService userService;
 
 
 //    @PostMapping(value = "/created-task")
@@ -153,22 +159,32 @@ public class TaskController {
         return "redirect:/adminTasks";
     }
 
-    @RequestMapping(value = "/userTasks", method = RequestMethod.GET)
+    @RequestMapping(value = "/publishedTasks", method = RequestMethod.GET)
     public ModelAndView userTasks() {
-        ModelAndView modelAndView = new ModelAndView("userTasks");
+        ModelAndView modelAndView = new ModelAndView("publishedTasks");
         List<Tasks> publishedTasks = tasksService.getAllTasksExecutor();
-        modelAndView.addObject("publishedTasks", publishedTasks);
+        modelAndView.addObject("publishTasks", publishedTasks);
         List<TaskStatus> status = new ArrayList<TaskStatus>(Arrays.asList(TaskStatus.values()));
         modelAndView.addObject("Status", status);
         return modelAndView;
     }
 
 
-    @RequestMapping(value = "/getTask{id}", method = RequestMethod.GET)
-    public ModelAndView getTask( @PathVariable Long id){
+    @GetMapping(value = "/getTask")
+    public ModelAndView getTask(@RequestParam(name = "id")Long id){
         ModelAndView modelAndView = new ModelAndView("getTask");
         modelAndView.addObject( tasksService.getTask(id));
         return modelAndView;
+    }
+
+    @PostMapping(value = "/changeTask")
+    public String changeTask(@RequestParam(name = "id") Long id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Users users = userService.findByMail(authentication.getName());
+        Tasks tasks = tasksService.findTask(id);
+        tasks.setExecutorId(users.getId());
+        tasksService.update(tasks);
+        return "redirect:/getTask?id="+id;
     }
 
     @RequestMapping(value = "/mainpage-exit", method = RequestMethod.POST)
