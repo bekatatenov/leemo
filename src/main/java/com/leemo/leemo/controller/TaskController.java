@@ -155,7 +155,7 @@ public class TaskController {
 
     @RequestMapping(value = "/userTasks", method = RequestMethod.GET)
     public ModelAndView userTasks() {
-        ModelAndView modelAndView = new ModelAndView("publishedTasks");
+        ModelAndView modelAndView = new ModelAndView("userTasks");
         List<Tasks> publishedTasks = tasksService.getAllTasksExecutor();
         modelAndView.addObject("publishedTasks", publishedTasks);
         List<TaskStatus> status = new ArrayList<TaskStatus>(Arrays.asList(TaskStatus.values()));
@@ -164,8 +164,8 @@ public class TaskController {
     }
 
 
-    @RequestMapping(value = "/getTask", method = RequestMethod.GET)
-    public ModelAndView getTask(Long id){
+    @RequestMapping(value = "/getTask{id}", method = RequestMethod.GET)
+    public ModelAndView getTask( @PathVariable Long id){
         ModelAndView modelAndView = new ModelAndView("getTask");
         modelAndView.addObject( tasksService.getTask(id));
         return modelAndView;
@@ -175,4 +175,11 @@ public class TaskController {
     public String Exit(){
         return "/mainpage";
     }
+//    @RequestMapping(value = "/get_all_place", method = RequestMethod.GET)
+//    public ModelAndView getAllPlace() {
+//        ModelAndView modelAndView = new ModelAndView("AllPlace");
+//        ArrayList<Place> allActivePlace = (ArrayList<Place>) placeService.getAllActivePlace();
+//        modelAndView.addObject("allActivePlace", allActivePlace);
+//        return modelAndView;
+//    }
 }

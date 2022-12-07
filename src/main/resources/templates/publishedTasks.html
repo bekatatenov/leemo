@@ -1,23 +1,29 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="utf-8">
     <title>Check Task</title>
 </head>
 <body>
+
 <form th:action="@{/mainpage-exit}" method="post">
     <input type="submit" value="Exit">
 </form>
 <table border="3">
     <tr>
+
         <th>Заголовок</th>
         <th>Тема</th>
         <th>Краткое Описание</th>
         <th>Дата Создания</th>
-        <th>Статус</th>
         <th>СтекТехнологии</th>
         <th>Требования к исполнителю</th>
+        <th>Файл</th>
+        <th>Изменить Статус</th>
+        <th>Сохранить</th>
     </tr>
+
 
     <tr th:each="tasks:${publishedTasks}">
         <td th:text="${tasks.getHeaderTitle()}"></td>
@@ -28,6 +34,40 @@
         <td th:text = "${tasks.getStackTech()}"></td>
         <td th:text="${tasks.getDeveloperRequirements()}"></td>
     </tr>
+
+    </thead>
+    <tbody>
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <tr th:each="place:${allActivePlace}">
+                    <div class="col" style="height: 600px">
+                        <div class="card shadow-sm"><img th:src="${place.getImg()}" height="225" width="100%">
+                            <div class="card-body"><h5 class="card-title" th:text="${place.getPlaceName()}"></h5>
+                                <p class="card-text" th:text="${place.getInfo()}"></p>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item" th:text="${place.getPlaceType()}"></li>
+                                    <li class="list-group-item" th:text="${place.getAddress()}"></li>
+                                    <li class="list-group-item" th:text="${place.getRating()}"></li>
+                                </ul>
+                                <div class="d-grid gap-2">
+                                    <form th:action="@{/look_place}" method="get"><input th:value="${place.getId()}"
+                                                                                         type="number" hidden="hidden"
+                                                                                         name="placeId"/>
+                                        <td><input type="submit" class="btn btn-outline-success" value="Подробнее"/>
+                                        </td>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </tr>
+            </div>
+        </div>
+
+    </tbody>
+
 </table>
 </body>
 </html>
