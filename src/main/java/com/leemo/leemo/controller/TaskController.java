@@ -171,4 +171,8 @@ public class TaskController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/mainpage-exit", method = RequestMethod.POST)
+    public String Exit(){
+        return "/mainpage";
+    }
 }

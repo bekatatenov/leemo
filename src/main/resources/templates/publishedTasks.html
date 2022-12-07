@@ -5,6 +5,9 @@
     <title>Check Task</title>
 </head>
 <body>
+<form th:action="@{/mainpage-exit}" method="post">
+    <input type="submit" value="Exit">
+</form>
 <table border="3">
     <tr>
         <th>Заголовок</th>
@@ -15,6 +18,7 @@
         <th>СтекТехнологии</th>
         <th>Требования к исполнителю</th>
     </tr>
+
     <tr th:each="tasks:${publishedTasks}">
         <td th:text="${tasks.getHeaderTitle()}"></td>
         <td th:text="${tasks.getTitle()}"></td>
@@ -23,7 +27,6 @@
         <td th:text = "${tasks.getStatus()}"></td>
         <td th:text = "${tasks.getStackTech()}"></td>
         <td th:text="${tasks.getDeveloperRequirements()}"></td>
-
     </tr>
 </table>
 </body>
