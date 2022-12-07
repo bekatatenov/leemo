@@ -1,8 +1,10 @@
 package com.leemo.leemo.controller;
 
 import com.leemo.leemo.dtos.NewPassUserDto;
+import com.leemo.leemo.entity.Balance;
 import com.leemo.leemo.entity.Token;
 import com.leemo.leemo.entity.Users;
+import com.leemo.leemo.service.BalanceService;
 import com.leemo.leemo.service.EmailSendlerService;
 import com.leemo.leemo.service.TokenService;
 import com.leemo.leemo.service.UserService;
@@ -24,6 +26,8 @@ public class UserController {
     private TokenService tokenService;
     @Autowired
     private EmailSendlerService emailSendlerService;
+    @Autowired
+    private BalanceService balanceService;
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public ModelAndView register() {
@@ -91,5 +95,14 @@ public class UserController {
         } else {
             return "changePassword";
         }
+    }
+
+    @RequestMapping(value = "/getBalance")
+    public ModelAndView getBalance(@RequestParam(name = "id")Long id){
+        ModelAndView modelAndView = new ModelAndView("balance");
+        Users users = userService.findUser(id);
+        Balance balance = users.getBalance();
+        modelAndView.addObject(balance);
+        return modelAndView;
     }
 }

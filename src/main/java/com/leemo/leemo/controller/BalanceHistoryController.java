@@ -20,13 +20,7 @@ public class BalanceHistoryController {
     @Autowired
     BalanceService balanceService;
 
-    @RequestMapping(value = "/getBalance")
-    public ModelAndView getBalance(@RequestParam(name = "id")Long id){
-        ModelAndView modelAndView = new ModelAndView("balance");
-        Balance balance = balanceService.getBalance(id);
-        modelAndView.addObject(balance);
-        return modelAndView;
-    }
+
 
     @RequestMapping(value = "/paymentsHistory", method = RequestMethod.GET)
     public ModelAndView paymentsHistory(@RequestParam(name = "id") Long id) {

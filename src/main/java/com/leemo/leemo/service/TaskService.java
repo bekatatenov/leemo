@@ -32,6 +32,8 @@ public class TaskService {
     private BalanceRepository balanceRepository;
     @Autowired
     private SiteBalanceRepository siteBalanceRepository;
+    @Autowired
+    private CandidatesRepository candidatesRepository;
 
 
     public void createTask(Tasks task, String username, Boolean guarantee) {
@@ -41,23 +43,25 @@ public class TaskService {
         task.setCustomerId(firstByEmail.getId());
         task.setCreatedDate(new Date());
         Balance balance = firstByEmail.getBalance();
-        SiteBalance siteBalance = new SiteBalance();
-        siteBalance.setCustomerId(firstByEmail.getId());
-        siteBalance.setTaskId(task.getId());
-        siteBalance.setAmount(task.getPrice());
-        if (guarantee) {
-            BigDecimal warranty1 = new BigDecimal("10");
-            BigDecimal warranty2 = new BigDecimal("100");
-            BigDecimal warranty = (task.getPrice().divide(warranty2).setScale(2,RoundingMode.HALF_UP));
-           task.setWarranty(warranty.multiply(warranty1).setScale(2,RoundingMode.HALF_UP)); //получаем 10% от заказа
-        }
-        else {
-            task.setWarranty(new BigDecimal("0"));
+        {
+            SiteBalance siteBalance = new SiteBalance();
+            siteBalance.setCustomerId(firstByEmail.getId());
+            siteBalance.setTaskId(task.getId());
+            siteBalance.setAmount(task.getPrice());
+            if (guarantee) {
+                BigDecimal warranty1 = new BigDecimal("10");
+                BigDecimal warranty2 = new BigDecimal("100");
+                BigDecimal warranty = (task.getPrice().divide(warranty2).setScale(2, RoundingMode.HALF_UP));
+                task.setWarranty(warranty.multiply(warranty1).setScale(2, RoundingMode.HALF_UP)); //получаем 10% от заказа
+            } else {
+                task.setWarranty(new BigDecimal("0"));
+
+            }
+            balanceRepository.updateBalance(task.getPrice().intValue() * -1, balance.getId());
+            siteBalanceRepository.save(siteBalance);
+            tasksRepository.save(task);
 
         }
-        balanceRepository.updateBalance(task.getPrice().intValue() * -1, balance.getId());
-        siteBalanceRepository.save(siteBalance);
-        tasksRepository.save(task);
     }
 
     public Tasks findTask(Long id) {
@@ -90,8 +94,10 @@ public class TaskService {
             if (task != null && task.getStatus() == TaskStatus.PUBLISHED) {
                 task.setExecutorId(userId);
                 task.setStatus(TaskStatus.IN_PROGRESS);
+                SiteBalance siteBalance = siteBalanceRepository.getSiteBalanceByTaskId(task.getId());
+                siteBalance.setExecutorId(userId);
                 tasksRepository.save(task);
-//                siteBalanceRepository.chooseExecutor(userId,taskId);
+                siteBalanceRepository.save(siteBalance);
             }
 
         }
@@ -113,11 +119,14 @@ public class TaskService {
         }
        return check = true;
     }
+
     public void payForDoneTask(Long taskId,Long executorId){
         Tasks task = findTask(taskId);
+        Users users = findUser(executorId);
+        Balance balance = users.getBalance();
         if (task.getStatus().equals(TaskStatus.DONE))
         siteBalanceRepository.updateBalance(task.getPrice().intValue(),taskId);
-        balanceRepository.updateBalance(task.getPrice().intValue(), executorId);
+        balanceRepository.updateBalance(task.getPrice().intValue(), balance.getId());
     }
 
     public UploadedFile downloadFile(String fileId) {
@@ -174,10 +183,19 @@ public class TaskService {
         return tasksRepository.findAllByStatus(TaskStatus.PUBLISHED);
     }
 
-    public GetTaskDto getTask(Long taskId){
+    public GetTaskDto getTask(Long taskId,Boolean choose, Long userId){
     Tasks tasks = findTask(taskId);
+    if (choose) {
+        Candidates candidates = new Candidates();
+        candidates.setTaskId(taskId);
+        candidates.setExecutorId(userId);
+    }
     UploadedFile file = fileUploadRepository.findFirstByTaskId(taskId);
+    tasksRepository.save(tasks);
         return new GetTaskDto(tasks,file.getFileId());
+    }
+    public void update(Tasks tasks){
+        tasksRepository.save(tasks);
     }
 
 }

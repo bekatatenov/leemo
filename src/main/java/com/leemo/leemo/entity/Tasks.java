@@ -60,9 +60,6 @@ public class Tasks {
     @Column
     BigDecimal warranty;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Users users;
-
     @Column
     private Date deadLine;
 

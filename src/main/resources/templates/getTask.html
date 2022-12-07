@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns="http://www.w3.org/1999/html"
+      lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body th:object="${publishTasks}">
+<form th:action="@{/getTask}" method="post">
+    <input th:value="${tasks.getId()}" type="text" hidden="hidden" name="id"/>
+    <h1>
+        <th:block th:text="${tasks.getTitle()}"></th:block>
+    </h1>
+    <p>
+        <th:block th:text="${tasks.getStatus()}"></th:block>
+    </p>
+    <input type="submit" value="Откликнуться"/></form>
+</body>
+</html>

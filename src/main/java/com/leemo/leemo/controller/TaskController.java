@@ -2,16 +2,22 @@ package com.leemo.leemo.controller;
 
 import com.leemo.leemo.dtos.GetTaskDto;
 import com.leemo.leemo.dtos.TaskTzDto;
+import com.leemo.leemo.entity.Balance;
 import com.leemo.leemo.entity.Tasks;
 import com.leemo.leemo.entity.UploadedFile;
+import com.leemo.leemo.entity.Users;
 import com.leemo.leemo.enums.TaskStatus;
+import com.leemo.leemo.repo.BalanceRepository;
+import com.leemo.leemo.service.BalanceService;
 import com.leemo.leemo.service.TaskService;
+import com.leemo.leemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -30,6 +36,10 @@ public class TaskController {
 
     @Autowired
     TaskService tasksService;
+
+    @Autowired
+    UserService userService;
+
 
 
 //    @PostMapping(value = "/created-task")
@@ -117,6 +127,9 @@ public class TaskController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails) principal).getUsername();
         Boolean guaranty = task.getGuarantee();
+        Users users = userService.findUser(task.getCustomerId());
+        Balance balance = users.getBalance();
+        if (balance.getAmount().compareTo(task.getPrice()) < 1){
         Tasks newTask = new Tasks(task.getId(),
                 task.getCustomerId(),
                 task.getHeaderTitle(),
@@ -131,6 +144,9 @@ public class TaskController {
         this.tasksService.createTask(newTask, username,guaranty);
         tasksService.uploadToDb(task.getFile(), newTask);
         return "redirect:/mainpage";
+        }
+        else
+            return "недостаточно средств на балансе";
     }
 
 
@@ -153,22 +169,33 @@ public class TaskController {
         return "redirect:/adminTasks";
     }
 
-    @RequestMapping(value = "/userTasks", method = RequestMethod.GET)
+    @RequestMapping(value = "/publishedTasks", method = RequestMethod.GET)
     public ModelAndView userTasks() {
-        ModelAndView modelAndView = new ModelAndView("userTasks");
+        ModelAndView modelAndView = new ModelAndView("publishedTasks");
         List<Tasks> publishedTasks = tasksService.getAllTasksExecutor();
-        modelAndView.addObject("publishedTasks", publishedTasks);
+        modelAndView.addObject("publishTasks", publishedTasks);
         List<TaskStatus> status = new ArrayList<TaskStatus>(Arrays.asList(TaskStatus.values()));
         modelAndView.addObject("Status", status);
         return modelAndView;
     }
 
 
-    @RequestMapping(value = "/getTask{id}", method = RequestMethod.GET)
-    public ModelAndView getTask( @PathVariable Long id){
+    @GetMapping(value = "/getTask")
+    public ModelAndView getTask(@RequestParam(name = "id")Long taskTd,@RequestParam(name = "choose")Boolean choose ,@RequestParam(name = "userId")Long userId ){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         ModelAndView modelAndView = new ModelAndView("getTask");
-        modelAndView.addObject( tasksService.getTask(id));
+        modelAndView.addObject( tasksService.getTask(taskTd, choose, userId));
         return modelAndView;
+    }
+
+    @PostMapping(value = "/changeTask")
+    public String changeTask(@RequestParam(name = "id") Long id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Users users = userService.findByMail(authentication.getName());
+        Tasks tasks = tasksService.findTask(id);
+        tasks.setExecutorId(users.getId());
+        tasksService.update(tasks);
+        return "redirect:/getTask?id="+id;
     }
 
     @RequestMapping(value = "/mainpage-exit", method = RequestMethod.POST)
