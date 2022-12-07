@@ -6,13 +6,13 @@
     <title>Check Task</title>
 </head>
 <body>
-<form th:action="@{/mainpage-exit}" th:method="post">
-    <input type="submit" class="btn btn-danger" value="Exit">
+
+<form th:action="@{/mainpage-exit}" method="post">
+    <input type="submit" value="Exit">
 </form>
-<table class="table">
-    <thead class="thead-dark">
-    <tr class="table-dark">
-        <th>ID</th>
+<table border="3">
+    <tr>
+
         <th>Заголовок</th>
         <th>Тема</th>
         <th>Краткое Описание</th>
@@ -23,6 +23,18 @@
         <th>Изменить Статус</th>
         <th>Сохранить</th>
     </tr>
+
+
+    <tr th:each="tasks:${publishedTasks}">
+        <td th:text="${tasks.getHeaderTitle()}"></td>
+        <td th:text="${tasks.getTitle()}"></td>
+        <td th:text="${tasks.getRequirements()}"></td>
+        <td th:text="${tasks.getCreatedDate()}"></td>
+        <td th:text = "${tasks.getStatus()}"></td>
+        <td th:text = "${tasks.getStackTech()}"></td>
+        <td th:text="${tasks.getDeveloperRequirements()}"></td>
+    </tr>
+
     </thead>
     <tbody>
 
@@ -55,6 +67,7 @@
         </div>
 
     </tbody>
+
 </table>
 </body>
 </html>

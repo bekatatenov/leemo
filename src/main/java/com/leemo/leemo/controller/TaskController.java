@@ -175,7 +175,6 @@ public class TaskController {
     public String Exit(){
         return "/mainpage";
     }
-
 //    @RequestMapping(value = "/get_all_place", method = RequestMethod.GET)
 //    public ModelAndView getAllPlace() {
 //        ModelAndView modelAndView = new ModelAndView("AllPlace");
