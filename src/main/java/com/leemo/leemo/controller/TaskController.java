@@ -145,6 +145,7 @@ public class TaskController {
 
 
 
+
     @RequestMapping(value = "/adminTasks", method = RequestMethod.GET)
     public ModelAndView adminTasks() {
         ModelAndView modelAndView = new ModelAndView("tasksAdmin");
@@ -175,10 +176,12 @@ public class TaskController {
     }
 
 
+
     @GetMapping(value = "/getTask/{id}")
     public ModelAndView getTask(@PathVariable Long id){
         ModelAndView modelAndView = new ModelAndView("getTask");
         modelAndView.addObject( "taskDto", tasksService.getTask(id));
+
         return modelAndView;
     }
 

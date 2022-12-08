@@ -20,12 +20,15 @@ public class BalanceService {
     private SiteBalanceRepository siteBalanceRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private TasksRepository tasksRepository;
 
     public Balance getBalance(Long id){
         return balanceRepository.findFirstById(id);
     }
 
     public List<Withdrawal> getWithdrawalHistory(Long id){
+
         Users users = userRepository.getById(id);
         Balance balance = users.getBalance();
         return withdrawalRepository.findAllByBid(balance.getId());
@@ -33,15 +36,11 @@ public class BalanceService {
     public List<Payment> getPaymentsHistory(Long id){
         Balance balance = getBalance(id);
         return paymentRepository.findAllByBid(id);
+
     }
     public Boolean chekBalance(Long id){
         Balance balance= this.balanceRepository.findByIdAndStatus(id, Status.ACTIVE);
         return balance != null;
     }
 
-    public void payForWork(Long customerId, Long executorId){
-        Users customer = userRepository.getById(customerId);
-        Users executor = userRepository.getById(executorId);
-
-    }
 }
