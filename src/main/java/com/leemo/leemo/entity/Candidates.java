@@ -23,6 +23,4 @@ public class Candidates {
 
     @Column
     private Long taskId;
-
-
 }

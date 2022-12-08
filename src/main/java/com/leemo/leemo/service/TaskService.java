@@ -183,11 +183,13 @@ public class TaskService {
         return tasksRepository.findAllByStatus(TaskStatus.PUBLISHED);
     }
 
+
     public GetTaskDto getTask(Long taskId) {
         Tasks tasks = findTask(taskId);
         UploadedFile file = fileUploadRepository.findFirstByTaskId(taskId);
         tasksRepository.save(tasks);
         return new GetTaskDto(tasks, file.getFileId());
+
     }
     public void update(Tasks tasks){
         tasksRepository.save(tasks);
