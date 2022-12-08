@@ -24,18 +24,11 @@ public class WithdrawalService {
 
 
 
-    public void WithdrawalFromBalance(WithdrawalDto dto, Long balanceId) {
-        Withdrawal withdrawal = new Withdrawal();
-        Balance balance = balanceRepository.findFirstById(balanceId);
-        withdrawal.setBalance(balance);
-        withdrawal.setStatus(dto.getStatus());
-        withdrawal.setCreatedDate(new Date());
-        withdrawal.setAmount(dto.getAmount());
-        withdrawal.setRequisite(dto.getRequisite());
-        withdrawalRepository.save(withdrawal);
+    public void WithdrawalFromBalance(Withdrawal withdrawal) {
+        Balance balance = balanceRepository.findFirstById(withdrawal.getBid());
         if (balance.getAmount().compareTo(withdrawal.getAmount()) >= 0) {
 
-            balanceRepository.updateBalance(withdrawal.getAmount().intValue() * -1, balanceId);
+            balanceRepository.updateBalance(withdrawal.getAmount().intValue() * -1, balance.getId());
         } else {
             String error = "Not enough money on balance";
         }

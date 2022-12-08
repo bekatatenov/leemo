@@ -10,7 +10,10 @@
     <link rel="stylesheet" href="../CSS/style.css">
 </head>
 <body>
-<form th:action="@{/pay}" enctype="multipart/form-data" method="post" th:object="${payment}">
+
+<form th:action="@{/pay}"  method="get" th:object="${payment}">
+    <input th:value="${payment.getBalanceId()}" type="text" hidden="hidden" name="id"/>
+
 <div class="container p-0">
     <div class="card px-4">
         <p class="h8 py-3">Пополнение счета</p>
@@ -18,13 +21,17 @@
             <div class="col-12">
                 <div class="d-flex flex-column">
                     <p class="text mb-1">Person Name</p>
-                    <input class="form-control mb-3" type="text" placeholder="Name" value="Sadyr Japarov">
+
+                    <input class="form-control mb-3" type="text" placeholder="Name" >
                 </div>
             </div>
             <div class="col-12">
-                <div class="d-flex flex-column">
+                <div
+                        class="d-flex flex-column">
                     <p class="text mb-1">Card Number</p>
-                    <input class="form-control mb-3" type="text" placeholder="1234 5678 9876 5432">
+
+                    <input type="text" id="requisite" name="requisite" class="form-control form-control-lg" placeholder="1234 5678 9876 5432">
+
                 </div>
             </div>
             <div class="col-6">
@@ -34,7 +41,9 @@
                 </div>
                 <div class="d-flex flex-column">
                     <p class="text mb-1">SUM</p>
-                    <input th:field="*{amount}" class="form-control mb-3" type="text" placeholder="1000">
+
+                    <input  type="text" id="amount" name="amount" class="form-control form-control-lg" placeholder="1000">
+
                 </div>
             </div>
             <div class="col-6">

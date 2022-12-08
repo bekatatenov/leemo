@@ -31,8 +31,8 @@ public class Payment {
     @Enumerated(EnumType.STRING)
     private PaymentStatus status;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Balance balance;
+    @Column
+    private Long bid;
 
     @Column
     private Date createdDate;

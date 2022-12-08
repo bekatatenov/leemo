@@ -28,14 +28,15 @@ public class BalanceService {
     }
 
     public List<Withdrawal> getWithdrawalHistory(Long id){
-        Users users = userService.findUser(id);
+
+        Users users = userRepository.getById(id);
         Balance balance = users.getBalance();
-        return withdrawalRepository.findAllByBalance_Id(balance.getId());
+        return withdrawalRepository.findAllByBid(balance.getId());
     }
     public List<Payment> getPaymentsHistory(Long id){
-        Users users = userService.findUser(id);
-        Balance balance = users.getBalance();
-        return paymentRepository.findAllByBalance_Id(balance.getId());
+        Balance balance = getBalance(id);
+        return paymentRepository.findAllByBid(id);
+
     }
     public Boolean chekBalance(Long id){
         Balance balance= this.balanceRepository.findByIdAndStatus(id, Status.ACTIVE);

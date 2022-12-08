@@ -25,5 +25,7 @@ public class GetTaskDto {
     }
 
     public GetTaskDto(Tasks tasks, String fileId) {
+        this.tasks = tasks;
+        this.fileID = fileId;
     }
 }

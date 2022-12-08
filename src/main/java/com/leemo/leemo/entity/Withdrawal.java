@@ -28,8 +28,8 @@ public class Withdrawal {
     private BigDecimal amount;
 
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Balance balance;
+   @Column
+   private Long bid;
 
     @Enumerated(EnumType.STRING)
     private PaymentStatus status;

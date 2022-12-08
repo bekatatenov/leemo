@@ -2,6 +2,8 @@ package com.leemo.leemo.controller;
 
 import com.leemo.leemo.dtos.WithdrawalDto;
 import com.leemo.leemo.entity.Balance;
+import com.leemo.leemo.entity.Payment;
+import com.leemo.leemo.entity.Withdrawal;
 import com.leemo.leemo.service.BalanceService;
 import com.leemo.leemo.service.UserService;
 import com.leemo.leemo.service.WithdrawalService;
@@ -29,19 +31,26 @@ public class WithdrawalController {
 
 
 
-    @PostMapping(value = "/withdrawalToBankAccount")
-    public ResponseEntity<Boolean> withdrawalToBank(@RequestBody WithdrawalDto dto) {
-        boolean validUser = this.userService.chekUser(dto.getEmail());
-        if (validUser) {
-            Balance b = dto.getBalance();
-            boolean validRequisite = this.balanceService.chekBalance(b.getId());
-            if (validRequisite) {
-                this.withdrawalService.WithdrawalFromBalance(dto, b.getId());
-                return new ResponseEntity<>(true, HttpStatus.OK);
-            } else return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
-        } else return new ResponseEntity<>(false, HttpStatus.FORBIDDEN);
-    }
+//    @PostMapping(value = "/withdrawalToBankAccount")
+//    public ResponseEntity<Boolean> withdrawalToBank(@RequestBody WithdrawalDto dto) {
+//        boolean validUser = this.userService.chekUser(dto.getEmail());
+//        if (validUser) {
+//            Balance b = dto.getBalance();
+//            boolean validRequisite = this.balanceService.chekBalance(b.getId());
+//            if (validRequisite) {
+//                this.withdrawalService.WithdrawalFromBalance(dto, b.getId());
+//                return new ResponseEntity<>(true, HttpStatus.OK);
+//            } else return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+//        } else return new ResponseEntity<>(false, HttpStatus.FORBIDDEN);
+//    }
 
+    @PostMapping("/withdrawal-cash")
+    public ModelAndView payCash(@RequestBody Withdrawal withdrawal){
+        ModelAndView modelAndView = new ModelAndView("withdrawal");
+        withdrawalService.WithdrawalFromBalance(withdrawal);
+        modelAndView.addObject("withdrawalFromBalance", withdrawal);
+        return modelAndView;
+    }
 
 //    @GetMapping(value = "/get-withdrawals-by-period")
 //    public ModelAndView getPaymentsByPeriod(@RequestParam(name = "fromDate") Date fromDate,

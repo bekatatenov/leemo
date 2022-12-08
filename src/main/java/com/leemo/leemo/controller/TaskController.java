@@ -150,6 +150,7 @@ public class TaskController {
     }
 
 
+
     @RequestMapping(value = "/adminTasks", method = RequestMethod.GET)
     public ModelAndView adminTasks() {
         ModelAndView modelAndView = new ModelAndView("tasksAdmin");
@@ -180,11 +181,12 @@ public class TaskController {
     }
 
 
-    @GetMapping(value = "/getTask")
-    public ModelAndView getTask(@RequestParam(name = "id")Long taskTd,@RequestParam(name = "choose")Boolean choose ,@RequestParam(name = "userId")Long userId ){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+    @GetMapping(value = "/getTask/{id}")
+    public ModelAndView getTask(@PathVariable Long id){
         ModelAndView modelAndView = new ModelAndView("getTask");
-        modelAndView.addObject( tasksService.getTask(taskTd, choose, userId));
+        modelAndView.addObject( "taskDto", tasksService.getTask(id));
+
         return modelAndView;
     }
 
