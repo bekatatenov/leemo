@@ -30,17 +30,25 @@ public class PaymentController {
     TaskService taskService;
 
 
-    @PostMapping(value = "/pay")
-    public ResponseEntity<Boolean> pay(@RequestBody PaymentDto dto) {
-        boolean validUser = this.userService.chekUser(dto.getEmail());
-        if (validUser) {
-            Balance b = dto.getBalance();
-            boolean validRequisite = this.balanceService.chekBalance(b.getId());
-            if (validRequisite) {
-                this.paymentService.paymentToBalance(dto, b.getId());
-                return new ResponseEntity<>(true, HttpStatus.OK);
-            } else return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
-        } else return new ResponseEntity<>(false, HttpStatus.FORBIDDEN);
+//    @GetMapping(value = "/pay")
+//    public ResponseEntity<Boolean> pay(@RequestBody PaymentDto dto) {
+//        boolean validUser = this.userService.chekUser(dto.getEmail());
+//        if (validUser) {
+//            Balance b = dto.getBalance();
+//            boolean validRequisite = this.balanceService.chekBalance(b.getId());
+//            if (validRequisite) {
+//                this.paymentService.paymentToBalance(dto, b.getId());
+//                return new ResponseEntity<>(true, HttpStatus.OK);
+//            } else return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+//        } else return new ResponseEntity<>(false, HttpStatus.FORBIDDEN);
+//    }
+
+    @PostMapping("/pay-cash")
+    public ModelAndView payCash(@RequestBody Payment payment){
+        ModelAndView modelAndView = new ModelAndView("payment");
+        paymentService.paymentToBalance(payment);
+        modelAndView.addObject("paymentToBalance", payment);
+        return modelAndView;
     }
 
 

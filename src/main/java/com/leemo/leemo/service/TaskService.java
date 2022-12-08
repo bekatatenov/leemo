@@ -183,16 +183,11 @@ public class TaskService {
         return tasksRepository.findAllByStatus(TaskStatus.PUBLISHED);
     }
 
-    public GetTaskDto getTask(Long taskId,Boolean choose, Long userId){
-    Tasks tasks = findTask(taskId);
-    if (choose) {
-        Candidates candidates = new Candidates();
-        candidates.setTaskId(taskId);
-        candidates.setExecutorId(userId);
-    }
-    UploadedFile file = fileUploadRepository.findFirstByTaskId(taskId);
-    tasksRepository.save(tasks);
-        return new GetTaskDto(tasks,file.getFileId());
+    public GetTaskDto getTask(Long taskId) {
+        Tasks tasks = findTask(taskId);
+        UploadedFile file = fileUploadRepository.findFirstByTaskId(taskId);
+        tasksRepository.save(tasks);
+        return new GetTaskDto(tasks, file.getFileId());
     }
     public void update(Tasks tasks){
         tasksRepository.save(tasks);

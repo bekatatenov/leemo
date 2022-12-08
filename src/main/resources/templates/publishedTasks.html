@@ -45,7 +45,7 @@
         <td th:text="${tasks.getCreatedDate()}"></td>
         <td th:text="${tasks.getStackTech()}"></td>
         <td th:text="${tasks.getDeveloperRequirements}"></td>
-        <td><a type="button"  class="btn btn-primary" th:href="@{/getTask}" th:method="get">Подробнее</a></td>
+        <td><a type="button"  class="btn btn-primary" th:href="@{/getTask/{id}(id=${tasks.id})}" th:method="get">Подробнее</a></td>
 
     </tr>
     </tbody>

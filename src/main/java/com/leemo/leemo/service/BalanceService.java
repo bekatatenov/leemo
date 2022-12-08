@@ -19,33 +19,29 @@ public class BalanceService {
     @Autowired
     private SiteBalanceRepository siteBalanceRepository;
     @Autowired
-    private UserService userService;
-    @Autowired
-    private TaskService taskService;
+    private UserRepository userRepository;
 
     public Balance getBalance(Long id){
         return balanceRepository.findFirstById(id);
     }
 
     public List<Withdrawal> getWithdrawalHistory(Long id){
-        Users users = userService.findUser(id);
+        Users users = userRepository.getById(id);
         Balance balance = users.getBalance();
-        return withdrawalRepository.findAllByBalance_Id(balance.getId());
+        return withdrawalRepository.findAllByBid(balance.getId());
     }
     public List<Payment> getPaymentsHistory(Long id){
-        Users users = userService.findUser(id);
-        Balance balance = users.getBalance();
-        return paymentRepository.findAllByBalance_Id(balance.getId());
+        Balance balance = getBalance(id);
+        return paymentRepository.findAllByBid(id);
     }
     public Boolean chekBalance(Long id){
         Balance balance= this.balanceRepository.findByIdAndStatus(id, Status.ACTIVE);
         return balance != null;
     }
 
-    public void payForWork(Long taskId){
-        Tasks task = taskService.findTask(taskId);
-        Users customer = userService.findUser(task.getCustomerId());
-        Users executor = userService.findUser(task.getExecutorId());
+    public void payForWork(Long customerId, Long executorId){
+        Users customer = userRepository.getById(customerId);
+        Users executor = userRepository.getById(executorId);
 
     }
 }

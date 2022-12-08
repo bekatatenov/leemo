@@ -127,9 +127,6 @@ public class TaskController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails) principal).getUsername();
         Boolean guaranty = task.getGuarantee();
-        Users users = userService.findUser(task.getCustomerId());
-        Balance balance = users.getBalance();
-        if (balance.getAmount().compareTo(task.getPrice()) < 1){
         Tasks newTask = new Tasks(task.getId(),
                 task.getCustomerId(),
                 task.getHeaderTitle(),
@@ -144,10 +141,8 @@ public class TaskController {
         this.tasksService.createTask(newTask, username,guaranty);
         tasksService.uploadToDb(task.getFile(), newTask);
         return "redirect:/mainpage";
-        }
-        else
-            return "недостаточно средств на балансе";
     }
+
 
 
     @RequestMapping(value = "/adminTasks", method = RequestMethod.GET)
@@ -180,11 +175,10 @@ public class TaskController {
     }
 
 
-    @GetMapping(value = "/getTask")
-    public ModelAndView getTask(@RequestParam(name = "id")Long taskTd,@RequestParam(name = "choose")Boolean choose ,@RequestParam(name = "userId")Long userId ){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    @GetMapping(value = "/getTask/{id}")
+    public ModelAndView getTask(@PathVariable Long id){
         ModelAndView modelAndView = new ModelAndView("getTask");
-        modelAndView.addObject( tasksService.getTask(taskTd, choose, userId));
+        modelAndView.addObject( "taskDto", tasksService.getTask(id));
         return modelAndView;
     }
 

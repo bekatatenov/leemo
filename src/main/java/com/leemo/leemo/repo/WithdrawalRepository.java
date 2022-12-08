@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface WithdrawalRepository extends JpaRepository<Withdrawal,Long> {
-    List<Withdrawal> findAllByBalance_Id(Long balanceId);
+    List<Withdrawal> findAllByBid(Long balanceId);
 
 //    @Query(value = " select * from withdrawal where createdDate between : fromDate and :toDate", nativeQuery = true)
 //    List<Withdrawal> getAllByPeriod(@Param(value = "fromDate") Date fromDate,
