@@ -9,7 +9,7 @@ public class CandidatesService {
     @Autowired
     CandidatesRepository candidatesRepository;
 
-//    public void respond(Long taskId){
-//        if (candidatesRepository.getCandidatesByTaskId() )
-//    }
+    public void respond(Long taskId){
+        if (candidatesRepository.getCandidatesByTaskId() )
+    }
 }
