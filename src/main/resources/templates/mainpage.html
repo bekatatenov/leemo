@@ -18,16 +18,28 @@
 <header class="p-3 bg-dark text-white">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a>
+            <div>
             <img style="margin-right:100px;" src="https://t4.ftcdn.net/jpg/04/37/58/33/360_F_437583308_HglTcJD8fsRAkwjZD8DJHkcHwmXaZ0ag.jpg" width="80" height="80">
-            </a>
+            </div>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a th:href="@{/create-task}" class="nav-link px-2 text-white">Создать задание</a></li>
                 <li><a th:href="@{/publishedTasks}" class="nav-link px-2 text-white">Доступные задания</a></li>
                 <li><a sec:authorize="hasAuthority('ADMIN')" th:href="@{/adminTasks}" class="nav-link px-2 text-white">Одобрения заданий (Админка)</a></li>
+
                 <li><a th:href="@{/pay}" class="nav-link px-2 text-white">Пополнить баланс</a></li>
+
             </ul>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Ваш Баланс
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item " href="#">Действие</a></li>
+                    <li><a class="dropdown-item" href="#">Другое действие</a></li>
+                    <li><a class="dropdown-item" href="#">Что-то еще здесь</a></li>
+                </ul>
+            </div>
             <div class="text-end">
                <a th:href="@{/logout}"> <button type="button"  class="btn btn-outline-light me-2">Выход</button> </a>
             </div>
@@ -35,5 +47,42 @@
     </div>
 </header>
 
+<div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="10000">
+            <img src="https://fainaidea.com/wp-content/uploads/2021/05/jkjhhgh.jpg" height="618" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <li><a th:href="@{/create-task}" class="nav-link px-2 text-black"><h1>Создать задание</h1></a></li>
+            </div>
+        </div>
+        <div class="carousel-item" data-bs-interval="2000">
+            <img src="https://itsecforu.ru/wp-content/uploads/2019/04/recursosprogramadores.png" height="618" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <li><a th:href="@{/publishedTasks}" class="nav-link px-2 text-black"><h1>Примите Задание</h1></a></li>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="https://perm.hse.ru/data/2021/02/15/1408221438/3shutterstock_1233726961.jpg" height="618" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <li><a th:href="@{/pay}" class="nav-link px-2 text-black"><H1>Пополните Баланс и Начните зарабатывать с нами</H1></a> </li>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"  data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Предыдущий</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark"  data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Следующий</span>
+    </button>
+</div>
+
 </body>
+
 </html>
