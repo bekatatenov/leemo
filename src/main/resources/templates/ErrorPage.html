@@ -1,9 +1,12 @@
 <!doctype html>
 <meta charset="UTF-8">
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head><title>Страница Ошибок</title></head>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Страница Ошибок</title>
+</head>
 <body>
-<form th:action="@{/main-page-exit}" th:method="post"><input type="submit" class="btn btn-danger" value="Exit"></form>
+<form th:action="@{/main-page-exit}" th:method="post">
+    <input type="submit" class="btn btn-danger" value="Exit" >
+</form>
 </body>
 </html>
