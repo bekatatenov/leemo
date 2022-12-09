@@ -1,6 +1,7 @@
 package com.leemo.leemo.repo;
 
 import com.leemo.leemo.entity.Balance;
+import com.leemo.leemo.entity.Users;
 import com.leemo.leemo.enums.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -20,5 +21,4 @@ public interface BalanceRepository extends JpaRepository<Balance,Long> {
     @Modifying
     @Query(value = "Update balance set amount = amount + :withdrawal where id = :id", nativeQuery = true)
     void updateBalance(@Param(value = "withdrawal") Integer withdrawal,@Param(value = "id")  Long id);
-
 }

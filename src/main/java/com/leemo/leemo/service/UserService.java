@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -86,5 +87,11 @@ public class UserService implements UserDetailsService {
     public Boolean chekUser(String email){
        Users user = this.userRepository.findByEmailAndStatus(email, Status.ACTIVE);
         return user != null;
+    }
+
+    public Users findByUserEmailAndAmount(String email, BigDecimal balance) {
+        return this.findByUserEmailAndAmount(email, balance);
+    } {
+
     }
 }

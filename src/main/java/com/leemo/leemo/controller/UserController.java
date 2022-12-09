@@ -9,12 +9,14 @@ import com.leemo.leemo.service.EmailSendlerService;
 import com.leemo.leemo.service.TokenService;
 import com.leemo.leemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
+import java.math.BigDecimal;
 
 @Controller
 public class UserController {
@@ -97,25 +99,18 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/getBalance")
-    public ModelAndView getBalance(@PathVariable Long id){
-        ModelAndView modelAndView = new ModelAndView("balance");
-        Users users = userService.findUser(id);
-        Balance balance = users.getBalance();
-        modelAndView.addObject(balance);
-        return modelAndView;
-    }
-
-
-    @RequestMapping(value = "/getUserProfile/{id}")
-    public ModelAndView getUserPage(@PathVariable Long id){
-        ModelAndView modelAndView = new ModelAndView("userProfile");
-        Users users = userService.findUser(id);
-        modelAndView.addObject("Profile", users);
+    @GetMapping(value = "/getUserProfile")
+    public ModelAndView getUserPage(){
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Users users = userService.findByMail(email);
+        ModelAndView modelAndView = new ModelAndView("Userprofile");
+        modelAndView.addObject("profile", users);
         return modelAndView;
     }
     @RequestMapping(name = "/showProfile")
-    public String showProfile(){
-        return "rediret:/profile";
+    public String showProfile(@RequestParam Long id){
+        userService.findUser(id);
+        return "redirect:/profile";
     }
+
 }
