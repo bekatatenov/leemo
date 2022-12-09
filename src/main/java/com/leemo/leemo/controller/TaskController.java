@@ -186,19 +186,21 @@ public class TaskController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ModelAndView modelAndView = new ModelAndView("getTask");
         modelAndView.addObject( "taskDto", tasksService.getTask(id));
-        String executor = ((UserDetails) principal).getUsername();
-        candidatesService.responded(id, executor);
         return modelAndView;
     }
 
-    @GetMapping(value = "/click")
-    public String candidate(@PathVariable Long id){
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String executor = ((UserDetails) principal).getUsername();
-        candidatesService.respond(id,executor);
-        return "redirect:/mainpage";
-    }
+    @PostMapping(value = "/click")
+    public String candidate(@RequestParam (name = "id") Long id) {
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String executor = ((UserDetails) principal).getUsername();
+            try {
+                candidatesService.respond(id, executor);
+                return "redirect:/publishedTasks";
+            }catch (Exception e){
+                return "redirect:/ErrorPage";
+            }
 
+    }
     @PostMapping(value = "/changeTask")
     public String changeTask(@RequestParam(name = "id") Long id){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -210,8 +212,15 @@ public class TaskController {
     }
 
     @RequestMapping(value = "/mainpage-exit", method = RequestMethod.POST)
-    public String Exit(){
-        return "/mainpage";
+    public String Exit2(){
+        return "redirect:/mainpage";
     }
-
+    @RequestMapping(value = "/main-page-exit", method = RequestMethod.POST)
+    public String Exit(){
+        return "redirect:/mainpage";
+    }
+    @RequestMapping(value = "/ErrorPage", method = RequestMethod.GET)
+    public String ErrorPage() {
+        return "ErrorPage";
+    }
 }
