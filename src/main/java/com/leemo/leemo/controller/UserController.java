@@ -98,11 +98,23 @@ public class UserController {
     }
 
     @RequestMapping(value = "/getBalance")
-    public ModelAndView getBalance(@RequestParam(name = "id")Long id){
+    public ModelAndView getBalance(@PathVariable Long id){
         ModelAndView modelAndView = new ModelAndView("balance");
         Users users = userService.findUser(id);
         Balance balance = users.getBalance();
         modelAndView.addObject(balance);
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/getUserProfile/{id}")
+    public ModelAndView getUserPage(@PathVariable Long id){
+        ModelAndView modelAndView = new ModelAndView("userProfile");
+        Users users = userService.findUser(id);
+        modelAndView.addObject("Profile", users);
+        return modelAndView;
+    }
+    @RequestMapping(name = "/showProfile")
+    public String showProfile(){
+        return "rediret:/profile";
     }
 }

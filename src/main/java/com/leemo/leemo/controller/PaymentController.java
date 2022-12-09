@@ -44,7 +44,7 @@ public class PaymentController {
 //    }
 
     @PostMapping("/pay-cash")
-    public ModelAndView payCash(@RequestBody Payment payment){
+    public ModelAndView pay(@RequestBody Payment payment){
         ModelAndView modelAndView = new ModelAndView("payment");
         paymentService.paymentToBalance(payment);
         modelAndView.addObject("paymentToBalance", payment);

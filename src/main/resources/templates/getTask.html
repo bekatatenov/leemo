@@ -16,6 +16,15 @@
     <p>
         <th:block th:text="${taskDto.tasks.getStatus()}"></th:block>
     </p>
-    <input th:if="${respond != true}" th:action="@{/click}" type="submit" value="Откликнуться"/></form>
+    <br>
+    <tr>
+        <span th:unless="${chekResponse == false}" th:type="" />
+        <span th:if="${chekResponse == true}">  you Allready added this task  </span>
+    </tr>
+
+    <input th:action=${/click}"type="submit" value="Откликнуться">
+
+</form>
+
 </body>
 </html>
