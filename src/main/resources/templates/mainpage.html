@@ -26,7 +26,6 @@
                 <li><a th:href="@{/create-task}" class="nav-link px-2 text-white">Создать задание</a></li>
                 <li><a th:href="@{/publishedTasks}" class="nav-link px-2 text-white">Доступные задания</a></li>
                 <li><a sec:authorize="hasAuthority('ADMIN')" th:href="@{/adminTasks}" class="nav-link px-2 text-white">Одобрения заданий (Админка)</a></li>
-                <li><a th:href="@{/pay}" class="nav-link px-2 text-white">Пополнить баланс</a></li>
 
             </ul>
             <div class="dropdown">
@@ -34,9 +33,9 @@
                     Ваш Баланс
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item " href="#">Действие</a></li>
-                    <li><a class="dropdown-item" href="#">Другое действие</a></li>
-                    <li><a class="dropdown-item" href="#">Что-то еще здесь</a></li>
+                    <li><a class="dropdown-item" th:href="@{getUserProfile}">Мой Профиль</a></li>
+                    <li><a class="dropdown-item " th:href="@{/getBalance}">Мой Баланс</a></li>
+                    <li><a class="dropdown-item" th:href="@{/pay}">Пополнить баланс</a></li>
                 </ul>
             </div>
             <div class="text-end">

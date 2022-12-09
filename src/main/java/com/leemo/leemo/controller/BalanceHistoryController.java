@@ -23,15 +23,7 @@ public class BalanceHistoryController {
     @Autowired
     UserService userService;
 
-    @GetMapping(value = "/balance/{id}")
-    public ModelAndView showBalance( @PathVariable Long id){
-        Users user = userService.findUser(id);
-        ModelAndView modelAndView = new ModelAndView("balance");
-        Balance balance = user.getBalance();
-        modelAndView.addObject("balanceId", balance.getId());
-        modelAndView.addObject("getBalance",user.getBalance());
-        return modelAndView;
-    }
+
 
 
     @RequestMapping(value = "/paymentsHistory", method = RequestMethod.GET)
@@ -49,7 +41,14 @@ public class BalanceHistoryController {
         modelAndView.addObject("withdrawalHistory", withdrawalHistory);
         return modelAndView;
     }
-
+    @GetMapping(value = "/getBalance")
+    public ModelAndView getBalance(){
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Users user = userService.findByMail(email);
+        ModelAndView modelAndView = new ModelAndView("balance");
+        modelAndView.addObject("balanceDTO", user.getBalance());
+        return modelAndView;
+    }
 
 }
 

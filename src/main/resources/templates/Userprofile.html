@@ -7,13 +7,13 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<form th:object="${balanceDTO}">
-    <input th:value="${balanceDTO.getId()}" type="text" hidden="hidden" name="id"/>
+<form th:action="@{/showBalance}" method="post"  th:object="${profile}">
+    <input th:value="${profile.getId()}" type="text" hidden="hidden" name="id"/>
     <h1>
-        <th:block th:text="${balanceDTO.getAmount()}"></th:block>
+        <th:block th:text="${profile.getEmail()}"></th:block>
     </h1>
     <p>
-        <th:block th:text="${balanceDTO.getStatus()}"></th:block>
+        <th:block th:text="${profile.getName()}"></th:block>
     </p>
 
     <br>
@@ -22,5 +22,3 @@
 
 </body>
 </html>
-
-
