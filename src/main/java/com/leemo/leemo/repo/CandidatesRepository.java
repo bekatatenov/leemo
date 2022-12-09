@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 
 public interface CandidatesRepository extends JpaRepository<Candidates,Long> {
-    Candidates getCandidatesByTaskId(Long id);
+    Candidates findByTaskId(Long id);
 }

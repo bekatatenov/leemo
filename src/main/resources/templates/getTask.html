@@ -16,6 +16,6 @@
     <p>
         <th:block th:text="${taskDto.tasks.getStatus()}"></th:block>
     </p>
-    <input type="submit" value="Откликнуться"/></form>
+    <input th:if="${respond != true}" th:action="@{/click}" type="submit" value="Откликнуться"/></form>
 </body>
 </html>

@@ -2,13 +2,11 @@ package com.leemo.leemo.controller;
 
 import com.leemo.leemo.dtos.GetTaskDto;
 import com.leemo.leemo.dtos.TaskTzDto;
-import com.leemo.leemo.entity.Balance;
-import com.leemo.leemo.entity.Tasks;
-import com.leemo.leemo.entity.UploadedFile;
-import com.leemo.leemo.entity.Users;
+import com.leemo.leemo.entity.*;
 import com.leemo.leemo.enums.TaskStatus;
 import com.leemo.leemo.repo.BalanceRepository;
 import com.leemo.leemo.service.BalanceService;
+import com.leemo.leemo.service.CandidatesService;
 import com.leemo.leemo.service.TaskService;
 import com.leemo.leemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +37,9 @@ public class TaskController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    CandidatesService candidatesService;
 
 
 
@@ -127,9 +128,6 @@ public class TaskController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails) principal).getUsername();
         Boolean guaranty = task.getGuarantee();
-        Users users = userService.findUser(task.getCustomerId());
-        Balance balance = users.getBalance();
-        if (balance.getAmount().compareTo(task.getPrice()) < 1){
         Tasks newTask = new Tasks(task.getId(),
                 task.getCustomerId(),
                 task.getHeaderTitle(),
@@ -143,11 +141,12 @@ public class TaskController {
                 task.getPrice());
         this.tasksService.createTask(newTask, username,guaranty);
         tasksService.uploadToDb(task.getFile(), newTask);
+        Candidates candidates = new Candidates();
+        candidates.setTaskId(newTask.getId());
+        candidatesService.createCandidates(candidates);
         return "redirect:/mainpage";
-        }
-        else
-            return "недостаточно средств на балансе";
     }
+
 
 
 
@@ -184,10 +183,20 @@ public class TaskController {
 
     @GetMapping(value = "/getTask/{id}")
     public ModelAndView getTask(@PathVariable Long id){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ModelAndView modelAndView = new ModelAndView("getTask");
         modelAndView.addObject( "taskDto", tasksService.getTask(id));
-
+        String executor = ((UserDetails) principal).getUsername();
+        candidatesService.responded(id, executor);
         return modelAndView;
+    }
+
+    @GetMapping(value = "/click")
+    public String candidate(@PathVariable Long id){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String executor = ((UserDetails) principal).getUsername();
+        candidatesService.respond(id,executor);
+        return "redirect:/mainpage";
     }
 
     @PostMapping(value = "/changeTask")
@@ -204,11 +213,5 @@ public class TaskController {
     public String Exit(){
         return "/mainpage";
     }
-//    @RequestMapping(value = "/get_all_place", method = RequestMethod.GET)
-//    public ModelAndView getAllPlace() {
-//        ModelAndView modelAndView = new ModelAndView("AllPlace");
-//        ArrayList<Place> allActivePlace = (ArrayList<Place>) placeService.getAllActivePlace();
-//        modelAndView.addObject("allActivePlace", allActivePlace);
-//        return modelAndView;
-//    }
+
 }

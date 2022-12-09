@@ -19,9 +19,9 @@ public class BalanceService {
     @Autowired
     private SiteBalanceRepository siteBalanceRepository;
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
     @Autowired
-    private TaskService taskService;
+    private TasksRepository tasksRepository;
 
     public Balance getBalance(Long id){
         return balanceRepository.findFirstById(id);
@@ -43,10 +43,4 @@ public class BalanceService {
         return balance != null;
     }
 
-    public void payForWork(Long taskId){
-        Tasks task = taskService.findTask(taskId);
-        Users customer = userService.findUser(task.getCustomerId());
-        Users executor = userService.findUser(task.getExecutorId());
-
-    }
 }
