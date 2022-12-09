@@ -8,7 +8,7 @@
     <title>Title</title>
 </head>
 <body>
-<form th:action="@{/click}" method="post">
+<form th:action="@{/getTask1}" method="post">
     <input th:value="${taskDto.tasks.getId()}" type="text" hidden="hidden" name="id"/>
     <h1>
         <th:block th:text="${taskDto.tasks.getTitle()}"></th:block>
@@ -16,7 +16,15 @@
     <p>
         <th:block th:text="${taskDto.tasks.getStatus()}"></th:block>
     </p>
+    <br>
+    <tr>
+        <span th:unless="${chekResponse == false}" th:type="" />
+        <span th:if="${chekResponse == true}">  you Allready added this task  </span>
+    </tr>
 
-    <input th:action="@{/click}" type="submit" value="Откликнуться"/></form>
+    <input th:action=${/click}"type="submit" value="Откликнуться">
+
+</form>
+
 </body>
 </html>
