@@ -106,6 +106,7 @@ public class UserController {
         return modelAndView;
     }
 
+
     @RequestMapping(value = "/getUserProfile/{id}")
     public ModelAndView getUserPage(@PathVariable Long id){
         ModelAndView modelAndView = new ModelAndView("userProfile");
