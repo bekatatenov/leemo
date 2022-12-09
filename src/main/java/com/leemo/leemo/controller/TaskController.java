@@ -2,13 +2,11 @@ package com.leemo.leemo.controller;
 
 import com.leemo.leemo.dtos.GetTaskDto;
 import com.leemo.leemo.dtos.TaskTzDto;
-import com.leemo.leemo.entity.Balance;
-import com.leemo.leemo.entity.Tasks;
-import com.leemo.leemo.entity.UploadedFile;
-import com.leemo.leemo.entity.Users;
+import com.leemo.leemo.entity.*;
 import com.leemo.leemo.enums.TaskStatus;
 import com.leemo.leemo.repo.BalanceRepository;
 import com.leemo.leemo.service.BalanceService;
+import com.leemo.leemo.service.CandidatesService;
 import com.leemo.leemo.service.TaskService;
 import com.leemo.leemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +38,8 @@ public class TaskController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    CandidatesService candidatesService;
 
 
 //    @PostMapping(value = "/created-task")
@@ -127,9 +127,6 @@ public class TaskController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails) principal).getUsername();
         Boolean guaranty = task.getGuarantee();
-        Users users = userService.findUser(task.getCustomerId());
-        Balance balance = users.getBalance();
-        if (balance.getAmount().compareTo(task.getPrice()) < 1){
         Tasks newTask = new Tasks(task.getId(),
                 task.getCustomerId(),
                 task.getHeaderTitle(),
@@ -141,14 +138,13 @@ public class TaskController {
                 task.getCreatedDate(),
                 task.getGuarantee(),
                 task.getPrice());
-        this.tasksService.createTask(newTask, username,guaranty);
+        this.tasksService.createTask(newTask, username, guaranty);
         tasksService.uploadToDb(task.getFile(), newTask);
+        Candidates candidates = new Candidates();
+        candidates.setTaskId(newTask.getId());
+        candidatesService.createCandidates(candidates);
         return "redirect:/mainpage";
-        }
-        else
-            return "недостаточно средств на балансе";
     }
-
 
 
     @RequestMapping(value = "/adminTasks", method = RequestMethod.GET)
@@ -181,34 +177,49 @@ public class TaskController {
     }
 
 
-
     @GetMapping(value = "/getTask/{id}")
-    public ModelAndView getTask(@PathVariable Long id){
+    public ModelAndView getTask(@PathVariable Long id) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ModelAndView modelAndView = new ModelAndView("getTask");
-        modelAndView.addObject( "taskDto", tasksService.getTask(id));
-
+        modelAndView.addObject("taskDto", tasksService.getTask(id));
         return modelAndView;
     }
 
+    @PostMapping(value = "/click")
+    public String candidate(@RequestParam(name = "id") Long id) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String executor = ((UserDetails) principal).getUsername();
+        try {
+            candidatesService.respond(id, executor);
+            return "redirect:/publishedTasks";
+        } catch (Exception e) {
+            return "redirect:/ErrorPage";
+        }
+    }
+
     @PostMapping(value = "/changeTask")
-    public String changeTask(@RequestParam(name = "id") Long id){
+    public String changeTask(@RequestParam(name = "id") Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Users users = userService.findByMail(authentication.getName());
         Tasks tasks = tasksService.findTask(id);
         tasks.setExecutorId(users.getId());
         tasksService.update(tasks);
-        return "redirect:/getTask?id="+id;
+        return "redirect:/getTask?id=" + id;
     }
 
     @RequestMapping(value = "/mainpage-exit", method = RequestMethod.POST)
-    public String Exit(){
-        return "/mainpage";
+    public String Exit2() {
+        return "redirect:/mainpage";
     }
-//    @RequestMapping(value = "/get_all_place", method = RequestMethod.GET)
-//    public ModelAndView getAllPlace() {
-//        ModelAndView modelAndView = new ModelAndView("AllPlace");
-//        ArrayList<Place> allActivePlace = (ArrayList<Place>) placeService.getAllActivePlace();
-//        modelAndView.addObject("allActivePlace", allActivePlace);
-//        return modelAndView;
-//    }
+
+    @RequestMapping(value = "/main-page-exit", method = RequestMethod.POST)
+    public String Exit() {
+        return "redirect:/mainpage";
+    }
+
+    @RequestMapping(value = "/ErrorPage", method = RequestMethod.GET)
+    public String ErrorPage() {
+        return "ErrorPage";
+    }
+
 }

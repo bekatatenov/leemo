@@ -19,8 +19,9 @@ public class Candidates {
     private Long id;
 
     @Column
-    private Long executorId;
+    private String executor;
 
     @Column
     private Long taskId;
+
 }

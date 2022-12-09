@@ -1,21 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
-      xmlns="http://www.w3.org/1999/html"
-      lang="ru">
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns="http://www.w3.org/1999/html" lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+    <title>Title</title></head>
 <body>
-<form th:action="@{/getTask1}" method="post">
-    <input th:value="${taskDto.tasks.getId()}" type="text" hidden="hidden" name="id"/>
+<form th:action="@{/click}" method="post"><input th:value="${taskDto.tasks.getId()}" type="text" hidden="hidden"
+                                                 name="id"/>
     <h1>
         <th:block th:text="${taskDto.tasks.getTitle()}"></th:block>
     </h1>
     <p>
         <th:block th:text="${taskDto.tasks.getStatus()}"></th:block>
     </p>
-    <input type="submit" value="Откликнуться"/></form>
+    <input th:action="@{/click}" type="submit" value="Откликнуться"/></form>
 </body>
 </html>
