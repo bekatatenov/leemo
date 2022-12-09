@@ -140,9 +140,6 @@ public class TaskController {
                 task.getPrice());
         this.tasksService.createTask(newTask, username, guaranty);
         tasksService.uploadToDb(task.getFile(), newTask);
-        Candidates candidates = new Candidates();
-        candidates.setTaskId(newTask.getId());
-        candidatesService.createCandidates(candidates);
         return "redirect:/mainpage";
     }
 
