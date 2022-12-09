@@ -17,6 +17,7 @@ public class CandidatesService {
         candidatesRepository.save(candidates);
     }
 
+
     public void respond(Long taskId, String email) throws Exception {
         List<Candidates> allExTasks = candidatesRepository.findCandidatesByExecutor(email);
         Candidates candidate = new Candidates();
@@ -29,17 +30,21 @@ public class CandidatesService {
                 candidatesRepository.save(candidate);
             }
         }
+
     }
 
     public Candidates getCandidates(Long id) {
         return candidatesRepository.findByTaskId(id);
     }
 
+
     public void responded(Long taskId, String username) {
+
         Candidates candidates = getCandidates(taskId);
         if (candidates.getExecutor() != null) {
             if (username.equals(candidates.getExecutor())) {
             }
+            return true;
         }
-    }
+    else return false;}
 }

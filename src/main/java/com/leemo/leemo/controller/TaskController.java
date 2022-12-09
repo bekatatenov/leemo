@@ -211,6 +211,7 @@ public class TaskController {
         return "redirect:/getTask?id="+id;
     }
 
+
     @RequestMapping(value = "/mainpage-exit", method = RequestMethod.POST)
     public String Exit2(){
         return "redirect:/mainpage";

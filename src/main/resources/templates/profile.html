@@ -7,20 +7,19 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<form th:action="@{/showBalance}" method="post">
-    <input th:value="${balanceId.balance.getId()}" type="text" hidden="hidden" name="id"/>
+<body>
+<form th:action="@{/userProfile}" method="post">
+    <input th:value="${user.getId()}" type="text" hidden="hidden" name="id"/>
     <h1>
-        <th:block th:text="${balance.getAmount}"></th:block>
+        <th:block th:text="${user.getName()}"></th:block>
     </h1>
     <p>
-        <th:block th:text="${balance.getStatus}"></th:block>
+        <th:block th:text="${user.getStatus()}"></th:block>
     </p>
-
     <br>
+
 
 </form>
 
 </body>
 </html>
-
-
