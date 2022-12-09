@@ -15,8 +15,9 @@ public class CandidatesService {
     }
 
     public void respond(Long taskId, String email){
-      Candidates candidate = candidatesRepository.findByTaskId(taskId);
+      Candidates candidate = new Candidates();
         candidate.setExecutor(email);
+        candidate.setTaskId(taskId);
         candidatesRepository.save(candidate);
     }
 
@@ -24,11 +25,12 @@ public class CandidatesService {
         return candidatesRepository.findByTaskId(id);
     }
 
-    public void responded(Long taskId, String username){
+    public Boolean responded(Long taskId, String username){
         Candidates candidates = getCandidates(taskId);
         if (candidates.getExecutor()!=null){
             if (username.equals(candidates.getExecutor())) {
             }
+            return true;
         }
-    }
+    else return false;}
 }

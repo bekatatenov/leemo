@@ -186,8 +186,10 @@ public class TaskController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ModelAndView modelAndView = new ModelAndView("getTask");
         modelAndView.addObject( "taskDto", tasksService.getTask(id));
-        String executor = ((UserDetails) principal).getUsername();
-        candidatesService.responded(id, executor);
+            String executor = ((UserDetails)principal).getUsername();
+            Boolean checkResponse = candidatesService.responded(id, executor);
+            modelAndView.addObject("checkResponse", checkResponse);
+
         return modelAndView;
     }
 
@@ -208,6 +210,7 @@ public class TaskController {
         tasksService.update(tasks);
         return "redirect:/getTask?id="+id;
     }
+
 
     @RequestMapping(value = "/mainpage-exit", method = RequestMethod.POST)
     public String Exit(){
