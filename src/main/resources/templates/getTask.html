@@ -3,16 +3,38 @@
       xmlns="http://www.w3.org/1999/html" lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title></head>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+            crossorigin="anonymous"></script>
+
+    <title>Подробнее</title></head>
+<style>
+    body{
+        background: gray;
+    }
+</style>
 <body>
 <form th:action="@{/click}" method="post"><input th:value="${taskDto.tasks.getId()}" type="text" hidden="hidden"
                                                  name="id"/>
-    <h1>
-        <th:block th:text="${taskDto.tasks.getTitle()}"></th:block>
-    </h1>
-    <p>
-        <th:block th:text="${taskDto.tasks.getStatus()}"></th:block>
-    </p>
-    <input th:action="@{/click}" type="submit" value="Откликнуться"/></form>
+    <ul class="list-group" >
+        <li class="list-group-item list-group-item-primary" style="text-align: center;"><h2>Тема</h2>
+        <li class="list-group-item" style="text-align: center;"><h3><th:block th:text="${taskDto.tasks.getTitle()}"></th:block></h3>
+        <li class="list-group-item list-group-item-primary" style="text-align: center;"><h2>Краткое Описание</h2>
+        <li class="list-group-item" style="text-align: center;"> <h3><th:block th:text="${taskDto.tasks.getRequirements()}"> </th:block></h3></li>
+        <li class="list-group-item list-group-item-primary" style="text-align: center;"><h2>Стэк Технологии</h2>
+        <li class="list-group-item" style="text-align: center;"> <h3><th:block th:text="${taskDto.tasks.getStackTech()}"> </th:block></h3></li>
+        <li class="list-group-item list-group-item-primary" style="text-align: center;"><h2>Требования к Разработчику</h2>
+        <li class="list-group-item" style="text-align: center;"> <h3><th:block th:text="${taskDto.tasks.getDeveloperRequirements()}"> </th:block></h3></li>
+        <li class="list-group-item list-group-item-primary" style="text-align: center;"><h2>Техническое Задание</h2>
+        <li class="list-group-item" style="text-align: center;">  <label>
+        <p><a th:href="@{/downloadFile/{id}(id=${taskDto.tasks.id})}" download>Скачать файл</a></p>
+    </label></li>
+    </ul>
+    <center> <input th:action="@{/click}" type="submit"  value="Откликнуться"/> </center>
+</form>
 </body>
 </html>

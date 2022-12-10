@@ -30,7 +30,7 @@ public class PaymentController {
     TaskService taskService;
 
 
-//    @GetMapping(value = "/pay")
+    //    @GetMapping(value = "/pay")
 //    public ResponseEntity<Boolean> pay(@RequestBody PaymentDto dto) {
 //        boolean validUser = this.userService.chekUser(dto.getEmail());
 //        if (validUser) {
@@ -42,9 +42,13 @@ public class PaymentController {
 //            } else return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
 //        } else return new ResponseEntity<>(false, HttpStatus.FORBIDDEN);
 //    }
+    @GetMapping(value = "/pay")
+    public String Pay() {
+        return "payment";
+    }
 
     @PostMapping("/pay-cash")
-    public ModelAndView pay(@RequestBody Payment payment){
+    public ModelAndView pay(@RequestBody Payment payment) {
         ModelAndView modelAndView = new ModelAndView("payment");
         paymentService.paymentToBalance(payment);
         modelAndView.addObject("paymentToBalance", payment);
@@ -61,13 +65,12 @@ public class PaymentController {
 //    }
 
     @PostMapping(value = "pay-for-work")
-    public ResponseEntity<Boolean> payForWork(@RequestParam(name = "taskId") Long taskId, @RequestParam(name = "executorId")Long executorId){
+    public ResponseEntity<Boolean> payForWork(@RequestParam(name = "taskId") Long taskId, @RequestParam(name = "executorId") Long executorId) {
         boolean validTask = this.taskService.checkTask(taskId);
-        if (validTask){
-            this.taskService.payForDoneTask(taskId,executorId);
-            return  new ResponseEntity<>(true,HttpStatus.ACCEPTED);
-        }
-        else return new ResponseEntity<>(false,HttpStatus.FORBIDDEN);
+        if (validTask) {
+            this.taskService.payForDoneTask(taskId, executorId);
+            return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
+        } else return new ResponseEntity<>(false, HttpStatus.FORBIDDEN);
     }
 
 
