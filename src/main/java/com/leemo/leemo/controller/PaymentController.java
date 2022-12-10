@@ -66,9 +66,8 @@ public class PaymentController {
         Users users = userService.findByMail(authentication.getName());
         Payment payment = new Payment();
         payment.setBid(users.getBalance().getId());
-        modelAndView.addObject("payment", new Payment());
+        modelAndView.addObject("payment", payment);
         return modelAndView;
-
     }
 
 
