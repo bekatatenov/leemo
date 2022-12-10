@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -113,4 +114,16 @@ public class UserController {
         return "redirect:/profile";
     }
 
+    @GetMapping("/showFormForUpdate/{id}")
+    public String updateForm(@PathVariable(value = "id") Long id, Model model) {
+        Users users = userService.findUser(id);
+        model.addAttribute("users", users);
+        return "update";
+    }
+
+    @GetMapping("/update")
+    public String updateUser(@ModelAttribute("user") Users user) {
+        userService.updateUser(user);
+        return "redirect:/mainpage";
+    }
 }

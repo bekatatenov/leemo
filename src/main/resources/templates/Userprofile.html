@@ -7,18 +7,18 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<form th:action="@{/showBalance}" method="post"  th:object="${profile}">
+<form  method="post"  th:object="${profile}">
     <input th:value="${profile.getId()}" type="text" hidden="hidden" name="id"/>
     <h1>
         <th:block th:text="${profile.getEmail()}"></th:block>
     </h1>
     <p>
-        <th:block th:text="${profile.getName()}"></th:block>
-    </p>
+        <th:block th:text="${profile.getName()}"></th:block> </p>
 
-    <br>
+    <button> <a th:href="@{/showFormForUpdate/{id}(id=${profile.getId()})}" class="btn btn-primary">редактировать профиль</a>  </button>
 
 </form>
+
 
 </body>
 </html>
