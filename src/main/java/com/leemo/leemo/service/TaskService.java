@@ -195,5 +195,9 @@ public class TaskService {
         tasksRepository.save(tasks);
     }
 
+    public List<Tasks> getAllTasks(Long id){
+        return tasksRepository.findAllByCustomerId(id);
+    }
+
 }
 

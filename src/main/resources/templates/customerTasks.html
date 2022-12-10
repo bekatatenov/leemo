@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="utf-8">
+    <title>Check Task</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+            crossorigin="anonymous"></script>
+    <style>
+        body {
+
+            background: gray;
+            background-size: 1520px auto;
+            color: black; /* Цвет текста */
+
+        }
+    </style>
+</head>
+<body>
+<form th:action="@{/mainpage-exit}" th:method="post">
+    <input type="submit" class="btn btn-danger" value="Exit" >
+</form>
+<table class="table">
+    <thead class="thead-dark">
+    <tr class="table-dark">
+        <th>Заголовок</th>
+        <th>Тема</th>
+        <th>Краткое Описание</th>
+        <th>Дата Создания</th>
+        <th>СтекТехнологии</th>
+        <th>Требования к исполнителю</th>
+
+        <th>Отклик</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="tasks : ${customerTasks}" class="table-light" >
+        <td th:text="${tasks.getHeaderTitle()}"></td>
+        <td th:text="${tasks.getTitle()}"></td>
+        <td th:text="${tasks.getRequirements()}"></td>
+        <td th:text="${tasks.getCreatedDate()}"></td>
+        <td th:text="${tasks.getStackTech()}"></td>
+        <td th:text="${tasks.getDeveloperRequirements}"></td>
+        <td><a type="button"  class="btn btn-primary" th:href="@{/getTask/{id}(id=${tasks.id})}" th:method="get">Подробнее</a></td>
+
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
+
+
+</table>
+</body>
+</html>

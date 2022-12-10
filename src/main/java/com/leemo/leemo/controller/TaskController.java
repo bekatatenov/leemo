@@ -203,6 +203,22 @@ public class TaskController {
         tasksService.update(tasks);
         return "redirect:/getTask?id=" + id;
     }
+    @RequestMapping(value = "/customerTasks", method = RequestMethod.GET)
+    public String customerTask(){
+        return "redirect:/getCustomerTasks";
+    }
+
+
+    @GetMapping(value = "/getCustomerTasks")
+    public ModelAndView customerTasks() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Users user = userService.findByMail(authentication.getName());
+        ModelAndView modelAndView = new ModelAndView("customerTasks");
+        List<Tasks> customerTasks = tasksService.getAllTasks(user.getId());
+        modelAndView.addObject("customerTasks", customerTasks);
+        return modelAndView;
+    }
+
 
     @RequestMapping(value = "/mainpage-exit", method = RequestMethod.POST)
     public String Exit2() {
