@@ -91,7 +91,19 @@ public class UserService implements UserDetailsService {
 
     public Users findByUserEmailAndAmount(String email, BigDecimal balance) {
         return this.findByUserEmailAndAmount(email, balance);
-    } {
-
     }
+
+    public void updateUser(Users user){
+        Users oldProfile = findUser(user.getId());
+        user.setBalance(oldProfile.getBalance());
+        user.setStatus(oldProfile.getStatus());
+        user.setRole(oldProfile.getRole());
+        user.setEmail(oldProfile.getEmail());
+        user.setPassword(oldProfile.getPassword());
+        user.setRating(oldProfile.getRating());
+        user.setCreatedDate(oldProfile.getCreatedDate());
+        user.setActive(oldProfile.getActive());
+        userRepository.save(user);
+    }
+
 }
