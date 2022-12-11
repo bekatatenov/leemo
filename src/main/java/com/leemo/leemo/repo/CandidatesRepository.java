@@ -9,6 +9,7 @@ import java.util.List;
 @Repository
 
 public interface CandidatesRepository extends JpaRepository<Candidates,Long> {
-    Candidates findByTaskId(Long id);
+    List<Candidates> findAllByTaskId(Long id);
     List<Candidates> findCandidatesByExecutor(String email);
+    void deleteAllByTaskId(Long id);
 }

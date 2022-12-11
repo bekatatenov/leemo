@@ -89,17 +89,8 @@ public class TaskService {
         return this.repository.findById(id).orElse(null);
     }
 
-    public void chooseExecutor(Long userId, Long taskId) {
-        Tasks task = findTask(taskId);
-            if (task != null && task.getStatus() == TaskStatus.PUBLISHED) {
-                task.setExecutorId(userId);
-                task.setStatus(TaskStatus.IN_PROGRESS);
-                SiteBalance siteBalance = siteBalanceRepository.getSiteBalanceByTaskId(task.getId());
-                siteBalance.setExecutorId(userId);
-                tasksRepository.save(task);
-                siteBalanceRepository.save(siteBalance);
-            }
-
+    public void chooseExecutor(Long taskId, Long executorId) {
+        tasksRepository.updateTask(executorId,taskId);
         }
 
 
@@ -182,7 +173,6 @@ public class TaskService {
     public List<Tasks> getAllTasksExecutor(){
         return tasksRepository.findAllByStatus(TaskStatus.PUBLISHED);
     }
-
 
     public GetTaskDto getTask(Long taskId) {
         Tasks tasks = findTask(taskId);
