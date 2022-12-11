@@ -35,5 +35,5 @@ public class Withdrawal {
     private PaymentStatus status;
 
     @Column
-    private Date createdDate;
+    private String createdDate;
 }
