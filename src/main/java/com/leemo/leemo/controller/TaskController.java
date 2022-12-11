@@ -76,11 +76,17 @@ public class TaskController {
 
     }
 
-    @PostMapping(value = "/choose-executor")
-    public String chooseExecutor(@RequestParam(value = "taskId") Long taskId, @RequestParam(value = "executorId") Long executorId) {
-        this.tasksService.chooseExecutor(executorId, taskId);
-        return "choosen executors id:" + executorId;
+    @GetMapping(value = "/choose-executor/{id}")
+    public String chooseExecutor(@PathVariable Long id) {
+        Candidates candidate = candidatesService.getCandidate(id);
+        Users users = userService.findByMail(candidate.getExecutor());
+        Tasks tasks = tasksService.findTask(candidate.getTaskId());
+        this.tasksService.chooseExecutor(tasks.getId(), users.getId());
+        this.candidatesService.deleteTaskCandidates(id);
+        return "redirect:/mainpage";
     }
+
+
 
     @PostMapping(value = "/done-task")
     public String doneTask(@RequestParam(value = "taskId") Long taskId, @RequestParam(value = "executorId") Long executorId) {
@@ -182,6 +188,14 @@ public class TaskController {
         return modelAndView;
     }
 
+
+//    @GetMapping(value = "/getTask/{id}")
+//    public ModelAndView getCandidates(@PathVariable Long id) {
+//        ModelAndView modelAndView = new ModelAndView("");
+//        List<Candidates> candidates = candidatesService.getCandidates(id);
+//        return modelAndView;
+//    }
+
     @PostMapping(value = "/click")
     public String candidate(@RequestParam(name = "id") Long id) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -218,6 +232,15 @@ public class TaskController {
         modelAndView.addObject("customerTasks", customerTasks);
         return modelAndView;
     }
+
+    @RequestMapping(value = "/tasksCandidates{id}", method = RequestMethod.GET)
+    public ModelAndView candidateTasks(@RequestParam(name = "id") Long id) {
+        ModelAndView modelAndView = new ModelAndView("taskCandidates");
+        List<Candidates> candidates = candidatesService.getCandidates(id);
+        modelAndView.addObject("taskCandidates", candidates);
+        return modelAndView; }
+
+
 
 
     @RequestMapping(value = "/mainpage-exit", method = RequestMethod.POST)

@@ -5,6 +5,7 @@ import com.leemo.leemo.repo.CandidatesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -29,13 +30,20 @@ public class CandidatesService {
             }
         }
     }
+    public List<Candidates>getCandidates(Long id){
+        return candidatesRepository.findAllByTaskId(id);
+    }
+    public void deleteTaskCandidates(Long id){
+        candidatesRepository.deleteAllByTaskId(id);
+    }
 
-    public Candidates getCandidates(Long id) {
-        return candidatesRepository.findByTaskId(id);
+
+    public Candidates getCandidate(Long id) {
+        return candidatesRepository.findById(id).orElse(null);
     }
 
     public void responded(Long taskId, String username) {
-        Candidates candidates = getCandidates(taskId);
+        Candidates candidates = getCandidate(taskId);
         if (candidates.getExecutor() != null) {
             if (username.equals(candidates.getExecutor())) {
             }
