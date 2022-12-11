@@ -3,6 +3,7 @@ package com.leemo.leemo.controller;
 import com.leemo.leemo.dtos.WithdrawalDto;
 import com.leemo.leemo.entity.Balance;
 import com.leemo.leemo.entity.Payment;
+import com.leemo.leemo.entity.Users;
 import com.leemo.leemo.entity.Withdrawal;
 import com.leemo.leemo.service.BalanceService;
 import com.leemo.leemo.service.UserService;
@@ -10,11 +11,10 @@ import com.leemo.leemo.service.WithdrawalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
@@ -44,14 +44,31 @@ public class WithdrawalController {
 //        } else return new ResponseEntity<>(false, HttpStatus.FORBIDDEN);
 //    }
 
-    @PostMapping("/withdrawal-cash")
-    public ModelAndView payCash(@RequestBody Withdrawal withdrawal){
+//    @PostMapping("/withdrawal-cash")
+//    public ModelAndView payCash(@RequestBody Withdrawal withdrawal){
+//        ModelAndView modelAndView = new ModelAndView("withdrawal");
+//        withdrawalService.WithdrawalFromBalance(withdrawal);
+//        modelAndView.addObject("withdrawalFromBalance", withdrawal);
+//        return modelAndView;
+//    }
+
+    @RequestMapping(value = "/withdrawal-cash", method = RequestMethod.GET)
+    public ModelAndView newWithdrawal() {
         ModelAndView modelAndView = new ModelAndView("withdrawal");
-        withdrawalService.WithdrawalFromBalance(withdrawal);
-        modelAndView.addObject("withdrawalFromBalance", withdrawal);
+        Withdrawal withdrawal = new Withdrawal();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Users users = userService.findByMail(authentication.getName());
+
+        withdrawal.setBid(users.getBalance().getId());
+        modelAndView.addObject("withdrawal",withdrawal);
         return modelAndView;
     }
 
+    @PostMapping("/withdrawal-money")
+    public String payCash(@RequestBody Withdrawal withdrawal){
+        withdrawalService.WithdrawalFromBalance(withdrawal);
+        return "mainpage";
+    }
 //    @GetMapping(value = "/get-withdrawals-by-period")
 //    public ModelAndView getPaymentsByPeriod(@RequestParam(name = "fromDate") Date fromDate,
 //                                            @RequestParam(name = "toDate") Date toDate){
