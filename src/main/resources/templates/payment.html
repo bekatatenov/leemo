@@ -3,22 +3,43 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
       xmlns="http://www.w3.org/1999/html"
       lang="ru" >
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+
 <head>
     <meta charset="utf-8">
-
+    <title>Пополнение Баланса</title>
 </head>
+<style>
+    body {
+        background: url("https://phonoteka.org/uploads/posts/2021-04/1618489208_20-phonoteka_org-p-dlinnii-fon-dlya-saita-21.jpg");
+        -moz-background-size: 100%; /* Firefox 3.6+ */
+        -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+        -o-background-size: 100%; /* Opera 9.6+ */
+        background-size: 100%; /* Современные браузеры */
+    }
+</style>
 <body>
+<div class="container">
+<center><h1>Пополнение Баланса</h1>
+<hr>
 
 <form action="#" th:action="@{/PayToSite}"  method="POST" th:object="${payment}">
-
-
-    <input type="text" th:field="*{requisite}" class="form-control mb-4 col-4"> Requisite
-
-    <input type="text" th:field="*{amount}" class="form-control mb-4 col-4"> amount
-
     <input type="hidden" th:field="*{bid}" name="bid" value="bid" />
-    <button type="submit" class="btn btn-info col-2"> Submit</button>
+    <div><h4>Введите номер банковской карты с лицевой стороны</h4></div>
+    <input style="width: 250px" type="text" th:field="*{requisite}" class="form-control">
+    <div><h4>Сумма пополнения</h4></div>
+    <input style="width: 250px" type="text" th:field="*{amount}" class="form-control mb-4 col-4">
 
+
+
+    <button type="submit" class="btn btn-info col-2"> Submit</button> </center>
+</div>
 </form>
 </body>
 </html>
