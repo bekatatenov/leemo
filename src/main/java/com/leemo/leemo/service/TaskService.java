@@ -91,18 +91,18 @@ public class TaskService {
 
     public void chooseExecutor(Long taskId, Long executorId) {
         tasksRepository.updateTask(executorId,taskId);
+        Tasks tasks = findTask(taskId);
+        tasks.setStatus(TaskStatus.IN_PROGRESS);
+        tasksRepository.save(tasks);
         }
 
 
-    public void doneTask(Long userId, Long taskId) {
-            Users user = findUser(userId);
-        if (user != null) {
+    public void doneTask(Long taskId) {
             Tasks task = findTask(taskId);
             if (task != null) {
                 task.setStatus(TaskStatus.DONE);
                 tasksRepository.save(task);
             }
-        }
     }
     public Boolean checkTask(Long id){
         boolean check = false;
@@ -187,6 +187,9 @@ public class TaskService {
 
     public List<Tasks> getAllTasks(Long id){
         return tasksRepository.findAllByCustomerId(id);
+    }
+    public List<Tasks> getAllTasksForExecutor(Long id){
+        return tasksRepository.findByExecutorId(id);
     }
 
 }
