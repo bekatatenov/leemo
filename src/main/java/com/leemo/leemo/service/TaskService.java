@@ -64,7 +64,7 @@ public class TaskService {
             tasksRepository.save(task);
         }
 
-    }
+
 
     public Tasks findTask(Long id) {
         return this.tasksRepository.findById(id).orElse(null);
@@ -184,6 +184,9 @@ public class TaskService {
     }
     public List<Tasks> getAllDoneTasks(Long id){
         return tasksRepository.findAllByStatusAndCustomerId(TaskStatus.DONE,id);
+    }
+    public List<Tasks> executorWarrantyTasks(Long id){
+        return tasksRepository.findAllByStatusAndCustomerId(TaskStatus.IN_PROGRESS,id);
     }
 }
 

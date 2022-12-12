@@ -28,3 +28,4 @@ public interface TasksRepository extends JpaRepository<Tasks,Long> {
     @Query(value = "Update tasks set executor_id = :executor where id = :id", nativeQuery = true)
     void updateTask(@Param(value = "executor") Long executorId,@Param(value = "id")  Long taskId);
 }
+

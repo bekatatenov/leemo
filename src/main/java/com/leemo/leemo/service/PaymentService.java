@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Service
@@ -45,9 +46,9 @@ public class PaymentService {
         paymentToBalance(payment);
         tasks.setStatus(TaskStatus.CLOSED);
         tasksRepository.save(tasks);
-
-
     }
+
+
 
 //    public Optional<Payment> findAllByPeriod(Date fromDate, Date toDate){
 //        return this.paymentRepository.getAllByPeriod(fromDate, toDate);

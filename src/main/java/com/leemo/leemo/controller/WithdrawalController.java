@@ -1,11 +1,9 @@
 package com.leemo.leemo.controller;
 
 import com.leemo.leemo.dtos.WithdrawalDto;
-import com.leemo.leemo.entity.Balance;
-import com.leemo.leemo.entity.Payment;
-import com.leemo.leemo.entity.Users;
-import com.leemo.leemo.entity.Withdrawal;
+import com.leemo.leemo.entity.*;
 import com.leemo.leemo.service.BalanceService;
+import com.leemo.leemo.service.TaskService;
 import com.leemo.leemo.service.UserService;
 import com.leemo.leemo.service.WithdrawalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +26,8 @@ public class WithdrawalController {
     UserService userService;
     @Autowired
     BalanceService balanceService;
+    @Autowired
+    TaskService taskService;
 
 
 
@@ -69,6 +69,19 @@ public class WithdrawalController {
         return "redirect:/mainpage";
     }
 
+    @GetMapping(value = "/payToWork/{id}")
+    public String payToWork(@PathVariable Long id) {
+        Tasks tasks = taskService.findTask(id);
+        tasks.getWarranty();
+        try {
+            withdrawalService.payToWork(tasks);
+            return "redirect:/publishedTasks";
+        } catch (Exception e) {
+            return "redirect:/ErrorPayToWork";
+        }
+
+    }
+}
 
 //    @GetMapping(value = "/get-withdrawals-by-period")
 //    public ModelAndView getPaymentsByPeriod(@RequestParam(name = "fromDate") Date fromDate,
@@ -77,4 +90,4 @@ public class WithdrawalController {
 //        modelAndView.addObject("payments", this.withdrawalService.getAllByPeriod(fromDate,toDate));
 //        return modelAndView;
 //    }
-}
+

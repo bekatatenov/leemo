@@ -58,7 +58,7 @@ public class Tasks {
     private Boolean guarantee;
 
     @Column
-    BigDecimal warranty;
+    private BigDecimal warranty;
 
     @Column
     private Date deadLine;
