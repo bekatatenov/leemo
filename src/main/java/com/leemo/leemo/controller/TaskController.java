@@ -123,9 +123,15 @@ public class TaskController {
                 task.getCreatedDate(),
                 task.getGuarantee(),
                 task.getPrice());
-        this.tasksService.createTask(newTask, username, guaranty);
-        tasksService.uploadToDb(task.getFile(), newTask);
-        return "redirect:/mainpage";
+        try {
+
+
+            this.tasksService.createTask(newTask, username, guaranty);
+            tasksService.uploadToDb(task.getFile(), newTask);
+            return "redirect:/mainpage";
+        } catch (Exception e) {
+            return "redirect:/ErrorPayToWork";
+        }
     }
 
 
@@ -272,5 +278,8 @@ public class TaskController {
     public String ErrorPage() {
         return "ErrorPage";
     }
-
+    @RequestMapping(value = "/ErrorPayToWork", method = RequestMethod.GET)
+    public String ErrorPayToWork() {
+        return "ErrorPayToWork";
+    }
 }

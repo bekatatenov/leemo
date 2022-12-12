@@ -36,30 +36,34 @@ public class TaskService {
     private CandidatesRepository candidatesRepository;
 
 
-    public void createTask(Tasks task, String username, Boolean guarantee) {
+    public void createTask(Tasks task, String username, Boolean guarantee) throws Exception{
 
         Users firstByEmail = repository.findFirstByEmail(username);
         task.setStatus(TaskStatus.ON_REVIEW);
         task.setCustomerId(firstByEmail.getId());
         task.setCreatedDate(new Date());
         Balance balance = firstByEmail.getBalance();
+        if (balance.getAmount().compareTo(task.getPrice()) >= 0) {
+            if (guarantee) {
+                BigDecimal warranty1 = new BigDecimal("10");
+                BigDecimal warranty2 = new BigDecimal("100");
+                BigDecimal warranty = (task.getPrice().divide(warranty2).setScale(2, RoundingMode.HALF_UP));
+                task.setWarranty(warranty.multiply(warranty1).setScale(2, RoundingMode.HALF_UP)); //получаем 10% от заказа
+            } else {
+                task.setWarranty(new BigDecimal("0"));
 
-        if (guarantee) {
-            BigDecimal warranty1 = new BigDecimal("10");
-            BigDecimal warranty2 = new BigDecimal("100");
-            BigDecimal warranty = (task.getPrice().divide(warranty2).setScale(2, RoundingMode.HALF_UP));
-            task.setWarranty(warranty.multiply(warranty1).setScale(2, RoundingMode.HALF_UP)); //получаем 10% от заказа
-        } else {
-            task.setWarranty(new BigDecimal("0"));
-
+            }
+            balanceRepository.updateBalance(task.getPrice().intValue() * -1, balance.getId());
+            tasksRepository.save(task);
+            SiteBalance siteBalance = new SiteBalance();
+            siteBalance.setCustomerId(firstByEmail.getId());
+            siteBalance.setTaskId(task.getId());
+            siteBalance.setAmount(task.getPrice());
+            siteBalanceRepository.save(siteBalance);
         }
-        balanceRepository.updateBalance(task.getPrice().intValue() * -1, balance.getId());
-        tasksRepository.save(task);
-        SiteBalance siteBalance = new SiteBalance();
-        siteBalance.setCustomerId(firstByEmail.getId());
-        siteBalance.setTaskId(task.getId());
-        siteBalance.setAmount(task.getPrice());
-        siteBalanceRepository.save(siteBalance);
+        else {
+            throw new Exception("Error");
+        }
     }
 
 
