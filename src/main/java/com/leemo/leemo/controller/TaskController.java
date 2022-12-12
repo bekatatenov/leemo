@@ -245,6 +245,17 @@ public class TaskController {
 
         return modelAndView;
     }
+
+    @RequestMapping(value = "/executorWarranty", method = RequestMethod.GET)
+    public ModelAndView executorWarranty(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("executorWarranty");
+        List<Tasks> tasksToPay = tasksService.executorWarrantyTasks(id);
+        modelAndView.addObject("executorWarranty", tasksToPay);
+        return modelAndView;
+    }
+
+
+
     @RequestMapping(value = "/mainpage-exit", method = RequestMethod.POST)
     public String Exit2() {
         return "redirect:/mainpage";

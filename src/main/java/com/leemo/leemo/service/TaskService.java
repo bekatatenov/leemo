@@ -60,9 +60,8 @@ public class TaskService {
         siteBalance.setTaskId(task.getId());
         siteBalance.setAmount(task.getPrice());
         siteBalanceRepository.save(siteBalance);
-
-        tasksRepository.save(task);
     }
+
 
 
     public Tasks findTask(Long id) {
@@ -185,6 +184,9 @@ public class TaskService {
     }
     public List<Tasks> getAllDoneTasks(Long id){
         return tasksRepository.findAllByStatusAndCustomerId(TaskStatus.DONE,id);
+    }
+    public List<Tasks> executorWarrantyTasks(Long id){
+        return tasksRepository.findAllByStatusAndCustomerId(TaskStatus.IN_PROGRESS,id);
     }
 }
 
