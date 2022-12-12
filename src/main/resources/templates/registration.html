@@ -32,7 +32,7 @@
                                     <h6 class="mb-0">Name</h6>
                                 </div>
                                 <div class="col-md-9 pe-5">
-                                    <input type="text" id="name" name="name" class="form-control form-control-lg"/>
+                                    <input type="text" id="name" name="name" class="form-control form-control-lg" autofocus required/>
                                 </div>
                             </div>
                             <hr class="mx-n3">
@@ -43,8 +43,7 @@
                                 </div>
                                 <div class="col-md-9 pe-5">
                                     <input type="text" id="lastName" name="lastName"
-                                           class="form-control form-control-lg"/>
-
+                                           class="form-control form-control-lg" autofocus required/>
                                 </div>
                             </div>
                             <hr class="mx-n3">
@@ -55,7 +54,7 @@
                                 </div>
                                 <div class="col-md-9 pe-5">
                                     <input type="email" class="form-control form-control-lg" id="email" name="email"
-                                           placeholder="example@example.com"/>
+                                           placeholder="example@example.com" autofocus required/>
                                 </div>
                             </div>
 
@@ -67,7 +66,7 @@
                                 <div class="col-md-9 pe-5">
 
                                     <input type="password" class="form-control form-control-lg" id="password"
-                                           name="password"/>
+                                           name="password" autofocus required/>
 
                                 </div>
                             </div>
@@ -79,12 +78,12 @@
                                 <div class="col-md-9 pe-5">
 
                                     <input type="date" id="birthDate" name="birthDate"
-                                           class="form-control form-control-lg"/>
+                                           class="form-control form-control-lg" autofocus required/>
                                 </div>
                             </div>
                             <body class="text-center">
                             <div><label><h6>Roles:</h6>
-                                <select th:value="${role}" type="text" name="role">
+                                <select th:value="${role}" type="text" name="role" autofocus required>
                                     <option th:value="null">Выберите Роль</option>
                                     <option th:value="CUSTOMER">CUSTOMER</option>
                                     <option th:value="EXECUTOR">EXECUTOR</option>

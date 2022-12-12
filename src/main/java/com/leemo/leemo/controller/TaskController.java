@@ -229,7 +229,7 @@ public class TaskController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/done-task/{id}")
+    @RequestMapping(value = "/doneTask/{id}")
     public String doneTask(@PathVariable Long id) {
         this.tasksService.doneTask(id);
         return "redirect:/mainpage";
