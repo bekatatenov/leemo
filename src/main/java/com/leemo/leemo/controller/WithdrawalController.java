@@ -55,20 +55,21 @@ public class WithdrawalController {
     @RequestMapping(value = "/withdrawal-cash", method = RequestMethod.GET)
     public ModelAndView newWithdrawal() {
         ModelAndView modelAndView = new ModelAndView("withdrawal");
-        Withdrawal withdrawal = new Withdrawal();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Users users = userService.findByMail(authentication.getName());
-
+        Withdrawal withdrawal = new Withdrawal();
         withdrawal.setBid(users.getBalance().getId());
         modelAndView.addObject("withdrawal",withdrawal);
         return modelAndView;
     }
 
     @PostMapping("/withdrawal-money")
-    public String payCash(@RequestBody Withdrawal withdrawal){
+    public String payCash(@ModelAttribute("withdrawal") Withdrawal withdrawal){
         withdrawalService.WithdrawalFromBalance(withdrawal);
-        return "mainpage";
+        return "redirect:/mainpage";
     }
+
+
 //    @GetMapping(value = "/get-withdrawals-by-period")
 //    public ModelAndView getPaymentsByPeriod(@RequestParam(name = "fromDate") Date fromDate,
 //                                            @RequestParam(name = "toDate") Date toDate){

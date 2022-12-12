@@ -42,14 +42,6 @@ public class TaskController {
     CandidatesService candidatesService;
 
 
-//    @PostMapping(value = "/created-task")
-//    public String createdTask(@ModelAttribute(name = "tasks") Tasks task, BindingResult bindingResult) {
-//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        String username = ((UserDetails) principal).getUsername();
-//        this.tasksService.createTask(task, username);
-//        return "redirect:/mainpage";
-//    }
-
     @GetMapping(value = "/create-task")
     public String createTask(Model model, @ModelAttribute TaskTzDto tasks, BindingResult bindingResult) {
         if (tasks == null) tasks = new TaskTzDto();
@@ -82,16 +74,16 @@ public class TaskController {
         Users users = userService.findByMail(candidate.getExecutor());
         Tasks tasks = tasksService.findTask(candidate.getTaskId());
         this.tasksService.chooseExecutor(tasks.getId(), users.getId());
-        this.candidatesService.deleteTaskCandidates(id);
+        this.candidatesService.deleteTaskCandidates(tasks.getId().intValue());
         return "redirect:/mainpage";
     }
 
 
 
     @PostMapping(value = "/done-task")
-    public String doneTask(@RequestParam(value = "taskId") Long taskId, @RequestParam(value = "executorId") Long executorId) {
-        this.tasksService.doneTask(executorId, taskId);
-        return "task finished by user:" + executorId;
+    public String doneTask(@RequestParam(value = "taskId") Long taskId) {
+        this.tasksService.doneTask(taskId);
+        return "redirect:/mainpage";
     }
 
     @GetMapping("/download/{id}")
@@ -116,7 +108,6 @@ public class TaskController {
 
     @GetMapping("/showTask/{id}")
     public String showTask(@PathVariable Long id, Model model) {
-
         Tasks task = tasksService.findTask(id);
         UploadedFile uploadedFile = tasksService.getFileByTaskId(task.getId());
         model.addAttribute("TaskDto", new GetTaskDto(task, uploadedFile));
@@ -188,13 +179,6 @@ public class TaskController {
         return modelAndView;
     }
 
-
-//    @GetMapping(value = "/getTask/{id}")
-//    public ModelAndView getCandidates(@PathVariable Long id) {
-//        ModelAndView modelAndView = new ModelAndView("");
-//        List<Candidates> candidates = candidatesService.getCandidates(id);
-//        return modelAndView;
-//    }
 
     @PostMapping(value = "/click")
     public String candidate(@RequestParam(name = "id") Long id) {

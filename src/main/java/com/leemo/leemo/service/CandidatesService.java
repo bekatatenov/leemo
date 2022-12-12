@@ -19,25 +19,36 @@ public class CandidatesService {
 
     public void respond(Long taskId, String email) throws Exception {
         List<Candidates> allExTasks = candidatesRepository.findCandidatesByExecutor(email);
-        Candidates candidate = new Candidates();
+        if(allExTasks.size() == 0){
+            Candidates candidate = new Candidates();
+            candidate.setExecutor(email);
+            candidate.setTaskId(taskId);
+            candidatesRepository.save(candidate);
+        }
+        else {
         for (Candidates c : allExTasks) {
-            if (c.getTaskId().equals(taskId)) {
+            if (c.getTaskId().equals(taskId) && c.getExecutor().equals(email)) {
+
                 throw new Exception("Error");
             } else {
+                Candidates candidate = new Candidates();
                 candidate.setExecutor(email);
                 candidate.setTaskId(taskId);
                 candidatesRepository.save(candidate);
             }
         }
+        }
+
     }
+    public void deleteTaskCandidates(Integer id){
+        Integer newId = 0;
+        candidatesRepository.deleteCandidates(id,newId);
+    }
+
+
     public List<Candidates>getCandidates(Long id){
         return candidatesRepository.findAllByTaskId(id);
     }
-    public void deleteTaskCandidates(Long id){
-        candidatesRepository.deleteAllByTaskId(id);
-    }
-
-
     public Candidates getCandidate(Long id) {
         return candidatesRepository.findById(id).orElse(null);
     }
