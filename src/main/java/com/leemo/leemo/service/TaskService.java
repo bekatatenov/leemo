@@ -182,7 +182,7 @@ public class TaskService {
         }
     }
     public List<Tasks> getAllDoneTasks(Long id){
-        return tasksRepository.findAllByStatus(TaskStatus.DONE);
+        return tasksRepository.findAllByStatusAndCustomerId(TaskStatus.DONE,id);
     }
 }
 

@@ -3,10 +3,7 @@ package com.leemo.leemo.service;
 import com.leemo.leemo.entity.*;
 import com.leemo.leemo.enums.PaymentStatus;
 import com.leemo.leemo.enums.TaskStatus;
-import com.leemo.leemo.repo.BalanceRepository;
-import com.leemo.leemo.repo.PaymentRepository;
-import com.leemo.leemo.repo.SiteBalanceRepository;
-import com.leemo.leemo.repo.UserRepository;
+import com.leemo.leemo.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
@@ -23,6 +20,8 @@ public class PaymentService {
     private UserRepository userRepository;
     @Autowired
     private SiteBalanceRepository siteBalanceRepository;
+    @Autowired
+    private TasksRepository tasksRepository;
 
     public void paymentToBalance(Payment payment){
         payment.setStatus(PaymentStatus.SUCCESSFUL);
@@ -44,6 +43,9 @@ public class PaymentService {
         payment.setBid(users.getBalance().getId());
         payment.setRequisite("siteBalance");
         paymentToBalance(payment);
+        tasks.setStatus(TaskStatus.CLOSED);
+        tasksRepository.save(tasks);
+
 
     }
 

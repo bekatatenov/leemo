@@ -79,7 +79,7 @@ public class PaymentController {
     }
 
 
-    @PostMapping(value = "/payForWork/{id}")
+    @GetMapping(value = "/payForWork/{id}")
     public String payForWork(@PathVariable Long id){
         Tasks tasks = taskService.findTask(id);
         paymentService.payForWork(tasks);

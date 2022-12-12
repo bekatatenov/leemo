@@ -38,14 +38,14 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="tasks:${doneTask}" class="table-light" >
-        <td th:text="${tasks.getHeaderTitle()}"></td>
-        <td th:text="${tasks.getTitle()}"></td>
-        <td th:text="${tasks.getRequirements()}"></td>
-        <td th:text="${tasks.getCreatedDate()}"></td>
-        <td th:text="${tasks.getStackTech()}"></td>
-        <td th:text="${tasks.getDeveloperRequirements}"></td>
-        <td><a type="button"  class="btn btn-primary" th:href="@{/gpayForWork/{id}(id=${tasks.id})}" th:method="get">Подробнее</a></td>
+    <tr th:each="doneTask:${doneTasks}" class="table-light" >
+        <td th:text="${doneTask.getHeaderTitle()}"></td>
+        <td th:text="${doneTask.getTitle()}"></td>
+        <td th:text="${doneTask.getRequirements()}"></td>
+        <td th:text="${doneTask.getCreatedDate()}"></td>
+        <td th:text="${doneTask.getStackTech()}"></td>
+        <td th:text="${doneTask.getDeveloperRequirements}"></td>
+        <td><a type="button"  class="btn btn-primary" th:href="@{/payForWork/{id}(id=${doneTask.id})}" th:method="get">Оплатить за работу</a></td>
 
     </tr>
     </tbody>

@@ -26,6 +26,7 @@
                 <li><a th:href="@{/create-task}" class="nav-link px-2 text-white">Создать задание</a></li>
                 <li><a th:href="@{/publishedTasks}" class="nav-link px-2 text-white">Доступные задания</a></li>
                 <li><a sec:authorize="hasAuthority('ADMIN')" th:href="@{/adminTasks}" class="nav-link px-2 text-white">Одобрения заданий (Админка)</a></li>
+                <li><a sec:authorize="hasAuthority('ADMIN')" th:href="@{/doneTasks}" class="nav-link px-2 text-white">выполненные задания</a></li>
 
             </ul>
             <div class="dropdown">

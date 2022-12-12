@@ -229,19 +229,14 @@ public class TaskController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/done-task/{id}")
-    public String doneTask(@PathVariable Long id) {
-        this.tasksService.doneTask(id);
-        return "redirect:/mainpage";
-    }
 
     @RequestMapping(value = "/doneTasks", method = RequestMethod.GET)
     public ModelAndView doneTasks() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Users user = userService.findByMail(authentication.getName());
         ModelAndView modelAndView = new ModelAndView("doneTasks");
-        List<Tasks> publishedTasks = tasksService.getAllTasksExecutor();
-        modelAndView.addObject("doneTask", publishedTasks);
-        List<TaskStatus> status = new ArrayList<TaskStatus>(Arrays.asList(TaskStatus.values()));
-        modelAndView.addObject("Status", status);
+        List<Tasks> publishedTasks = tasksService.getAllDoneTasks(user.getId());
+        modelAndView.addObject("doneTasks", publishedTasks);
         return modelAndView;
     }
 
