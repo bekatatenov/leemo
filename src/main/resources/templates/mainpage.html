@@ -42,7 +42,7 @@
                     <li><a class="dropdown-item" th:href="@{/newPay}" >Пополнить баланс</a></li>
                     <li><a class="dropdown-item" th:href="@{/withdrawal-cash}">Снять Денег</a></li>
 
-                    <li><a class="dropdown-item" th:href="@{/executorWarranty}">Снять Денег</a></li>
+                    <li><a class="dropdown-item" th:href="@{/executorWarranty}">гарантийка</a></li>
                     <li><a sec:authorize="hasAuthority('CUSTOMER')"  class="dropdown-item" th:href="@{/customerTasks}" > Мои задания </a></li>
 
                     <li><a sec:authorize="hasAuthority('ADMIN')"  class="dropdown-item" th:href="@{/customerTasks}" > задания заказчика</a></li>
