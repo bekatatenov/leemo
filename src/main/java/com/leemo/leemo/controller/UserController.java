@@ -40,9 +40,13 @@ public class UserController {
     }
     @PostMapping(value = "/registration")
     public String registration(@ModelAttribute (name = "user")Users user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        this.userService.save(user);
-        return "login";
+        try {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            this.userService.save(user);
+            return "login";
+        }catch (Exception e){
+            return "redirect:/register";
+        }
     }
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String login() {
