@@ -5,6 +5,7 @@ public enum TaskStatus {
     PUBLISHED,
     IN_PROGRESS,
     DONE,
+    CLOSED,
     IN_ARGUE,
     CANCELED,
     RESOLVED,

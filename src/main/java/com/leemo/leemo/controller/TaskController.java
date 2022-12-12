@@ -78,14 +78,6 @@ public class TaskController {
         return "redirect:/mainpage";
     }
 
-
-
-    @PostMapping(value = "/done-task")
-    public String doneTask(@RequestParam(value = "taskId") Long taskId) {
-        this.tasksService.doneTask(taskId);
-        return "redirect:/mainpage";
-    }
-
     @GetMapping("/download/{id}")
     public ResponseEntity<Resource> uploadedFile(@PathVariable String id) {
         UploadedFile uploadedFileToRet = tasksService.downloadFile(id);
@@ -114,10 +106,6 @@ public class TaskController {
         return "showTask";
     }
 
-//    @PostMapping("/upload/db")
-//    public void uploadDb(@RequestParam("file")MultipartFile multipartFile){
-//        tasksService.uploadToDb(multipartFile);
-//    }
 
     @PostMapping("/uploadTask")
     public String createdTaskWithTZ(@ModelAttribute(name = "tasks") TaskTzDto task, BindingResult bindingResult) {
@@ -180,6 +168,7 @@ public class TaskController {
     }
 
 
+
     @PostMapping(value = "/click")
     public String candidate(@RequestParam(name = "id") Long id) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -224,8 +213,32 @@ public class TaskController {
         modelAndView.addObject("taskCandidates", candidates);
         return modelAndView; }
 
+    @RequestMapping(value = "/executorTasks", method = RequestMethod.GET)
+    public String executorTask(){
+        return "redirect:/getExecutorTasks";
+    }
 
 
+    @GetMapping(value = "/getExecutorTasks")
+    public ModelAndView executorTasks() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Users user = userService.findByMail(authentication.getName());
+        ModelAndView modelAndView = new ModelAndView("executorTasks");
+        List<Tasks> executorTask = tasksService.getAllTasksForExecutor(user.getId());
+        modelAndView.addObject("executorTasks", executorTask);
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/doneTasks", method = RequestMethod.GET)
+    public ModelAndView doneTasks() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Users user = userService.findByMail(authentication.getName());
+        ModelAndView modelAndView = new ModelAndView("doneTasks");
+        List<Tasks> publishedTasks = tasksService.getAllDoneTasks(user.getId());
+        modelAndView.addObject("doneTasks", publishedTasks);
+        return modelAndView;
+    }
 
     @RequestMapping(value = "/mainpage-exit", method = RequestMethod.POST)
     public String Exit2() {

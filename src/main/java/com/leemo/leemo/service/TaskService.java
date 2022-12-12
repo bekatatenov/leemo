@@ -43,11 +43,7 @@ public class TaskService {
         task.setCustomerId(firstByEmail.getId());
         task.setCreatedDate(new Date());
         Balance balance = firstByEmail.getBalance();
-        {
-            SiteBalance siteBalance = new SiteBalance();
-            siteBalance.setCustomerId(firstByEmail.getId());
-            siteBalance.setTaskId(task.getId());
-            siteBalance.setAmount(task.getPrice());
+
             if (guarantee) {
                 BigDecimal warranty1 = new BigDecimal("10");
                 BigDecimal warranty2 = new BigDecimal("100");
@@ -58,9 +54,16 @@ public class TaskService {
 
             }
             balanceRepository.updateBalance(task.getPrice().intValue() * -1, balance.getId());
+        tasksRepository.save(task);
+        SiteBalance siteBalance = new SiteBalance();
+        siteBalance.setCustomerId(firstByEmail.getId());
+        siteBalance.setTaskId(task.getId());
+        siteBalance.setAmount(task.getPrice());
             siteBalanceRepository.save(siteBalance);
+
             tasksRepository.save(task);
         }
+
     }
 
     public Tasks findTask(Long id) {
@@ -91,33 +94,14 @@ public class TaskService {
     public void chooseExecutor(Long taskId, Long executorId) {
         tasksRepository.updateTask(executorId,taskId);
         Tasks tasks = findTask(taskId);
+        SiteBalance siteBalance = siteBalanceRepository.getSiteBalanceByTaskId(taskId);
+        siteBalance.setExecutorId(executorId);
         tasks.setStatus(TaskStatus.IN_PROGRESS);
+        siteBalanceRepository.save(siteBalance);
         tasksRepository.save(tasks);
         }
 
 
-    public void doneTask(Long taskId) {
-            Tasks task = findTask(taskId);
-            if (task != null) {
-                task.setStatus(TaskStatus.DONE);
-                tasksRepository.save(task);
-            }
-    }
-    public Boolean checkTask(Long id){
-        boolean check = false;
-        if (findTask(id) != null){
-        }
-       return check = true;
-    }
-
-    public void payForDoneTask(Long taskId,Long executorId){
-        Tasks task = findTask(taskId);
-        Users users = findUser(executorId);
-        Balance balance = users.getBalance();
-        if (task.getStatus().equals(TaskStatus.DONE))
-        siteBalanceRepository.updateBalance(task.getPrice().intValue(),taskId);
-        balanceRepository.updateBalance(task.getPrice().intValue(), balance.getId());
-    }
 
     public UploadedFile downloadFile(String fileId) {
         return fileUploadRepository.findFirstByFileId(fileId);
@@ -191,5 +175,15 @@ public class TaskService {
         return tasksRepository.findByExecutorId(id);
     }
 
+    public void doneTask(Long taskId) {
+        Tasks task = findTask(taskId);
+        if (task != null) {
+            task.setStatus(TaskStatus.DONE);
+            tasksRepository.save(task);
+        }
+    }
+    public List<Tasks> getAllDoneTasks(Long id){
+        return tasksRepository.findAllByStatusAndCustomerId(TaskStatus.DONE,id);
+    }
 }
 
