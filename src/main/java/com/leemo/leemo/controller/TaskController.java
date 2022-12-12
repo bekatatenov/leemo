@@ -247,9 +247,11 @@ public class TaskController {
     }
 
     @RequestMapping(value = "/executorWarranty", method = RequestMethod.GET)
-    public ModelAndView executorWarranty(@PathVariable Long id) {
+    public ModelAndView executorWarranty() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Users user = userService.findByMail(authentication.getName());
         ModelAndView modelAndView = new ModelAndView("executorWarranty");
-        List<Tasks> tasksToPay = tasksService.executorWarrantyTasks(id);
+        List<Tasks> tasksToPay = tasksService.executorWarrantyTasks(user.getId());
         modelAndView.addObject("executorWarranty", tasksToPay);
         return modelAndView;
     }
