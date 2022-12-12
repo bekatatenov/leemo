@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -18,37 +19,43 @@ public class CandidatesService {
     }
 
     public void respond(Long taskId, String email) throws Exception {
-        List<Candidates> allExTasks = candidatesRepository.findCandidatesByExecutor(email);
-        if(allExTasks.size() == 0){
+        ArrayList<Candidates> allExTasks = candidatesRepository.findCandidatesByExecutor(email);
+        if (allExTasks.size() == 0) {
             Candidates candidate = new Candidates();
             candidate.setExecutor(email);
             candidate.setTaskId(taskId);
             candidatesRepository.save(candidate);
-        }
-        else {
-        for (Candidates c : allExTasks) {
-            if (c.getTaskId().equals(taskId) && c.getExecutor().equals(email)) {
-
-                throw new Exception("Error");
-            } else {
+        } else {
+            int count = 0;
+            int prosto = 0;
+            for (int i = 0; i < allExTasks.size(); i++) {
+                if (allExTasks.get(i).getTaskId().equals(taskId)) {
+                    count++;
+                } else {
+                    prosto++;
+                }
+            }
+            if (count == 0) {
                 Candidates candidate = new Candidates();
                 candidate.setExecutor(email);
                 candidate.setTaskId(taskId);
                 candidatesRepository.save(candidate);
+            }else {
+                throw new Exception("Error");
             }
         }
-        }
-
     }
-    public void deleteTaskCandidates(Integer id){
+
+    public void deleteTaskCandidates(Integer id) {
         Integer newId = 0;
-        candidatesRepository.deleteCandidates(id,newId);
+        candidatesRepository.deleteCandidates(id, newId);
     }
 
 
-    public List<Candidates>getCandidates(Long id){
+    public List<Candidates> getCandidates(Long id) {
         return candidatesRepository.findAllByTaskId(id);
     }
+
     public Candidates getCandidate(Long id) {
         return candidatesRepository.findById(id).orElse(null);
     }

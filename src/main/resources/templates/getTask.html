@@ -90,8 +90,8 @@
     <input th:value="${taskDto.tasks.id}" hidden="hidden" name="id">
     <input type="submit" value="Список кандидатов" class="btn btn-primary">
 </form><form th:action="@{/tasksCandidates}" method="get" sec:authorize="hasAnyAuthority('ADMIN')">
-    <input th:value="${taskDto.tasks.id}" hidden="hidden" name="id">
-    <input type="submit" value="Список кандидатов" class="btn btn-primary">
+    <center> <input th:value="${taskDto.tasks.id}" hidden="hidden" name="id">
+    <input type="submit" value="Список кандидатов" class="btn btn-primary"></center>
 </form>
 
 </body>

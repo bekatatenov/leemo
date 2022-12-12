@@ -61,7 +61,8 @@ public class TaskService {
         siteBalance.setAmount(task.getPrice());
             siteBalanceRepository.save(siteBalance);
 
-
+            tasksRepository.save(task);
+        }
 
     }
 
