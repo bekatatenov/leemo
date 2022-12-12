@@ -73,7 +73,7 @@ public class TaskController {
         Candidates candidate = candidatesService.getCandidate(id);
         Users users = userService.findByMail(candidate.getExecutor());
         Tasks tasks = tasksService.findTask(candidate.getTaskId());
-        this.tasksService.chooseExecutor(tasks.getId(), users.getId());
+        this.tasksService.chooseExecutor(tasks, users);
         this.candidatesService.deleteTaskCandidates(tasks.getId().intValue());
         return "redirect:/mainpage";
     }
@@ -224,21 +224,28 @@ public class TaskController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Users user = userService.findByMail(authentication.getName());
         ModelAndView modelAndView = new ModelAndView("executorTasks");
-        List<Tasks> executorTask = tasksService.getAllTasksForExecutor(user.getId());
+        List<Tasks> executorTask = tasksService.getAllTasksForExecutor(user.getId(), TaskStatus.IN_PROGRESS);
         modelAndView.addObject("executorTasks", executorTask);
         return modelAndView;
     }
 
+    @RequestMapping(value = "/doneTask/{id}")
+    public String doneTask(@PathVariable Long id) {
+        this.tasksService.doneTask(id);
+        return "redirect:/mainpage";
+    }
 
     @RequestMapping(value = "/doneTasks", method = RequestMethod.GET)
     public ModelAndView doneTasks() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Users user = userService.findByMail(authentication.getName());
         ModelAndView modelAndView = new ModelAndView("doneTasks");
-        List<Tasks> publishedTasks = tasksService.getAllDoneTasks(user.getId());
+        List<Tasks> publishedTasks = tasksService.getAllTasksForCustomer(user.getId(), TaskStatus.DONE);
         modelAndView.addObject("doneTasks", publishedTasks);
+
         return modelAndView;
     }
+
     @RequestMapping(value = "/executorWarranty", method = RequestMethod.GET)
     public ModelAndView executorWarranty(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("executorWarranty");
@@ -246,6 +253,7 @@ public class TaskController {
         modelAndView.addObject("executorWarranty", tasksToPay);
         return modelAndView;
     }
+
 
 
     @RequestMapping(value = "/mainpage-exit", method = RequestMethod.POST)
