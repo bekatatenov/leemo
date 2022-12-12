@@ -40,6 +40,8 @@ public class UserService implements UserDetailsService {
         if (users.getRole() != Roles.ADMIN || users.getRole() != Roles.USER) {
             Balance balance = new Balance();
             balance.setStatus(Status.ACTIVE);
+            balance.setAmount(new BigDecimal(0));
+            balanceRepository.save(balance);
             users.setBalance(balance);
         }
         this.userRepository.save(users);
