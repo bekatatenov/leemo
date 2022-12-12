@@ -28,7 +28,7 @@
                 <li><a sec:authorize="hasAuthority('EXECUTOR')" th:href="@{/publishedTasks}" class="nav-link px-2 text-white">Доступные задания</a></li>
                 <li><a sec:authorize="hasAuthority('ADMIN')" th:href="@{/publishedTasks}" class="nav-link px-2 text-white">Доступные задания</a></li>
                 <li><a sec:authorize="hasAuthority('ADMIN')" th:href="@{/adminTasks}" class="nav-link px-2 text-white">Одобрения заданий</a></li>
-                <li><a sec:authorize="hasAuthority('ADMIN')" th:href="@{/doneTasks}" class="nav-link px-2 text-white">выполненные задания</a></li>
+                <li><a sec:authorize="hasAuthority('ADMIN')" th:href="@{/doneTasks}" class="nav-link px-2 text-white">Выполненные задания</a></li>
                 <li><a sec:authorize="hasAuthority('CUSTOMER')" th:href="@{/doneTasks}" class="nav-link px-2 text-white">Список Выполненых заданий</a></li>
 
             </ul>
@@ -42,12 +42,12 @@
                     <li><a class="dropdown-item" th:href="@{/newPay}" >Пополнить баланс</a></li>
                     <li><a class="dropdown-item" th:href="@{/withdrawal-cash}">Снять Денег</a></li>
 
-                    <li><a class="dropdown-item" th:href="@{/executorWarranty}">гарантийка</a></li>
+                    <li><a class="dropdown-item" th:href="@{/executorWarranty}">Оплата Гарантийного Обеспечения</a></li>
                     <li><a sec:authorize="hasAuthority('CUSTOMER')"  class="dropdown-item" th:href="@{/customerTasks}" > Мои задания </a></li>
 
-                    <li><a sec:authorize="hasAuthority('ADMIN')"  class="dropdown-item" th:href="@{/customerTasks}" > задания заказчика</a></li>
+                    <li><a sec:authorize="hasAuthority('ADMIN')"  class="dropdown-item" th:href="@{/customerTasks}" > Задания заказчика(Тест)</a></li>
                     <li><a sec:authorize="hasAuthority('EXECUTOR')"  class="dropdown-item" th:href="@{/executorTasks}" > Мои задания </a></li>
-                    <li><a sec:authorize="hasAuthority('ADMIN')"  class="dropdown-item" th:href="@{/executorTasks}" > задания исполнителя </a></li>
+                    <li><a sec:authorize="hasAuthority('ADMIN')"  class="dropdown-item" th:href="@{/executorTasks}" > Задания исполнителя(Тест)</a></li>
 
                 </ul>
             </div>
