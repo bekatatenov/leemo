@@ -38,16 +38,16 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="tasks : ${executorTasks}" class="table-light" >
+    <tr th:each="tasks:${doneTask}" class="table-light" >
         <td th:text="${tasks.getHeaderTitle()}"></td>
         <td th:text="${tasks.getTitle()}"></td>
         <td th:text="${tasks.getRequirements()}"></td>
         <td th:text="${tasks.getCreatedDate()}"></td>
         <td th:text="${tasks.getStackTech()}"></td>
         <td th:text="${tasks.getDeveloperRequirements}"></td>
-        <td><a type="button"  class="btn btn-primary" th:href="@{/done-task/{id}(id=${tasks.id})}" th:method="post">Выполнено</a></td>
-    </tr>
+        <td><a type="button"  class="btn btn-primary" th:href="@{/gpayForWork/{id}(id=${tasks.id})}" th:method="get">Подробнее</a></td>
 
+    </tr>
     </tbody>
 </table>
 </body>

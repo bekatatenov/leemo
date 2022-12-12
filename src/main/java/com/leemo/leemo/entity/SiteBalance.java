@@ -25,7 +25,8 @@ public class SiteBalance {
     @Column
     private Long customerId;
 
-    @Column Long taskId;
+    @Column
+    private Long taskId;
 
     @Column
     private BigDecimal amount;

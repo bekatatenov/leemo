@@ -4,8 +4,10 @@ import com.leemo.leemo.dtos.PaymentDto;
 import com.leemo.leemo.dtos.WithdrawalDto;
 import com.leemo.leemo.entity.Balance;
 import com.leemo.leemo.entity.Payment;
+import com.leemo.leemo.entity.Tasks;
 import com.leemo.leemo.entity.Users;
 import com.leemo.leemo.enums.PaymentStatus;
+import com.leemo.leemo.enums.TaskStatus;
 import com.leemo.leemo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,18 +48,18 @@ public class PaymentController {
 //            } else return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
 //        } else return new ResponseEntity<>(false, HttpStatus.FORBIDDEN);
 //    }
-    @GetMapping(value = "/pay")
-    public String Pay() {
-        return "payment";
-    }
-
-    @PostMapping("/pay-cash")
-    public ModelAndView pay(@RequestBody Payment payment) {
-        ModelAndView modelAndView = new ModelAndView("payment");
-        paymentService.paymentToBalance(payment);
-        modelAndView.addObject("paymentToBalance", payment);
-        return modelAndView;
-    }
+//    @GetMapping(value = "/pay")
+//    public String Pay() {
+//        return "payment";
+//    }
+//
+//    @PostMapping("/pay-cash")
+//    public ModelAndView pay(@RequestBody Payment payment) {
+//        ModelAndView modelAndView = new ModelAndView("payment");
+//        paymentService.paymentToBalance(payment);
+//        modelAndView.addObject("paymentToBalance", payment);
+//        return modelAndView;
+//    }
 
     @RequestMapping(value = "/newPay", method = RequestMethod.GET)
     public ModelAndView newPay() {
@@ -70,13 +72,19 @@ public class PaymentController {
         return modelAndView;
     }
 
-
     @PostMapping("/PayToSite")
     public String addNewPayment(@ModelAttribute("payment") Payment payment) {
         paymentService.paymentToBalance(payment);
         return "redirect:mainpage";
     }
 
+
+    @PostMapping(value = "/payForWork/{id}")
+    public String payForWork(@PathVariable Long id){
+        Tasks tasks = taskService.findTask(id);
+        paymentService.payForWork(tasks);
+        return "mainpage";
+    }
 
 
 //    @GetMapping(value = "/get-payments-by-period")
@@ -86,16 +94,5 @@ public class PaymentController {
 //        modelAndView.addObject("payments", this.paymentService.findAllByPeriod(fromDate, toDate));
 //        return modelAndView;
 //    }
-
-    @PostMapping(value = "pay-for-work")
-    public ResponseEntity<Boolean> payForWork(@RequestParam(name = "taskId") Long taskId, @RequestParam(name = "executorId") Long executorId) {
-        boolean validTask = this.taskService.checkTask(taskId);
-        if (validTask) {
-            this.taskService.payForDoneTask(taskId, executorId);
-            return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
-        } else return new ResponseEntity<>(false, HttpStatus.FORBIDDEN);
-    }
-
-
 }
 

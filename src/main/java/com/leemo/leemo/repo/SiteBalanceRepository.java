@@ -15,6 +15,5 @@ public interface SiteBalanceRepository extends JpaRepository<SiteBalance,Long> {
     @Modifying
     @Query(value = "Update SiteBalance set amount = amount + :payment where taskId = :id", nativeQuery = true)
     void updateBalance(@Param(value = "payment") Integer payment, @Param(value = "id")  Long id);
-
     SiteBalance getSiteBalanceByTaskId(Long id);
 }
