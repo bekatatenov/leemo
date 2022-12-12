@@ -33,6 +33,7 @@
         <th>Дата Создания</th>
         <th>СтекТехнологии</th>
         <th>Требования к исполнителю</th>
+        <th>Техническое Задание</th>
 
         <th>Отклик</th>
     </tr>
@@ -45,6 +46,7 @@
         <td th:text="${tasks.getCreatedDate()}"></td>
         <td th:text="${tasks.getStackTech()}"></td>
         <td th:text="${tasks.getDeveloperRequirements}"></td>
+        <td><button type="button" class="btn btn-primary"><a th:href="@{/downloadFile/{id}(id=${tasks.id})}" style="color: black" download> Cкачать файл</a></button></td>
         <td><a type="button"  class="btn btn-primary" th:href="@{/doneTask/{id}(id=${tasks.id})}" th:method="post">Выполнено</a></td>
     </tr>
 
