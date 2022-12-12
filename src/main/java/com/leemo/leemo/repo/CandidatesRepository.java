@@ -9,6 +9,8 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Repository
@@ -16,7 +18,7 @@ import java.util.List;
 public interface CandidatesRepository extends JpaRepository<Candidates,Long> {
 
     List<Candidates> findAllByTaskId(Long id);
-    List<Candidates> findCandidatesByExecutor(String email);
+    ArrayList<Candidates> findCandidatesByExecutor(String email);
 
     @Transactional
     @Modifying

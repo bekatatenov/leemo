@@ -60,7 +60,6 @@ public class TaskService {
             balanceRepository.updateBalance(task.getPrice().intValue() * -1, balance.getId());
             siteBalanceRepository.save(siteBalance);
             tasksRepository.save(task);
-
         }
     }
 
